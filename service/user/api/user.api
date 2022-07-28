@@ -1,0 +1,94 @@
+syntax = "v1"
+
+info(
+	title: "user"
+	desc: "user"
+	author: "dongdongdongDu"
+	email: "137564641@qq.com"
+	version: "1.0"
+)
+
+type (
+	// 用户登录
+	LoginRequest {
+		LoginName   string `json:"loginName"`
+		PasswordMd5 string `json:"passwordMd5"`
+	}
+	LoginResponse {
+		UserId     int64  `json:"userId"`
+		Token      string `json:"token"`
+		UpdateTime int64  `json:"updateTime"`
+		ExpireTime int64  `json:"expireTime"`
+	}
+
+	// 用户注册
+	RegisterRequest {
+		LoginName string `json:"loginName"`
+		Password  string `json:"password"`
+	}
+	RegisterResponse {
+	}
+
+	// 退出登录
+	LogoutRequest {
+		UserId     int64  `json:"userId"`
+		Token      string `json:"token"`
+		UpdateTime int64  `json:"updateTime"`
+		ExpireTime int64  `json:"expireTime"`
+	}
+	LogoutResponse {
+	}
+
+	// 更新用户信息
+	UpdateUserInfoRequest {
+		NickName      string `json:"nickName"`
+		PasswordMd5   string `json:"passwordMd5"`
+		IntroduceSign string `json:"introduceSign"`
+	}
+	UpdateUserInfoResponse {
+		NickName      string `json:"nickName"`
+		IntroduceSign string `json:"introduceSign"`
+	}
+
+	// 获取用户信息
+	GetUserInfoRequest {
+	}
+	GetUserInfoResponse {
+		NickName      string `json:"nickName"`
+		LoginName     string `json:"loginName"`
+		IntroduceSign string `json:"introduceSign"`
+	}
+)
+
+@server(
+	group : user
+)
+
+service user {
+	// 登录
+	@handler Login
+	post /user/login (LoginRequest) returns (LoginResponse)
+	
+	// 注册
+	@handler Register
+	post /user/register (RegisterRequest) returns (RegisterResponse)
+}
+
+// 需要登录
+@server(
+	jwt: Auth
+	group: user
+)
+service user {
+	// 获取用户信息
+	@handler GetUserInfo
+	get /user/info (GetUserInfoRequest) returns (GetUserInfoResponse)
+	
+	// 更新用户信息
+	@handler UpdateUserInfo
+	put /user/info (UpdateUserInfoRequest) returns (UpdateUserInfoResponse)
+	
+	// 退出登录
+	@handler Logout
+	post /user/logout (LogoutRequest) returns (LogoutResponse)
+}

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./user";
+
+// 用户注册
+message RegisterRequest {
+  string loginName = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  int64 userId = 1;
+}
+
+// 用户登录
+message LoginRequest {
+  string loginName = 1;
+  string passwordMd5 = 2;
+}
+
+message LoginResponse {
+  int64 userId = 1;
+  string token = 2;
+  int64 updateTime = 3;
+  int64 expireTime = 4;
+}
+
+// 获取用户信息
+message GetInfoRequest {
+  int64 userId = 1;
+}
+
+message GetInfoResponse {
+  int64 userId = 1;
+  string nikeName = 2;
+  string loginName = 3;
+  string introduceSign = 4;
+}
+
+// 修改用户信息
+message UpdateInfoRequest {
+  int64 userId = 1;
+  string nickName = 2;
+  string passwordMd5 = 3;
+  string introduceSign = 4;
+}
+
+message UpdateInfoReqponse {
+  int64 userId = 1;
+  string nickName = 2;
+  string introduceSign = 4;
+}
+
+// 生成新token
+message GenerateTokenRequest {
+  int64 userId = 1;
+}
+
+message GenerateTokenResponse {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+// service
+service user {
+  rpc login(LoginRequest) returns(LoginResponse);
+  rpc register(RegisterRequest) returns(RegisterResponse);
+  rpc getUserInfo(GetInfoRequest) returns(GetInfoResponse);
+  rpc updateUserInfo(GetInfoRequest) returns(GetInfoResponse);
+  rpc generateToken(GenerateTokenRequest) returns(GenerateTokenResponse);
+}
