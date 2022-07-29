@@ -1,0 +1,17 @@
+Name: user.rpc
+ListenOn: 127.0.0.1:9000
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: user.rpc
+
+Mysql:
+  DataSource: root:dongdong@tcp(127.0.0.1:3306)/mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass: dongdong
+    Type: node
+
+JwtAuth:
+  AccessSecret: "1faa5923-6c72-49fe-8f6c-cb8722d774fe"
+  AccessExpire: 86400
