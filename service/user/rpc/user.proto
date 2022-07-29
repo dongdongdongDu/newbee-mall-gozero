@@ -34,7 +34,7 @@ message GetInfoRequest {
 
 message GetInfoResponse {
   int64 userId = 1;
-  string nikeName = 2;
+  string nickName = 2;
   string loginName = 3;
   string introduceSign = 4;
 }
@@ -47,7 +47,7 @@ message UpdateInfoRequest {
   string introduceSign = 4;
 }
 
-message UpdateInfoReqponse {
+message UpdateInfoResponse {
   int64 userId = 1;
   string nickName = 2;
   string introduceSign = 4;
@@ -69,6 +69,6 @@ service user {
   rpc login(LoginRequest) returns(LoginResponse);
   rpc register(RegisterRequest) returns(RegisterResponse);
   rpc getUserInfo(GetInfoRequest) returns(GetInfoResponse);
-  rpc updateUserInfo(GetInfoRequest) returns(GetInfoResponse);
+  rpc updateUserInfo(UpdateInfoRequest) returns(UpdateInfoResponse);
   rpc generateToken(GenerateTokenRequest) returns(GenerateTokenResponse);
 }

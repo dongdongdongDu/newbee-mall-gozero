@@ -42,7 +42,7 @@ type (
 
 	User struct {
 		UserId        int64     `db:"user_id"`
-		NikeName      string    `db:"nike_name"`      // 用户昵称
+		NickName      string    `db:"nick_name"`      // 用户昵称
 		LoginName     string    `db:"login_name"`     // 登陆名称(默认为手机号)
 		PasswordMd5   string    `db:"password_md5"`   // MD5加密后的密码
 		IntroduceSign string    `db:"introduce_sign"` // 个性签名
@@ -116,7 +116,7 @@ func (m *defaultUserModel) Insert(ctx context.Context, data *User) (sql.Result, 
 	userUserIdKey := fmt.Sprintf("%s%v", cacheUserUserIdPrefix, data.UserId)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.NikeName, data.LoginName, data.PasswordMd5, data.IntroduceSign, data.IsDeleted, data.LockedFlag)
+		return conn.ExecCtx(ctx, query, data.NickName, data.LoginName, data.PasswordMd5, data.IntroduceSign, data.IsDeleted, data.LockedFlag)
 	}, userLoginNameKey, userUserIdKey)
 	return ret, err
 }
@@ -131,7 +131,7 @@ func (m *defaultUserModel) Update(ctx context.Context, newData *User) error {
 	userUserIdKey := fmt.Sprintf("%s%v", cacheUserUserIdPrefix, data.UserId)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `user_id` = ?", m.table, userRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.NikeName, newData.LoginName, newData.PasswordMd5, newData.IntroduceSign, newData.IsDeleted, newData.LockedFlag, newData.UserId)
+		return conn.ExecCtx(ctx, query, newData.NickName, newData.LoginName, newData.PasswordMd5, newData.IntroduceSign, newData.IsDeleted, newData.LockedFlag, newData.UserId)
 	}, userLoginNameKey, userUserIdKey)
 	return err
 }

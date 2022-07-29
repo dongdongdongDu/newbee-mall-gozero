@@ -25,7 +25,7 @@ type UserClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	GetUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
-	UpdateUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
+	UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest, opts ...grpc.CallOption) (*UpdateInfoResponse, error)
 	GenerateToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*GenerateTokenResponse, error)
 }
 
@@ -64,8 +64,8 @@ func (c *userClient) GetUserInfo(ctx context.Context, in *GetInfoRequest, opts .
 	return out, nil
 }
 
-func (c *userClient) UpdateUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error) {
-	out := new(GetInfoResponse)
+func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest, opts ...grpc.CallOption) (*UpdateInfoResponse, error) {
+	out := new(UpdateInfoResponse)
 	err := c.cc.Invoke(ctx, "/user.user/updateUserInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ type UserServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	GetUserInfo(context.Context, *GetInfoRequest) (*GetInfoResponse, error)
-	UpdateUserInfo(context.Context, *GetInfoRequest) (*GetInfoResponse, error)
+	UpdateUserInfo(context.Context, *UpdateInfoRequest) (*UpdateInfoResponse, error)
 	GenerateToken(context.Context, *GenerateTokenRequest) (*GenerateTokenResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
@@ -107,7 +107,7 @@ func (UnimplementedUserServer) Register(context.Context, *RegisterRequest) (*Reg
 func (UnimplementedUserServer) GetUserInfo(context.Context, *GetInfoRequest) (*GetInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
-func (UnimplementedUserServer) UpdateUserInfo(context.Context, *GetInfoRequest) (*GetInfoResponse, error) {
+func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateInfoRequest) (*UpdateInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
 }
 func (UnimplementedUserServer) GenerateToken(context.Context, *GenerateTokenRequest) (*GenerateTokenResponse, error) {
@@ -181,7 +181,7 @@ func _User_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(in
 }
 
 func _User_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetInfoRequest)
+	in := new(UpdateInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -193,7 +193,7 @@ func _User_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/user.user/updateUserInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).UpdateUserInfo(ctx, req.(*GetInfoRequest))
+		return srv.(UserServer).UpdateUserInfo(ctx, req.(*UpdateInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

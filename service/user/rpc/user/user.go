@@ -15,7 +15,7 @@ type (
 		Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 		Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 		GetUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
-		UpdateUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
+		UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest, opts ...grpc.CallOption) (*UpdateInfoResponse, error)
 		GenerateToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*GenerateTokenResponse, error)
 	}
 
@@ -45,7 +45,7 @@ func (m *defaultUser) GetUserInfo(ctx context.Context, in *GetInfoRequest, opts 
 	return client.GetUserInfo(ctx, in, opts...)
 }
 
-func (m *defaultUser) UpdateUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error) {
+func (m *defaultUser) UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest, opts ...grpc.CallOption) (*UpdateInfoResponse, error) {
 	client := NewUserClient(m.cli.Conn())
 	return client.UpdateUserInfo(ctx, in, opts...)
 }

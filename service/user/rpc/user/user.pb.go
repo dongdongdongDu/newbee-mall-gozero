@@ -304,7 +304,7 @@ type GetInfoResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	UserId        int64  `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
-	NikeName      string `protobuf:"bytes,2,opt,name=nikeName,proto3" json:"nikeName,omitempty"`
+	NickName      string `protobuf:"bytes,2,opt,name=nickName,proto3" json:"nickName,omitempty"`
 	LoginName     string `protobuf:"bytes,3,opt,name=loginName,proto3" json:"loginName,omitempty"`
 	IntroduceSign string `protobuf:"bytes,4,opt,name=introduceSign,proto3" json:"introduceSign,omitempty"`
 }
@@ -348,9 +348,9 @@ func (x *GetInfoResponse) GetUserId() int64 {
 	return 0
 }
 
-func (x *GetInfoResponse) GetNikeName() string {
+func (x *GetInfoResponse) GetNickName() string {
 	if x != nil {
-		return x.NikeName
+		return x.NickName
 	}
 	return ""
 }
@@ -441,7 +441,7 @@ func (x *UpdateInfoRequest) GetIntroduceSign() string {
 	return ""
 }
 
-type UpdateInfoReqponse struct {
+type UpdateInfoResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -451,8 +451,8 @@ type UpdateInfoReqponse struct {
 	IntroduceSign string `protobuf:"bytes,4,opt,name=introduceSign,proto3" json:"introduceSign,omitempty"`
 }
 
-func (x *UpdateInfoReqponse) Reset() {
-	*x = UpdateInfoReqponse{}
+func (x *UpdateInfoResponse) Reset() {
+	*x = UpdateInfoResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_user_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -460,13 +460,13 @@ func (x *UpdateInfoReqponse) Reset() {
 	}
 }
 
-func (x *UpdateInfoReqponse) String() string {
+func (x *UpdateInfoResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateInfoReqponse) ProtoMessage() {}
+func (*UpdateInfoResponse) ProtoMessage() {}
 
-func (x *UpdateInfoReqponse) ProtoReflect() protoreflect.Message {
+func (x *UpdateInfoResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_user_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -478,26 +478,26 @@ func (x *UpdateInfoReqponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateInfoReqponse.ProtoReflect.Descriptor instead.
-func (*UpdateInfoReqponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateInfoResponse.ProtoReflect.Descriptor instead.
+func (*UpdateInfoResponse) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *UpdateInfoReqponse) GetUserId() int64 {
+func (x *UpdateInfoResponse) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *UpdateInfoReqponse) GetNickName() string {
+func (x *UpdateInfoResponse) GetNickName() string {
 	if x != nil {
 		return x.NickName
 	}
 	return ""
 }
 
-func (x *UpdateInfoReqponse) GetIntroduceSign() string {
+func (x *UpdateInfoResponse) GetIntroduceSign() string {
 	if x != nil {
 		return x.IntroduceSign
 	}
@@ -722,7 +722,7 @@ var file_user_proto_goTypes = []interface{}{
 	(*GetInfoRequest)(nil),        // 4: user.GetInfoRequest
 	(*GetInfoResponse)(nil),       // 5: user.GetInfoResponse
 	(*UpdateInfoRequest)(nil),     // 6: user.UpdateInfoRequest
-	(*UpdateInfoReqponse)(nil),    // 7: user.UpdateInfoReqponse
+	(*UpdateInfoResponse)(nil),    // 7: user.UpdateInfoReqponse
 	(*GenerateTokenRequest)(nil),  // 8: user.GenerateTokenRequest
 	(*GenerateTokenResponse)(nil), // 9: user.GenerateTokenResponse
 }
@@ -835,7 +835,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateInfoReqponse); i {
+			switch v := v.(*UpdateInfoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
