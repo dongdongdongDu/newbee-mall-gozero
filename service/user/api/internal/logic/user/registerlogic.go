@@ -2,6 +2,9 @@ package user
 
 import (
 	"context"
+	"google.golang.org/grpc/status"
+	"newbee-mall-gozero/common/verify"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"newbee-mall-gozero/service/user/api/internal/svc"
 	"newbee-mall-gozero/service/user/api/internal/types"
@@ -24,7 +27,19 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.RegisterResponse, err error) {
-	// todo: add your logic here and delete this line
+	// 校验输入格式
+	if err := verify.Verify(*req, verify.MallUserRegisterVerify); err != nil {
+		return nil, status.Error(500, err.Error())
+	}
 
-	return
+	// 注册
+	_, err = l.svcCtx.UserRpc.Register(l.ctx, &user.RegisterRequest{
+		LoginName: req.LoginName,
+		Password:  req.Password,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.RegisterResponse{}, nil
 }

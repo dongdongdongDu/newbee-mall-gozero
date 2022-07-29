@@ -9,6 +9,6 @@ CREATE TABLE `user`
     `locked_flag`       tinyint(3) unsigned NULL        DEFAULT 0                  COMMENT '锁定标识字段(0-未锁定 1-已锁定)',
     `create_time`       timestamp           NULL        DEFAULT CURRENT_TIMESTAMP  COMMENT '注册时间',
     PRIMARY KEY (`user_id`),
-    UNIQUE KEY `idx_mobile_unique` (`login_name`)
+    UNIQUE KEY `idx_login_name_unique` (`login_name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

@@ -23,7 +23,7 @@ type (
 
 	// 用户注册
 	RegisterRequest {
-		LoginName string `json:"loginName"`
+		LoginName string `json:"loginname"`
 		Password  string `json:"password"`
 	}
 	RegisterResponse {
