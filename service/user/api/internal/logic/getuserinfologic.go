@@ -1,12 +1,13 @@
-package user
+package logic
 
 import (
 	"context"
 	"encoding/json"
-	"newbee-mall-gozero/service/user/rpc/user"
+	"newbee-mall-gozero/common/response"
 
 	"newbee-mall-gozero/service/user/api/internal/svc"
 	"newbee-mall-gozero/service/user/api/internal/types"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserInfoLogic) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.GetUserInfoResponse, err error) {
+func (l *GetUserInfoLogic) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Response, err error) {
 	// 避免出现未使用的形参提醒 =_=！
 	_ = req
 	// 从token.Claims中取userId
@@ -34,12 +35,19 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.GetUserInfoRequest) (resp *typ
 		UserId: userId,
 	})
 	if err != nil {
-		return nil, err
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "未查询到记录",
+		}, nil
 	}
 
-	return &types.GetUserInfoResponse{
-		NickName:      res.NickName,
-		LoginName:     res.LoginName,
-		IntroduceSign: res.IntroduceSign,
+	return &types.Response{
+		ResultCode: response.SUCCESS,
+		Msg:        "SUCCESS",
+		Data: types.GetUserInfoResponse{
+			NickName:      res.NickName,
+			LoginName:     res.LoginName,
+			IntroduceSign: res.IntroduceSign,
+		},
 	}, nil
 }

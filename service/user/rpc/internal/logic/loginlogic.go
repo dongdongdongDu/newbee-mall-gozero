@@ -2,8 +2,7 @@ package logic
 
 import (
 	"context"
-	"google.golang.org/grpc/status"
-	"newbee-mall-gozero/common/md5"
+	"errors"
 	"newbee-mall-gozero/service/user/model"
 
 	"newbee-mall-gozero/service/user/rpc/internal/svc"
@@ -31,14 +30,17 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	res, err := l.svcCtx.UserModel.FindOneByLoginName(l.ctx, in.LoginName)
 	if err != nil {
 		if err == model.ErrNotFound {
-			return nil, status.Error(500, "用户不存在")
+			logx.Error("用户不存在")
+			return nil, err
 		}
-		return nil, status.Error(500, "登录失败："+err.Error())
+		logx.Error("登录失败：" + err.Error())
+		return nil, err
 	}
 
 	// 判断密码是否正确
-	if md5.MD5V([]byte(in.PasswordMd5)) != res.PasswordMd5 {
-		return nil, status.Error(100, "密码错误")
+	if in.PasswordMd5 != res.PasswordMd5 {
+		logx.Error("密码错误")
+		return nil, errors.New("密码错误")
 	}
 
 	// 生成token
@@ -47,7 +49,8 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		UserId: res.UserId,
 	})
 	if err != nil {
-		return nil, status.Error(500, "生成token错误")
+		logx.Error("生成token错误")
+		return nil, errors.New("生成token错误")
 	}
 
 	return &user.LoginResponse{

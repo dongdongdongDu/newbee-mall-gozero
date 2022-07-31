@@ -1,9 +1,9 @@
-package user
+package handler
 
 import (
 	"net/http"
+	"newbee-mall-gozero/service/user/api/internal/logic"
 
-	"newbee-mall-gozero/service/user/api/internal/logic/user"
 	"newbee-mall-gozero/service/user/api/internal/svc"
 	"newbee-mall-gozero/service/user/api/internal/types"
 
@@ -18,7 +18,7 @@ func GetUserInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := user.NewGetUserInfoLogic(r.Context(), svcCtx)
+		l := logic.NewGetUserInfoLogic(r.Context(), svcCtx)
 		resp, err := l.GetUserInfo(&req)
 		if err != nil {
 			httpx.Error(w, err)

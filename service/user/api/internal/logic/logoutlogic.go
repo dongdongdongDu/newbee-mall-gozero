@@ -1,8 +1,8 @@
-package user
+package logic
 
 import (
 	"context"
-
+	"newbee-mall-gozero/common/response"
 	"newbee-mall-gozero/service/user/api/internal/svc"
 	"newbee-mall-gozero/service/user/api/internal/types"
 
@@ -23,8 +23,12 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 	}
 }
 
-func (l *LogoutLogic) Logout(req *types.LogoutRequest) (resp *types.LogoutResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *LogoutLogic) Logout(req *types.LogoutRequest) (resp *types.Response, err error) {
+	_ = req
 
-	return
+	return &types.Response{
+		ResultCode: response.SUCCESS,
+		Msg:        "登出成功",
+		Data:       types.LogoutResponse{},
+	}, nil
 }

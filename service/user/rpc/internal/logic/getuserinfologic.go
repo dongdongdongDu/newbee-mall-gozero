@@ -2,7 +2,7 @@ package logic
 
 import (
 	"context"
-	"google.golang.org/grpc/status"
+	"errors"
 	"newbee-mall-gozero/service/user/model"
 
 	"newbee-mall-gozero/service/user/rpc/internal/svc"
@@ -30,9 +30,11 @@ func (l *GetUserInfoLogic) GetUserInfo(in *user.GetInfoRequest) (*user.GetInfoRe
 	res, err := l.svcCtx.UserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
 		if err == model.ErrNotFound {
-			return nil, status.Error(500, "不存在的用户")
+			logx.Error("不存在的用户")
+			return nil, errors.New("不存在的用户")
 		}
-		return nil, status.Error(500, "用户信息获取失败"+err.Error())
+		logx.Error("用户信息获取失败" + err.Error())
+		return nil, errors.New("用户信息获取失败" + err.Error())
 	}
 
 	return &user.GetInfoResponse{

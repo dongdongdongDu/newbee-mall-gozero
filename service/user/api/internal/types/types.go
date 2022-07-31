@@ -22,10 +22,6 @@ type RegisterResponse struct {
 }
 
 type LogoutRequest struct {
-	UserId     int64  `json:"userId"`
-	Token      string `json:"token"`
-	UpdateTime int64  `json:"updateTime"`
-	ExpireTime int64  `json:"expireTime"`
 }
 
 type LogoutResponse struct {
@@ -49,4 +45,10 @@ type GetUserInfoResponse struct {
 	NickName      string `json:"nickName"`
 	LoginName     string `json:"loginName"`
 	IntroduceSign string `json:"introduceSign"`
+}
+
+type Response struct {
+	ResultCode int         `json:"resultCode"`
+	Msg        string      `json:"message"`
+	Data       interface{} `json:"data"`
 }

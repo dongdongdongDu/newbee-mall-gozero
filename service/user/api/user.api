@@ -31,10 +31,6 @@ type (
 
 	// 退出登录
 	LogoutRequest {
-		UserId     int64  `json:"userId"`
-		Token      string `json:"token"`
-		UpdateTime int64  `json:"updateTime"`
-		ExpireTime int64  `json:"expireTime"`
 	}
 	LogoutResponse {
 	}
@@ -58,37 +54,40 @@ type (
 		LoginName     string `json:"loginName"`
 		IntroduceSign string `json:"introduceSign"`
 	}
+
+	// 响应
+	Response {
+		ResultCode int         `json:"resultCode"`
+		Msg        string      `json:"message"`
+		Data       interface{} `json:"data"`
+	}
 )
 
-@server(
-	group : user
-)
 
 service user {
 	// 登录
 	@handler Login
-	post /user/login (LoginRequest) returns (LoginResponse)
+	post /user/login (LoginRequest) returns (Response)
 	
 	// 注册
 	@handler Register
-	post /user/register (RegisterRequest) returns (RegisterResponse)
+	post /user/register (RegisterRequest) returns (Response)
 }
 
 // 需要登录
 @server(
 	jwt: Auth
-	group: user
 )
 service user {
 	// 获取用户信息
 	@handler GetUserInfo
-	get /user/info (GetUserInfoRequest) returns (GetUserInfoResponse)
+	get /user/info (GetUserInfoRequest) returns (Response)
 	
 	// 更新用户信息
 	@handler UpdateUserInfo
-	put /user/info (UpdateUserInfoRequest) returns (UpdateUserInfoResponse)
+	put /user/info (UpdateUserInfoRequest) returns (Response)
 	
 	// 退出登录
 	@handler Logout
-	post /user/logout (LogoutRequest) returns (LogoutResponse)
+	post /user/logout (LogoutRequest) returns (Response)
 }

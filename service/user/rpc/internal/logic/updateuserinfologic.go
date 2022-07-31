@@ -2,7 +2,7 @@ package logic
 
 import (
 	"context"
-	"google.golang.org/grpc/status"
+	"errors"
 	"newbee-mall-gozero/common/md5"
 	"newbee-mall-gozero/service/user/model"
 	"newbee-mall-gozero/service/user/rpc/internal/svc"
@@ -30,9 +30,11 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateInfoRequest) (*user.
 	res, err := l.svcCtx.UserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
 		if err == model.ErrNotFound {
-			return nil, status.Error(500, "不存在的用户")
+			logx.Error("不存在的用户")
+			return nil, errors.New("不存在的用户")
 		}
-		return nil, status.Error(500, "用户信息获取失败"+err.Error())
+		logx.Error("用户信息获取失败" + err.Error())
+		return nil, errors.New("用户信息获取失败" + err.Error())
 	}
 
 	res.NickName = in.NickName
@@ -45,7 +47,8 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateInfoRequest) (*user.
 	// 写入更新
 	err = l.svcCtx.UserModel.Update(l.ctx, res)
 	if err != nil {
-		return nil, status.Error(500, "用户信息更新"+err.Error())
+		logx.Error("用户信息更新失败" + err.Error())
+		return nil, errors.New("用户信息更新失败" + err.Error())
 	}
 
 	return &user.UpdateInfoResponse{

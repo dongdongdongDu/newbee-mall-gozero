@@ -2,11 +2,11 @@ package logic
 
 import (
 	"context"
-	"google.golang.org/grpc/status"
-	"newbee-mall-gozero/common/md5"
-	"newbee-mall-gozero/service/user/model"
+	"errors"
 	"time"
 
+	"newbee-mall-gozero/common/md5"
+	"newbee-mall-gozero/service/user/model"
 	"newbee-mall-gozero/service/user/rpc/internal/svc"
 	"newbee-mall-gozero/service/user/rpc/user"
 
@@ -31,12 +31,13 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 	// 查询用户名是否存在
 	_, err := l.svcCtx.UserModel.FindOneByLoginName(l.ctx, in.LoginName)
 	if err == nil {
-		return nil, status.Error(500, "存在相同用户名")
+		logx.Error("创建失败：存在相同用户名")
+		return nil, errors.New("存在相同用户名")
 	}
 
 	// 创建新用户
 	if err == model.ErrNotFound {
-		newUser := model.User{
+		newUser := model.TbNewbeeMallUser{
 			LoginName:     in.LoginName,
 			PasswordMd5:   md5.MD5V([]byte(in.Password)),
 			IntroduceSign: "随新所欲，蜂富多彩",
@@ -45,18 +46,21 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 
 		res, err := l.svcCtx.UserModel.Insert(l.ctx, &newUser)
 		if err != nil {
-			return nil, status.Error(500, "创建失败:"+err.Error())
+			logx.Error("创建失败：" + err.Error())
+			return nil, err
 		}
 
 		newUser.UserId, err = res.LastInsertId()
 		if err != nil {
-			return nil, status.Error(500, "创建失败:"+err.Error())
+			logx.Error("创建失败：" + err.Error())
+			return nil, err
 		}
 
 		return &user.RegisterResponse{
 			UserId: newUser.UserId,
 		}, nil
 	}
+	logx.Error("创建失败：" + err.Error())
 
-	return nil, status.Error(500, "创建失败:"+err.Error())
+	return nil, err
 }

@@ -1,12 +1,13 @@
-package user
+package logic
 
 import (
 	"context"
 	"encoding/json"
-	"newbee-mall-gozero/service/user/rpc/user"
+	"newbee-mall-gozero/common/response"
 
 	"newbee-mall-gozero/service/user/api/internal/svc"
 	"newbee-mall-gozero/service/user/api/internal/types"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoRequest) (resp *types.UpdateUserInfoResponse, err error) {
+func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoRequest) (resp *types.Response, err error) {
 	// 从token.Claims中取userId
 	userId, _ := l.ctx.Value("userId").(json.Number).Int64()
 
@@ -37,11 +38,18 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoRequest) (
 		IntroduceSign: req.IntroduceSign,
 	})
 	if err != nil {
-		return nil, err
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "更新用户信息失败" + err.Error(),
+		}, nil
 	}
 
-	return &types.UpdateUserInfoResponse{
-		NickName:      res.NickName,
-		IntroduceSign: res.IntroduceSign,
+	return &types.Response{
+		ResultCode: response.SUCCESS,
+		Msg:        "SUCCESS",
+		Data: types.UpdateUserInfoResponse{
+			NickName:      res.NickName,
+			IntroduceSign: res.IntroduceSign,
+		},
 	}, nil
 }

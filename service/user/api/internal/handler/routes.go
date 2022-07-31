@@ -4,7 +4,6 @@ package handler
 import (
 	"net/http"
 
-	user "newbee-mall-gozero/service/user/api/internal/handler/user"
 	"newbee-mall-gozero/service/user/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -16,12 +15,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/login",
-				Handler: user.LoginHandler(serverCtx),
+				Handler: LoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/register",
-				Handler: user.RegisterHandler(serverCtx),
+				Handler: RegisterHandler(serverCtx),
 			},
 		},
 	)
@@ -31,17 +30,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodGet,
 				Path:    "/user/info",
-				Handler: user.GetUserInfoHandler(serverCtx),
+				Handler: GetUserInfoHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,
 				Path:    "/user/info",
-				Handler: user.UpdateUserInfoHandler(serverCtx),
+				Handler: UpdateUserInfoHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/logout",
-				Handler: user.LogoutHandler(serverCtx),
+				Handler: LogoutHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

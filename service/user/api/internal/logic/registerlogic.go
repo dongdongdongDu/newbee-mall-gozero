@@ -1,13 +1,13 @@
-package user
+package logic
 
 import (
 	"context"
-	"google.golang.org/grpc/status"
-	"newbee-mall-gozero/common/verify"
-	"newbee-mall-gozero/service/user/rpc/user"
+	"newbee-mall-gozero/common/response"
 
+	"newbee-mall-gozero/common/verify"
 	"newbee-mall-gozero/service/user/api/internal/svc"
 	"newbee-mall-gozero/service/user/api/internal/types"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,10 +26,13 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.RegisterResponse, err error) {
+func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Response, err error) {
 	// 校验输入格式
 	if err := verify.Verify(*req, verify.MallUserRegisterVerify); err != nil {
-		return nil, status.Error(500, err.Error())
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        err.Error(),
+		}, nil
 	}
 
 	// 注册
@@ -38,8 +41,15 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		Password:  req.Password,
 	})
 	if err != nil {
-		return nil, err
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "创建失败：" + err.Error(),
+		}, nil
 	}
 
-	return &types.RegisterResponse{}, nil
+	return &types.Response{
+		ResultCode: response.SUCCESS,
+		Msg:        "创建成功",
+		Data:       types.RegisterResponse{},
+	}, nil
 }

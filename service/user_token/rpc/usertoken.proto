@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package usertoken;
+
+option go_package = "./usertoken";
+
+// token
+message Token {
+  int64   userId = 1;
+  string  token = 2;
+  int64   updateTime = 3;
+  int64   expireTime = 4;
+}
+
+// 生成token
+message GenerateTokenRequest {
+  int64 userId = 1;
+}
+
+message GenerateTokenResponse {
+  Token token = 1;
+}
+
+// 获取已有token
+message GetExistTokenRequest {
+  string token = 1;
+}
+
+message GetExistTokenResponse {
+  Token token = 1;
+}
+
+// 删除token
+message DeleteTokenRequest {
+  string token = 1;
+}
+
+message DeleteTokenResponse {
+}
+
+// service
+service usertoken {
+  rpc generateToken(GenerateTokenRequest) returns(GenerateTokenResponse);
+  rpc getExistToken(GetExistTokenRequest) returns(GetExistTokenResponse);
+  rpc deleteToken(DeleteTokenRequest) returns(DeleteTokenResponse);
+}
