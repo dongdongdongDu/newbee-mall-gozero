@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 	"newbee-mall-gozero/common/response"
 
 	"newbee-mall-gozero/service/user/api/internal/svc"
@@ -27,12 +26,11 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoRequest) (resp *types.Response, err error) {
-	// 从token.Claims中取userId
-	userId, _ := l.ctx.Value("userId").(json.Number).Int64()
-
+	// 获取token
+	token := l.ctx.Value("token").(string)
 	// 更新信息
 	res, err := l.svcCtx.UserRpc.UpdateUserInfo(l.ctx, &user.UpdateInfoRequest{
-		UserId:        userId,
+		Token:         token,
 		NickName:      req.NickName,
 		PasswordMd5:   req.PasswordMd5,
 		IntroduceSign: req.IntroduceSign,

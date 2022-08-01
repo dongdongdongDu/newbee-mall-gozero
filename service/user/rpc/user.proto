@@ -29,39 +29,35 @@ message LoginResponse {
 
 // 获取用户信息
 message GetInfoRequest {
-  int64 userId = 1;
+  string token = 1;
 }
 
 message GetInfoResponse {
-  int64 userId = 1;
-  string nickName = 2;
-  string loginName = 3;
-  string introduceSign = 4;
+  string nickName = 1;
+  string loginName = 2;
+  string introduceSign = 3;
 }
 
 // 修改用户信息
 message UpdateInfoRequest {
-  int64 userId = 1;
+  string token = 1;
   string nickName = 2;
   string passwordMd5 = 3;
   string introduceSign = 4;
 }
 
 message UpdateInfoResponse {
-  int64 userId = 1;
+  string token = 1;
   string nickName = 2;
   string introduceSign = 4;
 }
 
-// 生成新token
-message GenerateTokenRequest {
-  int64 userId = 1;
+// 退出登录
+message LogoutRequest {
+  string token=1;
 }
 
-message GenerateTokenResponse {
-  string accessToken = 1;
-  int64  updateTime = 2;
-  int64  expireTime = 3;
+message LogoutResponse {
 }
 
 // service
@@ -70,5 +66,5 @@ service user {
   rpc register(RegisterRequest) returns(RegisterResponse);
   rpc getUserInfo(GetInfoRequest) returns(GetInfoResponse);
   rpc updateUserInfo(UpdateInfoRequest) returns(UpdateInfoResponse);
-  rpc generateToken(GenerateTokenRequest) returns(GenerateTokenResponse);
+  rpc logout(LogoutRequest) returns(LogoutResponse);
 }

@@ -15,24 +15,15 @@ type (
 		PasswordMd5 string `json:"passwordMd5"`
 	}
 	LoginResponse {
-		UserId     int64  `json:"userId"`
 		Token      string `json:"token"`
-		UpdateTime int64  `json:"updateTime"`
-		ExpireTime int64  `json:"expireTime"`
 	}
 
 	// 用户注册
 	RegisterRequest {
-		LoginName string `json:"loginname"`
+		LoginName string `json:"loginName"`
 		Password  string `json:"password"`
 	}
 	RegisterResponse {
-	}
-
-	// 退出登录
-	LogoutRequest {
-	}
-	LogoutResponse {
 	}
 
 	// 更新用户信息
@@ -42,8 +33,6 @@ type (
 		IntroduceSign string `json:"introduceSign"`
 	}
 	UpdateUserInfoResponse {
-		NickName      string `json:"nickName"`
-		IntroduceSign string `json:"introduceSign"`
 	}
 
 	// 获取用户信息
@@ -63,7 +52,6 @@ type (
 	}
 )
 
-
 service user {
 	// 登录
 	@handler Login
@@ -76,7 +64,7 @@ service user {
 
 // 需要登录
 @server(
-	jwt: Auth
+	middleware : UserJwtAuth
 )
 service user {
 	// 获取用户信息
@@ -89,5 +77,5 @@ service user {
 	
 	// 退出登录
 	@handler Logout
-	post /user/logout (LogoutRequest) returns (Response)
+	post /user/logout () returns (Response)
 }

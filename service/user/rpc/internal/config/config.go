@@ -8,12 +8,10 @@ import (
 type Config struct {
 	zrpc.RpcServerConf
 
-	JwtAuth struct {
-		AccessSecret string
-		AccessExpire int64
-	}
 	Mysql struct {
 		DataSource string
 	}
 	CacheRedis cache.CacheConf
+
+	UserTokenRpc zrpc.RpcClientConf
 }

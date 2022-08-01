@@ -13,7 +13,6 @@ import (
 	"newbee-mall-gozero/service/user_token/rpc/internal/svc"
 	"newbee-mall-gozero/service/user_token/rpc/usertoken"
 
-	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -55,19 +54,20 @@ func (l *GenerateTokenLogic) GenerateToken(in *usertoken.GenerateTokenRequest) (
 			return nil, errors.New("用户token更新失败" + err.Error())
 		}
 
-		// 复制
-		var tokenRes usertoken.Token
-		_ = copier.Copy(&tokenRes, res)
-
 		return &usertoken.GenerateTokenResponse{
-			Token: &tokenRes,
+			Token: &usertoken.Token{
+				UserId:     res.UserId,
+				Token:      res.Token,
+				UpdateTime: res.UpdateTime.Unix(),
+				ExpireTime: res.ExpireTime.Unix(),
+			},
 		}, nil
 	} else {
 		// 没有
 		logx.Error("生成新的tokenModel")
 		// 创建新tokenModel
 		if err == model.ErrNotFound {
-			newToken := model.UserToken{
+			newToken := model.TbNewbeeMallUserToken{
 				UserId:     in.UserId,
 				Token:      token,
 				UpdateTime: nowDate,
@@ -80,11 +80,13 @@ func (l *GenerateTokenLogic) GenerateToken(in *usertoken.GenerateTokenRequest) (
 				return nil, err
 			}
 
-			var tokenRes usertoken.Token
-			_ = copier.Copy(&tokenRes, newToken)
-
 			return &usertoken.GenerateTokenResponse{
-				Token: &tokenRes,
+				Token: &usertoken.Token{
+					UserId:     newToken.UserId,
+					Token:      newToken.Token,
+					UpdateTime: newToken.UpdateTime.Unix(),
+					ExpireTime: newToken.ExpireTime.Unix(),
+				},
 			}, nil
 		}
 		logx.Error("创建token失败：" + err.Error())

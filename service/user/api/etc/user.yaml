@@ -3,7 +3,7 @@ Host: 0.0.0.0
 Port: 8000
 
 Mysql:
-  DataSource: root:dongdong@tcp(127.0.0.1:3306)/mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: root:dongdong@tcp(127.0.0.1:3306)/newbee_mall_db?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 CacheRedis:
   - Host: 127.0.0.1:6379
     Pass: dongdong
@@ -17,3 +17,8 @@ UserRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: user.rpc
+UserTokenRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: usertoken.rpc

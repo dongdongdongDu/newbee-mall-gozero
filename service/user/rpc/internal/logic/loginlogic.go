@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"newbee-mall-gozero/service/user/model"
-
 	"newbee-mall-gozero/service/user/rpc/internal/svc"
 	"newbee-mall-gozero/service/user/rpc/user"
+	"newbee-mall-gozero/service/user_token/rpc/usertoken"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -44,8 +44,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	}
 
 	// 生成token
-	generateTokenLogic := NewGenerateTokenLogic(l.ctx, l.svcCtx)
-	token, err := generateTokenLogic.GenerateToken(&user.GenerateTokenRequest{
+	token, err := l.svcCtx.UserTokenRpc.GenerateToken(l.ctx, &usertoken.GenerateTokenRequest{
 		UserId: res.UserId,
 	})
 	if err != nil {
@@ -55,8 +54,8 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 
 	return &user.LoginResponse{
 		UserId:     res.UserId,
-		Token:      token.AccessToken,
-		UpdateTime: token.UpdateTime,
-		ExpireTime: token.ExpireTime,
+		Token:      token.Token.Token,
+		UpdateTime: token.Token.UpdateTime,
+		ExpireTime: token.Token.ExpireTime,
 	}, nil
 }

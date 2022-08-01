@@ -2,9 +2,7 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 	"newbee-mall-gozero/common/response"
-
 	"newbee-mall-gozero/service/user/api/internal/svc"
 	"newbee-mall-gozero/service/user/api/internal/types"
 	"newbee-mall-gozero/service/user/rpc/user"
@@ -29,10 +27,10 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 func (l *GetUserInfoLogic) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Response, err error) {
 	// 避免出现未使用的形参提醒 =_=！
 	_ = req
-	// 从token.Claims中取userId
-	userId, _ := l.ctx.Value("userId").(json.Number).Int64()
+	// 获取token
+	token := l.ctx.Value("token").(string)
 	res, err := l.svcCtx.UserRpc.GetUserInfo(l.ctx, &user.GetInfoRequest{
-		UserId: userId,
+		Token: token,
 	})
 	if err != nil {
 		return &types.Response{

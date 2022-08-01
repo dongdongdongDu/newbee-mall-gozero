@@ -26,7 +26,7 @@ type UserClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	GetUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
 	UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest, opts ...grpc.CallOption) (*UpdateInfoResponse, error)
-	GenerateToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*GenerateTokenResponse, error)
+	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
 }
 
 type userClient struct {
@@ -73,9 +73,9 @@ func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest, 
 	return out, nil
 }
 
-func (c *userClient) GenerateToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*GenerateTokenResponse, error) {
-	out := new(GenerateTokenResponse)
-	err := c.cc.Invoke(ctx, "/user.user/generateToken", in, out, opts...)
+func (c *userClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error) {
+	out := new(LogoutResponse)
+	err := c.cc.Invoke(ctx, "/user.user/logout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ type UserServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	GetUserInfo(context.Context, *GetInfoRequest) (*GetInfoResponse, error)
 	UpdateUserInfo(context.Context, *UpdateInfoRequest) (*UpdateInfoResponse, error)
-	GenerateToken(context.Context, *GenerateTokenRequest) (*GenerateTokenResponse, error)
+	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -110,8 +110,8 @@ func (UnimplementedUserServer) GetUserInfo(context.Context, *GetInfoRequest) (*G
 func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateInfoRequest) (*UpdateInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
 }
-func (UnimplementedUserServer) GenerateToken(context.Context, *GenerateTokenRequest) (*GenerateTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GenerateToken not implemented")
+func (UnimplementedUserServer) Logout(context.Context, *LogoutRequest) (*LogoutResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -198,20 +198,20 @@ func _User_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_GenerateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GenerateTokenRequest)
+func _User_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogoutRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).GenerateToken(ctx, in)
+		return srv.(UserServer).Logout(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.user/generateToken",
+		FullMethod: "/user.user/logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GenerateToken(ctx, req.(*GenerateTokenRequest))
+		return srv.(UserServer).Logout(ctx, req.(*LogoutRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -240,8 +240,8 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_UpdateUserInfo_Handler,
 		},
 		{
-			MethodName: "generateToken",
-			Handler:    _User_GenerateToken_Handler,
+			MethodName: "logout",
+			Handler:    _User_Logout_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

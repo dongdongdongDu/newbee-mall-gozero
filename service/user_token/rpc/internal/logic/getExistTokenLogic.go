@@ -3,8 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/jinzhu/copier"
-
 	"newbee-mall-gozero/service/user_token/rpc/internal/svc"
 	"newbee-mall-gozero/service/user_token/rpc/usertoken"
 
@@ -32,11 +30,13 @@ func (l *GetExistTokenLogic) GetExistToken(in *usertoken.GetExistTokenRequest) (
 		logx.Error("查找token失败" + err.Error())
 		return nil, errors.New("查找token失败" + err.Error())
 	}
-	// 复制
-	var tokenRes usertoken.Token
-	_ = copier.Copy(&tokenRes, res)
 
 	return &usertoken.GetExistTokenResponse{
-		Token: &tokenRes,
+		Token: &usertoken.Token{
+			UserId:     res.UserId,
+			Token:      res.Token,
+			UpdateTime: res.UpdateTime.Unix(),
+			ExpireTime: res.ExpireTime.Unix(),
+		},
 	}, nil
 }

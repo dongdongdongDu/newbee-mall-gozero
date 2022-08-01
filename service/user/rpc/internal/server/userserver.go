@@ -42,7 +42,7 @@ func (s *UserServer) UpdateUserInfo(ctx context.Context, in *user.UpdateInfoRequ
 	return l.UpdateUserInfo(in)
 }
 
-func (s *UserServer) GenerateToken(ctx context.Context, in *user.GenerateTokenRequest) (*user.GenerateTokenResponse, error) {
-	l := logic.NewGenerateTokenLogic(ctx, s.svcCtx)
-	return l.GenerateToken(in)
+func (s *UserServer) Logout(ctx context.Context, in *user.LogoutRequest) (*user.LogoutResponse, error) {
+	l := logic.NewLogoutLogic(ctx, s.svcCtx)
+	return l.Logout(in)
 }

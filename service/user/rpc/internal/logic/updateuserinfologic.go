@@ -7,6 +7,7 @@ import (
 	"newbee-mall-gozero/service/user/model"
 	"newbee-mall-gozero/service/user/rpc/internal/svc"
 	"newbee-mall-gozero/service/user/rpc/user"
+	"newbee-mall-gozero/service/user_token/rpc/usertoken"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,17 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateInfoRequest) (*user.UpdateInfoResponse, error) {
-	// 查询用户是否存在
-	res, err := l.svcCtx.UserModel.FindOne(l.ctx, in.UserId)
+	// 查询token
+	tokenRes, err := l.svcCtx.UserTokenRpc.GetExistToken(l.ctx, &usertoken.GetExistTokenRequest{
+		Token: in.Token,
+	})
+	if err != nil {
+		logx.Error("token不存在")
+		return nil, errors.New("token不存在")
+	}
+	// 查询用户
+	userId := tokenRes.Token.UserId
+	res, err := l.svcCtx.UserModel.FindOne(l.ctx, userId)
 	if err != nil {
 		if err == model.ErrNotFound {
 			logx.Error("不存在的用户")
@@ -52,7 +62,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateInfoRequest) (*user.
 	}
 
 	return &user.UpdateInfoResponse{
-		UserId:        res.UserId,
+		Token:         in.Token,
 		NickName:      res.NickName,
 		IntroduceSign: res.IntroduceSign,
 	}, nil

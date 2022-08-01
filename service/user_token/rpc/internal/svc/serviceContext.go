@@ -8,13 +8,13 @@ import (
 
 type ServiceContext struct {
 	Config     config.Config
-	TokenModel model.UserTokenModel
+	TokenModel model.TbNewbeeMallUserTokenModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.Mysql.DataSource)
 	return &ServiceContext{
 		Config:     c,
-		TokenModel: model.NewUserTokenModel(conn, c.CacheRedis),
+		TokenModel: model.NewTbNewbeeMallUserTokenModel(conn, c.CacheRedis),
 	}
 }

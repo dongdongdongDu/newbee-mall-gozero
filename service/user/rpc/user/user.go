@@ -16,7 +16,7 @@ type (
 		Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 		GetUserInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
 		UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest, opts ...grpc.CallOption) (*UpdateInfoResponse, error)
-		GenerateToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*GenerateTokenResponse, error)
+		Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
 	}
 
 	defaultUser struct {
@@ -50,7 +50,7 @@ func (m *defaultUser) UpdateUserInfo(ctx context.Context, in *UpdateInfoRequest,
 	return client.UpdateUserInfo(ctx, in, opts...)
 }
 
-func (m *defaultUser) GenerateToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*GenerateTokenResponse, error) {
+func (m *defaultUser) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error) {
 	client := NewUserClient(m.cli.Conn())
-	return client.GenerateToken(ctx, in, opts...)
+	return client.Logout(ctx, in, opts...)
 }

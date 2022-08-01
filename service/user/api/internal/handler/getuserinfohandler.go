@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"context"
+	"github.com/zeromicro/go-zero/core/logx"
 	"net/http"
 	"newbee-mall-gozero/service/user/api/internal/logic"
 
@@ -17,8 +19,12 @@ func GetUserInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.Error(w, err)
 			return
 		}
+		// 把token传入Context中
+		logx.Info("r.Header['token']:", r.Header.Get("token"))
+		token := r.Header.Get("token")
+		ctx := context.WithValue(r.Context(), "token", token)
 
-		l := logic.NewGetUserInfoLogic(r.Context(), svcCtx)
+		l := logic.NewGetUserInfoLogic(ctx, svcCtx)
 		resp, err := l.GetUserInfo(&req)
 		if err != nil {
 			httpx.Error(w, err)
