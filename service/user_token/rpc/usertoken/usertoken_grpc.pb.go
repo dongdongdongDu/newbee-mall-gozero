@@ -88,7 +88,7 @@ func (UnimplementedUsertokenServer) DeleteToken(context.Context, *DeleteTokenReq
 func (UnimplementedUsertokenServer) mustEmbedUnimplementedUsertokenServer() {}
 
 // UnsafeUsertokenServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UsertokenServer will
+// Use of this interface.md is not recommended, as added methods to UsertokenServer will
 // result in compilation errors.
 type UnsafeUsertokenServer interface {
 	mustEmbedUnimplementedUsertokenServer()

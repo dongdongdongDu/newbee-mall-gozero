@@ -35,7 +35,7 @@ func (l *LogoutLogic) Logout(req *types.LogoutRequest) (resp *types.Response, er
 	if err != nil {
 		return &types.Response{
 			ResultCode: response.ERROR,
-			Msg:        "登录失败！",
+			Msg:        "登出失败",
 		}, nil
 	}
 	return &types.Response{

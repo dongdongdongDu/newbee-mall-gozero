@@ -17,6 +17,3 @@ CacheRedis:
     Pass: dongdong
     Type: node
 
-JwtAuth:
-  AccessSecret: "1faa5923-6c72-49fe-8f6c-cb8722d774fe"
-  AccessExpire: 86400

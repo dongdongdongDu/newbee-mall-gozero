@@ -1,0 +1,13 @@
+Name: admintoken.rpc
+ListenOn: 127.0.0.1:9003
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: admintoken.rpc
+
+Mysql:
+  DataSource: root:dongdong@tcp(127.0.0.1:3306)/newbee_mall_db?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass: dongdong
+    Type: node

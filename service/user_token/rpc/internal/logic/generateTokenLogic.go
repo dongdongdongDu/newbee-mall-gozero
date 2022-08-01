@@ -3,12 +3,9 @@ package logic
 import (
 	"context"
 	"errors"
-	"strconv"
-	"strings"
+	"newbee-mall-gozero/common/jwt"
 	"time"
 
-	"newbee-mall-gozero/common/md5"
-	"newbee-mall-gozero/common/nums"
 	"newbee-mall-gozero/service/user_token/model"
 	"newbee-mall-gozero/service/user_token/rpc/internal/svc"
 	"newbee-mall-gozero/service/user_token/rpc/usertoken"
@@ -32,7 +29,7 @@ func NewGenerateTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Gen
 
 func (l *GenerateTokenLogic) GenerateToken(in *usertoken.GenerateTokenRequest) (*usertoken.GenerateTokenResponse, error) {
 	// 生成token
-	token := getNewToken(time.Now().UnixNano()/1e6, int(in.UserId))
+	token := jwt.GetNewToken(time.Now().UnixNano()/1e6, int(in.UserId))
 	nowDate := time.Now()
 	// 48小时过期
 	expireTime, _ := time.ParseDuration("48h")
@@ -93,13 +90,4 @@ func (l *GenerateTokenLogic) GenerateToken(in *usertoken.GenerateTokenRequest) (
 
 		return nil, err
 	}
-}
-
-//from https://github.com/newbee-ltd/newbee-mall-api-go
-func getNewToken(timeInt int64, userId int) (token string) {
-	var build strings.Builder
-	build.WriteString(strconv.FormatInt(timeInt, 10))
-	build.WriteString(strconv.Itoa(userId))
-	build.WriteString(nums.GenValidateCode(6))
-	return md5.MD5V([]byte(build.String()))
 }

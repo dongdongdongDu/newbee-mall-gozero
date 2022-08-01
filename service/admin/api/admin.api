@@ -1,82 +1,106 @@
 syntax = "v1"
 
 info(
-    title: "user"
-    desc: "user"
-    author: "dongdongdongDu"
-    email: "137564641@qq.com"
-    version: "1.0"
+	title: "user"
+	desc: "user"
+	author: "dongdongdongDu"
+	email: "137564641@qq.com"
+	version: "1.0"
 )
 
 type (
-    // 管理员登录
-    AdminLoginRequest {
-        UserName    string `json:"userName"`
-        PasswordMd5 string `json:"passwordMd5"`
-    }
-    AdminLoginResponse {
-        AdminUserId int64  `json:"adminuserId"`
-        Token       string `json:"token"`
-        UpdateTime  int64  `json:"updateTime"`
-        ExpireTime  int64  `json:"expireTime"`
-    }
+	// 管理员
+	Admin {
+		AdminUserId   int    `json:"adminUserId"`
+		LoginUserName string `json:"loginUserName"`
+		LoginPassword string `json:"loginPassword"`
+		NickName      string `json:"nickName"`
+		Locked        int    `json:"locked"`
+	}
+	// 管理员登录
+	AdminLoginRequest {
+		UserName    string `json:"userName"`
+		PasswordMd5 string `json:"passwordMd5"`
+	}
+	AdminLoginResponse {
+		Token string `json:"token"`
+	}
 
-    // 管理员更改昵称
-    UpdateAdminNameRequest {
-        LoginUserName string `json:"loginUserName"`
-        NickName      string `json:"nickName"`
-    }
-    UpdateAdminNameResponse {
+	// 管理员更改昵称
+	UpdateAdminNameRequest {
+		LoginUserName string `json:"loginUserName"`
+		NickName      string `json:"nickName"`
+	}
 
-    }
+	// 管理员更改密码
+	UpdateAdminPwdRequest {
+		OriginalPassword string `json:"originalPassword"`
+		NewPassword      string `json:"newPassword"`
+	}
 
-    // 管理员更改密码
-    UpdateAdminPwdRequest {
-        OriginalPassword string `json:"originalPassword"`
-        NewPassword      string `json:"newPassword"`
-    }
-    UpdateAdminPwdResponse {
+	// 查看管理员信息
+	GetAdminProfileResponse {
+		Admin Admin `json:"admin"`
+	}
 
-    }
+	// 查看用户列表
+	GetUserListRequest {
+		PageNumber int64 `json:"pageNumber"` // 页码
+		PageSize   int64 `json:"pageSize"`   // 每页大小
+	}
+	GetUserListResponse {
+		List       interface{} `json:"list"`
+		TotalCount int64       `json:"totalCount"`
+		TotalPage  int64       `json:"totalPage"`
+		CurrPage   int64       `json:"currPage"`
+		PageSize   int64       `json:"pageSize"`
+	}
 
-    // 查看管理员信息
-    GetAdminInfoRequest {
-    }
-    GetAdminInfoResponse {
-        LoginUserName   string `json:"loginUserName"`
-        NickName        string `json:"nickName"`
-    }
+	// 用户禁用或解除
+	LockUserRequest {
+		Ids []int64 `json:"ids"`
+	}
 
-    // 退出登录
-    AdminLogoutRequest {
-
-    }
-    AdminLogoutResponse {
-
-    }
-
-    // 查看用户列表
-    GetUserListRequest {
-
-    }
-    GetUserListResponse {
-
-    }
-
-    // 用户禁用或解除
-    LockUserRequest {
-
-    }
-    LockUserResponse {
-
-    }
-
-    // UploadFile 上传单图
-    UploadFileRequest {
-
-    }
-    UploadFileResponse {
-
-    }
+	// 响应
+	Response {
+		ResultCode int         `json:"resultCode"`
+		Msg        string      `json:"message"`
+		Data       interface{} `json:"data"`
+	}
 )
 
+service admin {
+	// 登录
+	@handler AdminLogin
+	post /admin/login (AdminLoginRequest) returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : AdminJwtAuth
+)
+service admin {
+	// 获取管理员信息
+	@handler GetAdminProfile
+	get /admin/profile returns (Response)
+	
+	// 更新管理员名称
+	@handler UpdateAdminName
+	put /admin/name (UpdateAdminNameRequest) returns (Response)
+	
+	// 更新管理员密码
+	@handler UpdateAdminPwd
+	put /admin/password (UpdateAdminPwdRequest) returns (Response)
+	
+	// 查看用户列表
+	@handler GetUserList
+	get /admin/users (GetUserListRequest) returns (Response)
+	
+	// 用户禁用或解除
+	@handler LockUser
+	put /admin/users/:lockStatus (LockUserRequest) returns (Response)
+	
+	// 退出登录
+	@handler AdminLogout
+	post /admin/logout returns (Response)
+}

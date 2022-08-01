@@ -8,7 +8,7 @@ import (
 var _ TbNewbeeMallUserTokenModel = (*customTbNewbeeMallUserTokenModel)(nil)
 
 type (
-	// TbNewbeeMallUserTokenModel is an interface to be customized, add more methods here,
+	// TbNewbeeMallUserTokenModel is an interface.md to be customized, add more methods here,
 	// and implement the added methods in customTbNewbeeMallUserTokenModel.
 	TbNewbeeMallUserTokenModel interface {
 		tbNewbeeMallUserTokenModel

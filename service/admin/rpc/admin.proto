@@ -2,4 +2,94 @@ syntax = "proto3";
 
 package admin;
 
-option go_package="./admin";
+option go_package = "./admin";
+
+// 管理员token
+message AdminToken {
+  int64 adminUserId = 1;
+  string token = 2;
+  int64 updateTime = 3;
+  int64 expireTime = 4;
+}
+// 管理员
+message AdminModel {
+  int64 adminUserId = 1;
+  string  loginUserName = 2;
+  string  loginPassword = 3;
+  string  nickName = 4;
+  int64 locked = 5;
+}
+
+// 管理员登录
+message AdminLoginRequest {
+  string userName = 1;
+  string passwordMd5 = 2;
+}
+
+message AdminLoginResponse {
+  AdminToken adminToken = 1;
+}
+
+// 管理员更改昵称
+message UpdateAdminNameRequest {
+  string token = 1;
+  string loginUserName = 2;
+  string nickName = 3;
+}
+message UpdateAdminNameResponse {
+}
+
+// 管理员更改密码
+message UpdateAdminPwdRequest {
+  string token = 1;
+  string originalPassword = 2;
+  string newPassword = 3;
+}
+message UpdateAdminPwdResponse {
+}
+
+// 查看管理员信息
+message GetAdminProfileRequest {
+  string token = 1;
+}
+message GetAdminProfileResponse {
+  AdminModel admin = 1;
+}
+
+// 查看用户列表
+message GetUserListRequest {
+  int64 pageNumber = 1; // 页码
+  int64 pageSize = 2;// 每页大小
+}
+message GetUserListResponse {
+  string  list = 1;
+  int64   totalCount = 2;
+  int64   totalPage = 3;
+  int64   currPage = 4;
+  int64   pageSize = 5;
+}
+// 用户禁用或解除
+message  LockUserRequest {
+  string ids = 1;
+  bool lockStatus = 2;
+}
+message LockUserResponse {
+}
+
+// 管理员退出登录
+message AdminLogoutRequest {
+  string adminToken = 1;
+}
+message AdminLogoutResponse {
+}
+
+// service
+service admin {
+  rpc adminLogin(AdminLoginRequest) returns(AdminLoginResponse);
+  rpc getAdminProfile(GetAdminProfileRequest) returns(GetAdminProfileResponse);
+  rpc updateAdminName(UpdateAdminNameRequest) returns(UpdateAdminNameResponse);
+  rpc updateAdminPwd(UpdateAdminPwdRequest) returns(UpdateAdminPwdResponse);
+  rpc getUserList(GetUserListRequest) returns(GetUserListResponse);
+  rpc lockUser(LockUserRequest) returns(LockUserResponse);
+  rpc adminLogout(AdminLogoutRequest) returns(AdminLogoutResponse);
+}

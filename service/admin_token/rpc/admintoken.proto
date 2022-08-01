@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package admintoken;
+
+option go_package = "./admintoken";
+
+// adminToken
+message AdminToken {
+  int64   adminUserId = 1;
+  string  token = 2;
+  int64   updateTime = 3;
+  int64   expireTime = 4;
+}
+
+// 生成adminToken
+message GenerateTokenRequest {
+  int64 adminUserId = 1;
+}
+
+message GenerateTokenResponse {
+  AdminToken adminToken = 1;
+}
+
+// 获取已有adminToken
+message GetExistTokenRequest {
+  string token = 1;
+}
+
+message GetExistTokenResponse {
+  AdminToken adminToken = 1;
+}
+
+// 删除adminToken
+message DeleteTokenRequest {
+  string token = 1;
+}
+
+message DeleteTokenResponse {
+}
+
+// service
+service admintoken {
+  rpc generateToken(GenerateTokenRequest) returns(GenerateTokenResponse);
+  rpc getExistToken(GetExistTokenRequest) returns(GetExistTokenResponse);
+  rpc deleteToken(DeleteTokenRequest) returns(DeleteTokenResponse);
+}

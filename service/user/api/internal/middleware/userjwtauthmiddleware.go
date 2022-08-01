@@ -47,8 +47,7 @@ func (m *UserJwtAuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			logx.Info("未登录")
 			return
 		}
-		logx.Info("现在：", time.Now().Unix())
-		logx.Info("过期：", userToken.Token.ExpireTime)
+
 		// 判断是否有效
 		if time.Now().Unix() > userToken.Token.ExpireTime {
 			// 无效
@@ -68,8 +67,6 @@ func (m *UserJwtAuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 		// 有效的token，通过
-		claims := make(map[string]interface{})
-		claims["token"] = token
 		next(w, r)
 	}
 }

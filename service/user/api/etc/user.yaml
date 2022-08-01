@@ -8,9 +8,6 @@ CacheRedis:
   - Host: 127.0.0.1:6379
     Pass: dongdong
     Type: node
-Auth:
-  AccessSecret: 1faa5923-6c72-49fe-8f6c-cb8722d774fe
-  AccessExpire: 86400
 
 UserRpc:
   Etcd:
