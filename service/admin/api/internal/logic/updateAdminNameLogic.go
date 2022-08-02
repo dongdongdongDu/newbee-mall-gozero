@@ -2,9 +2,10 @@ package logic
 
 import (
 	"context"
-
+	"newbee-mall-gozero/common/response"
 	"newbee-mall-gozero/service/admin/api/internal/svc"
 	"newbee-mall-gozero/service/admin/api/internal/types"
+	"newbee-mall-gozero/service/admin/rpc/admin"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +25,22 @@ func NewUpdateAdminNameLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateAdminNameLogic) UpdateAdminName(req *types.UpdateAdminNameRequest) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	// 更新信息
+	_, err = l.svcCtx.AdminRpc.UpdateAdminName(l.ctx, &admin.UpdateAdminNameRequest{
+		Token:         req.Token,
+		LoginUserName: req.LoginUserName,
+		NickName:      req.NickName,
+	})
+	if err != nil {
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "更新失败" + err.Error(),
+		}, nil
+	}
 
-	return
+	return &types.Response{
+		ResultCode: response.SUCCESS,
+		Msg:        "更新成功",
+		Data:       map[string]interface{}{},
+	}, nil
 }

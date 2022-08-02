@@ -42,10 +42,7 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.Response, err e
 		ResultCode: response.SUCCESS,
 		Msg:        "SUCCESS",
 		Data: types.LoginResponse{
-			UserId:     res.UserId,
-			Token:      res.Token,
-			UpdateTime: res.UpdateTime,
-			ExpireTime: res.ExpireTime,
+			Token: res.Token,
 		},
 	}, nil
 }

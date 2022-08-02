@@ -24,12 +24,10 @@ func NewAdminLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Admin
 	}
 }
 
-func (l *AdminLogoutLogic) AdminLogout() (resp *types.Response, err error) {
-	// 获取token
-	token := l.ctx.Value("token").(string)
+func (l *AdminLogoutLogic) AdminLogout(req *types.LogoutRequest) (resp *types.Response, err error) {
 	// 退出登录
 	_, err = l.svcCtx.AdminRpc.AdminLogout(l.ctx, &admin.AdminLogoutRequest{
-		AdminToken: token,
+		AdminToken: req.Token,
 	})
 	if err != nil {
 		return &types.Response{

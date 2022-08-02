@@ -7,10 +7,7 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	UserId     int64  `json:"userId"`
-	Token      string `json:"token"`
-	UpdateTime int64  `json:"updateTime"`
-	ExpireTime int64  `json:"expireTime"`
+	Token string `json:"token"`
 }
 
 type RegisterRequest struct {
@@ -18,33 +15,25 @@ type RegisterRequest struct {
 	Password  string `json:"password"`
 }
 
-type RegisterResponse struct {
-}
-
-type LogoutRequest struct {
-}
-
-type LogoutResponse struct {
-}
-
 type UpdateUserInfoRequest struct {
+	Token         string `header:"token"`
 	NickName      string `json:"nickName"`
 	PasswordMd5   string `json:"passwordMd5"`
 	IntroduceSign string `json:"introduceSign"`
 }
 
-type UpdateUserInfoResponse struct {
-	NickName      string `json:"nickName"`
-	IntroduceSign string `json:"introduceSign"`
-}
-
 type GetUserInfoRequest struct {
+	Token string `header:"token"`
 }
 
 type GetUserInfoResponse struct {
 	NickName      string `json:"nickName"`
 	LoginName     string `json:"loginName"`
 	IntroduceSign string `json:"introduceSign"`
+}
+
+type LogoutRequest struct {
+	Token string `header:"token"`
 }
 
 type Response struct {

@@ -17,7 +17,7 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	AdminTokenRpc := admintoken.NewAdmintoken(zrpc.MustNewClient(c.AdminRpc))
+	AdminTokenRpc := admintoken.NewAdmintoken(zrpc.MustNewClient(c.AdminTokenRpc))
 	return &ServiceContext{
 		Config:        c,
 		AdminRpc:      admin.NewAdmin(zrpc.MustNewClient(c.AdminRpc)),

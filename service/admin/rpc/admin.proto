@@ -19,6 +19,17 @@ message AdminModel {
   string  nickName = 4;
   int64 locked = 5;
 }
+// 用户
+message UserModel {
+  int64 UserId = 1;
+  string NickName = 2;
+  string LoginName = 3;
+  string PasswordMd5 = 4;
+  string IntroduceSign = 5;
+  int64 IsDeleted = 6;
+  int64 LockedFlag = 7;
+  int64 CreateTime = 8;
+}
 
 // 管理员登录
 message AdminLoginRequest {
@@ -62,7 +73,7 @@ message GetUserListRequest {
   int64 pageSize = 2;// 每页大小
 }
 message GetUserListResponse {
-  string  list = 1;
+  repeated UserModel list = 1;
   int64   totalCount = 2;
   int64   totalPage = 3;
   int64   currPage = 4;
@@ -71,7 +82,7 @@ message GetUserListResponse {
 // 用户禁用或解除
 message  LockUserRequest {
   string ids = 1;
-  bool lockStatus = 2;
+  int64 lockStatus = 2;
 }
 message LockUserResponse {
 }

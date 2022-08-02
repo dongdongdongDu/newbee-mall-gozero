@@ -2,11 +2,11 @@
 package types
 
 type Admin struct {
-	AdminUserId   int    `json:"adminUserId"`
+	AdminUserId   int64  `json:"adminUserId"`
 	LoginUserName string `json:"loginUserName"`
 	LoginPassword string `json:"loginPassword"`
 	NickName      string `json:"nickName"`
-	Locked        int    `json:"locked"`
+	Locked        int64  `json:"locked"`
 }
 
 type AdminLoginRequest struct {
@@ -19,13 +19,19 @@ type AdminLoginResponse struct {
 }
 
 type UpdateAdminNameRequest struct {
+	Token         string `header:"token"`
 	LoginUserName string `json:"loginUserName"`
 	NickName      string `json:"nickName"`
 }
 
 type UpdateAdminPwdRequest struct {
+	Token            string `header:"token"`
 	OriginalPassword string `json:"originalPassword"`
 	NewPassword      string `json:"newPassword"`
+}
+
+type GetAdminProfileRequest struct {
+	Token string `header:"token"`
 }
 
 type GetAdminProfileResponse struct {
@@ -46,7 +52,12 @@ type GetUserListResponse struct {
 }
 
 type LockUserRequest struct {
-	Ids []int64 `json:"ids"`
+	Ids        []int64 `json:"ids"`
+	LockStatus int64   `path:"lockStatus"`
+}
+
+type LogoutRequest struct {
+	Token string `header:"token"`
 }
 
 type Response struct {

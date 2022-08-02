@@ -15,7 +15,7 @@ type (
 		PasswordMd5 string `json:"passwordMd5"`
 	}
 	LoginResponse {
-		Token      string `json:"token"`
+		Token string `json:"token"`
 	}
 
 	// 用户注册
@@ -23,25 +23,28 @@ type (
 		LoginName string `json:"loginName"`
 		Password  string `json:"password"`
 	}
-	RegisterResponse {
-	}
 
 	// 更新用户信息
 	UpdateUserInfoRequest {
+		Token         string `header:"token"`
 		NickName      string `json:"nickName"`
 		PasswordMd5   string `json:"passwordMd5"`
 		IntroduceSign string `json:"introduceSign"`
 	}
-	UpdateUserInfoResponse {
-	}
 
 	// 获取用户信息
 	GetUserInfoRequest {
+		Token string `header:"token"`
 	}
 	GetUserInfoResponse {
 		NickName      string `json:"nickName"`
 		LoginName     string `json:"loginName"`
 		IntroduceSign string `json:"introduceSign"`
+	}
+
+	// 退出登录
+	LogoutRequest {
+		Token string `header:"token"`
 	}
 
 	// 响应
@@ -77,5 +80,5 @@ service user {
 	
 	// 退出登录
 	@handler Logout
-	post /user/logout () returns (Response)
+	post /user/logout (LogoutRequest) returns (Response)
 }

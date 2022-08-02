@@ -50,6 +50,6 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Respon
 	return &types.Response{
 		ResultCode: response.SUCCESS,
 		Msg:        "创建成功",
-		Data:       types.RegisterResponse{},
+		Data:       map[string]interface{}{},
 	}, nil
 }

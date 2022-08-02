@@ -25,12 +25,9 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 func (l *LogoutLogic) Logout(req *types.LogoutRequest) (resp *types.Response, err error) {
-	_ = req
-	// 获取token
-	token := l.ctx.Value("token").(string)
 	// 退出登录
 	_, err = l.svcCtx.UserRpc.Logout(l.ctx, &user.LogoutRequest{
-		Token: token,
+		Token: req.Token,
 	})
 	if err != nil {
 		return &types.Response{
@@ -41,6 +38,6 @@ func (l *LogoutLogic) Logout(req *types.LogoutRequest) (resp *types.Response, er
 	return &types.Response{
 		ResultCode: response.SUCCESS,
 		Msg:        "登出成功",
-		Data:       types.LogoutResponse{},
+		Data:       map[string]interface{}{},
 	}, nil
 }

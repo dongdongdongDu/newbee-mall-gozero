@@ -26,11 +26,9 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoRequest) (resp *types.Response, err error) {
-	// 获取token
-	token := l.ctx.Value("token").(string)
 	// 更新信息
-	res, err := l.svcCtx.UserRpc.UpdateUserInfo(l.ctx, &user.UpdateInfoRequest{
-		Token:         token,
+	_, err = l.svcCtx.UserRpc.UpdateUserInfo(l.ctx, &user.UpdateInfoRequest{
+		Token:         req.Token,
 		NickName:      req.NickName,
 		PasswordMd5:   req.PasswordMd5,
 		IntroduceSign: req.IntroduceSign,
@@ -45,9 +43,6 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoRequest) (
 	return &types.Response{
 		ResultCode: response.SUCCESS,
 		Msg:        "SUCCESS",
-		Data: types.UpdateUserInfoResponse{
-			NickName:      res.NickName,
-			IntroduceSign: res.IntroduceSign,
-		},
+		Data:       map[string]interface{}{},
 	}, nil
 }

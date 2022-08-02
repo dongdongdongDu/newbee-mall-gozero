@@ -25,12 +25,8 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Response, err error) {
-	// 避免出现未使用的形参提醒 =_=！
-	_ = req
-	// 获取token
-	token := l.ctx.Value("token").(string)
 	res, err := l.svcCtx.UserRpc.GetUserInfo(l.ctx, &user.GetInfoRequest{
-		Token: token,
+		Token: req.Token,
 	})
 	if err != nil {
 		return &types.Response{
