@@ -43,7 +43,7 @@ type GetUserListRequest struct {
 	PageSize   int64 `json:"pageSize"`   // 每页大小
 }
 
-type GetUserListResponse struct {
+type GetListResponse struct {
 	List       interface{} `json:"list"`
 	TotalCount int64       `json:"totalCount"`
 	TotalPage  int64       `json:"totalPage"`
@@ -58,6 +58,92 @@ type LockUserRequest struct {
 
 type LogoutRequest struct {
 	Token string `header:"token"`
+}
+
+type AddGoodsInfoRequest struct {
+	GoodsName          string `json:"goodsName"`
+	GoodsIntro         string `json:"goodsIntro"`
+	GoodsCategoryId    int64  `json:"goodsCategoryId"`
+	GoodsCoverImg      string `json:"goodsCoverImg"`
+	GoodsCarousel      string `json:"goodsCarousel"`
+	GoodsDetailContent string `json:"goodsDetailContent"`
+	OriginalPrice      int64  `json:"originalPrice"`
+	SellingPrice       int64  `json:"sellingPrice"`
+	StockNum           int64  `json:"stockNum"`
+	Tag                string `json:"tag"`
+	GoodsSellStatus    int64  `json:"goodsSellStatus"`
+}
+
+type UpdateGoodsInfoRequest struct {
+	GoodsId            int64  `json:"goodsId"`
+	GoodsName          string `json:"goodsName, optional"`
+	GoodsIntro         string `json:"goodsIntro, optional"`
+	GoodsCategoryId    int64  `json:"goodsCategoryId, optional"`
+	GoodsCoverImg      string `json:"goodsCoverImg, optional"`
+	GoodsCarousel      string `json:"goodsCarousel, optional"`
+	GoodsDetailContent string `json:"goodsDetailContent, optional"`
+	OriginalPrice      int64  `json:"originalPrice, optional"`
+	SellingPrice       int64  `json:"sellingPrice, optional"`
+	StockNum           int64  `json:"stockNum, optional"`
+	Tag                string `json:"tag, optional"`
+	GoodsSellStatus    int64  `json:"goodsSellStatus, optional"`
+}
+
+type AlterGoodsStatusRequest struct {
+	Ids    []int64 `json:"ids"`
+	Status int64   `path:"status"`
+}
+
+type DeleteGoodsInfoRequest struct {
+	GoodsId int64 `json:"goodsId"`
+}
+
+type GetGoodsInfoRequest struct {
+	GoodsId int64 `json:"goodsId"`
+}
+
+type GoodsInfo struct {
+	GoodsId            int64  `json:"goodsId"`
+	GoodsName          string `json:"goodsName"`
+	GoodsIntro         string `json:"goodsIntro"`
+	GoodsCategoryId    int64  `json:"goodsCategoryId"`
+	GoodsCoverImg      string `json:"goodsCoverImg"`
+	GoodsCarousel      string `json:"goodsCarousel"`
+	GoodsDetailContent string `json:"goodsDetailContent"`
+	OriginalPrice      int64  `json:"originalPrice"`
+	SellingPrice       int64  `json:"sellingPrice"`
+	StockNum           int64  `json:"stockNum"`
+	Tag                string `json:"tag"`
+	GoodsSellStatus    int64  `json:"goodsSellStatus"`
+	CreateUser         int64  `json:"createUser"`
+	CreateTime         string `json:"createTime"`
+	UpdateUser         int64  `json:"updateUser"`
+	UpdateTime         string `json:"updateTime"`
+}
+
+type GoodsCategory struct {
+	CategoryId    int64  `json:"categoryId"`
+	CategoryLevel int64  `json:"categoryLevel"`
+	ParentId      int64  `json:"parentId"`
+	CategoryName  string `json:"categoryName"`
+	CategoryRank  int64  `json:"categoryRank"`
+	IsDeleted     int64  `json:"isDeleted"`
+	CreateTime    string `json:"createTime"`
+	UpdateTime    string `json:"updateTime"`
+}
+
+type GetGoodsInfoResponse struct {
+	Goods          GoodsInfo     `json:"goods"`
+	ThirdCategory  GoodsCategory `json:"thirdCategory"`
+	SecondCategory GoodsCategory `json:"secondCategory"`
+	FirstCategory  GoodsCategory `json:"firstCategory"`
+}
+
+type GetGoodsListRequest struct {
+	PageNumber      int64  `json:"pageNumber"`
+	PageSize        int64  `json:"pageSize"`
+	GoodsName       string `form:"goodsName"`
+	GoodsSellStatus string `form:"goodsSellStatus"`
 }
 
 type Response struct {

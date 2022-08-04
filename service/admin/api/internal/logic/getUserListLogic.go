@@ -40,7 +40,7 @@ func (l *GetUserListLogic) GetUserList(req *types.GetUserListRequest) (resp *typ
 	return &types.Response{
 		ResultCode: response.SUCCESS,
 		Msg:        "获取成功",
-		Data: types.GetUserListResponse{
+		Data: types.GetListResponse{
 			List:       res.List,
 			TotalCount: res.TotalCount,
 			TotalPage:  res.TotalPage,

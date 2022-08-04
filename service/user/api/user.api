@@ -47,6 +47,22 @@ type (
 		Token string `header:"token"`
 	}
 
+	// 查看商品详情
+	GetGoodsDetailRequest {
+		Id int64 `path:"id"`
+	}
+	GetGoodsDetailResponse {
+		GoodsId            int64    `json:"goodsId"`
+		GoodsName          string   `json:"goodsName"`
+		GoodsIntro         string   `json:"goodsIntro"`
+		GoodsCoverImg      string   `json:"goodsCoverImg"`
+		SellingPrice       int64    `json:"sellingPrice"`
+		GoodsDetailContent string   `json:"goodsDetailContent"`
+		OriginalPrice      int64    `json:"originalPrice"`
+		Tag                string   `json:"tag" form:"tag"`
+		GoodsCarouselList  []string `json:"goodsCarouselList"`
+	}
+
 	// 响应
 	Response {
 		ResultCode int         `json:"resultCode"`
@@ -81,4 +97,8 @@ service user {
 	// 退出登录
 	@handler Logout
 	post /user/logout (LogoutRequest) returns (Response)
+	
+	// 查看商品详情
+	@handler GetGoodsDetail
+	get /goods/detail/:id (GetGoodsDetailRequest) returns (Response)
 }

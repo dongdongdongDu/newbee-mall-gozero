@@ -54,6 +54,36 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/admin/logout",
 					Handler: AdminLogoutHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/goods",
+					Handler: AddGoodsInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/goods",
+					Handler: UpdateGoodsInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/goods/status/:status",
+					Handler: AlterGoodsStatusHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/goods/delete",
+					Handler: DeleteGoodsInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/goods/:id",
+					Handler: GetGoodsInfoHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/goods/list",
+					Handler: GetGoodsListHandler(serverCtx),
+				},
 			}...,
 		),
 	)

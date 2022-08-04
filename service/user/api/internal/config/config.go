@@ -10,4 +10,5 @@ type Config struct {
 
 	UserRpc      zrpc.RpcClientConf
 	UserTokenRpc zrpc.RpcClientConf
+	GoodsInfoRpc zrpc.RpcClientConf
 }

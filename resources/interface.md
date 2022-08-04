@@ -4,7 +4,7 @@
 | usertoken  |      | 9001 |
 | admin      | 8002 | 9002 |
 | admintoken |      | 9003 |
-| goodsinfo  |      | 9004 |
+| goodsinfo  | 8004 | 9004 |
 |            |      |      |
 |            |      |      |
 

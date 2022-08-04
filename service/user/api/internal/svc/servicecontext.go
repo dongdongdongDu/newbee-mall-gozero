@@ -3,6 +3,7 @@ package svc
 import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
+	"newbee-mall-gozero/service/goods_info/rpc/goodsinfo"
 	"newbee-mall-gozero/service/user/api/internal/config"
 	"newbee-mall-gozero/service/user/api/internal/middleware"
 	"newbee-mall-gozero/service/user/rpc/user"
@@ -14,6 +15,7 @@ type ServiceContext struct {
 	UserRpc      user.UserClient
 	UserJwtAuth  rest.Middleware
 	UserTokenRpc usertoken.UsertokenClient
+	GoodsInfoRpc goodsinfo.GoodsinfoClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -23,5 +25,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		UserRpc:      user.NewUser(zrpc.MustNewClient(c.UserRpc)),
 		UserJwtAuth:  middleware.NewUserJwtAuthMiddleware(UserTokenRpc).Handle,
 		UserTokenRpc: UserTokenRpc,
+		GoodsInfoRpc: goodsinfo.NewGoodsinfo(zrpc.MustNewClient(c.GoodsInfoRpc)),
 	}
 }

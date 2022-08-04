@@ -36,6 +36,22 @@ type LogoutRequest struct {
 	Token string `header:"token"`
 }
 
+type GetGoodsDetailRequest struct {
+	Id int64 `path:"id"`
+}
+
+type GetGoodsDetailResponse struct {
+	GoodsId            int64    `json:"goodsId"`
+	GoodsName          string   `json:"goodsName"`
+	GoodsIntro         string   `json:"goodsIntro"`
+	GoodsCoverImg      string   `json:"goodsCoverImg"`
+	SellingPrice       int64    `json:"sellingPrice"`
+	GoodsDetailContent string   `json:"goodsDetailContent"`
+	OriginalPrice      int64    `json:"originalPrice"`
+	Tag                string   `json:"tag" form:"tag"`
+	GoodsCarouselList  []string `json:"goodsCarouselList"`
+}
+
 type Response struct {
 	ResultCode int         `json:"resultCode"`
 	Msg        string      `json:"message"`

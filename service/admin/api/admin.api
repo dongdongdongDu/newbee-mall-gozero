@@ -1,8 +1,8 @@
 syntax = "v1"
 
 info(
-	title: "user"
-	desc: "user"
+	title: "admin"
+	desc: "admin"
 	author: "dongdongdongDu"
 	email: "137564641@qq.com"
 	version: "1.0"
@@ -54,7 +54,7 @@ type (
 		PageNumber int64 `json:"pageNumber"` // 页码
 		PageSize   int64 `json:"pageSize"`   // 每页大小
 	}
-	GetUserListResponse {
+	GetListResponse {
 		List       interface{} `json:"list"`
 		TotalCount int64       `json:"totalCount"`
 		TotalPage  int64       `json:"totalPage"`
@@ -72,6 +72,98 @@ type (
 	LogoutRequest {
 		Token string `header:"token"`
 	}
+
+	// 增加新商品
+	AddGoodsInfoRequest {
+		GoodsName          string `json:"goodsName"`
+		GoodsIntro         string `json:"goodsIntro"`
+		GoodsCategoryId    int64  `json:"goodsCategoryId"`
+		GoodsCoverImg      string `json:"goodsCoverImg"`
+		GoodsCarousel      string `json:"goodsCarousel"`
+		GoodsDetailContent string `json:"goodsDetailContent"`
+		OriginalPrice      int64  `json:"originalPrice"`
+		SellingPrice       int64  `json:"sellingPrice"`
+		StockNum           int64  `json:"stockNum"`
+		Tag                string `json:"tag"`
+		GoodsSellStatus    int64  `json:"goodsSellStatus"`
+	}
+
+	// 更新商品信息
+	UpdateGoodsInfoRequest {
+		GoodsId            int64  `json:"goodsId"`
+		GoodsName          string `json:"goodsName, optional"`
+		GoodsIntro         string `json:"goodsIntro, optional"`
+		GoodsCategoryId    int64  `json:"goodsCategoryId, optional"`
+		GoodsCoverImg      string `json:"goodsCoverImg, optional"`
+		GoodsCarousel      string `json:"goodsCarousel, optional"`
+		GoodsDetailContent string `json:"goodsDetailContent, optional"`
+		OriginalPrice      int64  `json:"originalPrice, optional"`
+		SellingPrice       int64  `json:"sellingPrice, optional"`
+		StockNum           int64  `json:"stockNum, optional"`
+		Tag                string `json:"tag, optional"`
+		GoodsSellStatus    int64  `json:"goodsSellStatus, optional"`
+	}
+
+	// 修改商品状态（上架、下架)
+	AlterGoodsStatusRequest {
+		Ids    []int64 `json:"ids"`
+		Status int64   `path:"status"`
+	}
+
+	// 删除商品信息
+	DeleteGoodsInfoRequest {
+		GoodsId int64 `json:"goodsId"`
+	}
+
+	// 查看商品信息
+	GetGoodsInfoRequest {
+		GoodsId int64 `json:"goodsId"`
+	}
+	// 商品信息
+	GoodsInfo {
+		GoodsId            int64  `json:"goodsId"`
+		GoodsName          string `json:"goodsName"`
+		GoodsIntro         string `json:"goodsIntro"`
+		GoodsCategoryId    int64  `json:"goodsCategoryId"`
+		GoodsCoverImg      string `json:"goodsCoverImg"`
+		GoodsCarousel      string `json:"goodsCarousel"`
+		GoodsDetailContent string `json:"goodsDetailContent"`
+		OriginalPrice      int64  `json:"originalPrice"`
+		SellingPrice       int64  `json:"sellingPrice"`
+		StockNum           int64  `json:"stockNum"`
+		Tag                string `json:"tag"`
+		GoodsSellStatus    int64  `json:"goodsSellStatus"`
+		CreateUser         int64  `json:"createUser"`
+		CreateTime         string `json:"createTime"`
+		UpdateUser         int64  `json:"updateUser"`
+		UpdateTime         string `json:"updateTime"`
+	}
+	// 商品分类
+	GoodsCategory {
+		CategoryId    int64  `json:"categoryId"`
+		CategoryLevel int64  `json:"categoryLevel"`
+		ParentId      int64  `json:"parentId"`
+		CategoryName  string `json:"categoryName"`
+		CategoryRank  int64  `json:"categoryRank"`
+		IsDeleted     int64  `json:"isDeleted"`
+		CreateTime    string `json:"createTime"`
+		UpdateTime    string `json:"updateTime"`
+	}
+	GetGoodsInfoResponse {
+		Goods          GoodsInfo     `json:"goods"`
+		ThirdCategory  GoodsCategory `json:"thirdCategory"`
+		SecondCategory GoodsCategory `json:"secondCategory"`
+		FirstCategory  GoodsCategory `json:"firstCategory"`
+	}
+
+	// 获取商品筛选列表
+	GetGoodsListRequest {
+		PageNumber      int64  `json:"pageNumber"`
+		PageSize        int64  `json:"pageSize"`
+		GoodsName       string `form:"goodsName"`
+		GoodsSellStatus string `form:"goodsSellStatus"`
+	}
+
 	// 响应
 	Response {
 		ResultCode int         `json:"resultCode"`
@@ -114,4 +206,28 @@ service admin {
 	// 退出登录
 	@handler AdminLogout
 	post /admin/logout (LogoutRequest) returns (Response)
+	
+	// 增加新商品
+	@handler AddGoodsInfo
+	post /goods (AddGoodsInfoRequest) returns (Response)
+	
+	// 更新商品信息
+	@handler UpdateGoodsInfo
+	put /goods (UpdateGoodsInfoRequest) returns (Response)
+	
+	// 修改商品状态（上架、下架)
+	@handler AlterGoodsStatus
+	put /goods/status/:status (AlterGoodsStatusRequest) returns (Response)
+	
+	// 删除商品信息
+	@handler DeleteGoodsInfo
+	delete /goods/delete (DeleteGoodsInfoRequest) returns (Response)
+	
+	// 查看商品信息
+	@handler GetGoodsInfo
+	get /goods/:id (GetGoodsInfoRequest) returns (Response)
+	
+	// 获取商品筛选列表
+	@handler GetGoodsList
+	get /goods/list (GetGoodsListRequest) returns (Response)
 }

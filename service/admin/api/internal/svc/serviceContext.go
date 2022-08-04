@@ -7,6 +7,7 @@ import (
 	"newbee-mall-gozero/service/admin/api/internal/middleware"
 	"newbee-mall-gozero/service/admin/rpc/admin"
 	"newbee-mall-gozero/service/admin_token/rpc/admintoken"
+	"newbee-mall-gozero/service/goods_info/rpc/goodsinfo"
 )
 
 type ServiceContext struct {
@@ -14,6 +15,7 @@ type ServiceContext struct {
 	AdminRpc      admin.AdminClient
 	AdminJwtAuth  rest.Middleware
 	AdminTokenRpc admintoken.AdmintokenClient
+	GoodsInfoRpc  goodsinfo.GoodsinfoClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -23,5 +25,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		AdminRpc:      admin.NewAdmin(zrpc.MustNewClient(c.AdminRpc)),
 		AdminJwtAuth:  middleware.NewAdminJwtAuthMiddleware(AdminTokenRpc).Handle,
 		AdminTokenRpc: AdminTokenRpc,
+		GoodsInfoRpc:  goodsinfo.NewGoodsinfo(zrpc.MustNewClient(c.GoodsInfoRpc)),
 	}
 }
