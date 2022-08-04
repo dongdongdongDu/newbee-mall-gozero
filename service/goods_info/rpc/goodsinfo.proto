@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package goodsinfo;
+
+option go_package = "./goodsinfo";
+
+// 普通用户
+// 查看商品详情
+message GetGoodsDetailRequest {
+  int64 goodsId = 1;
+}
+
+message GetGoodsDetailResponse {
+  int64 goodsId = 1;
+  string goodsName = 2;
+  string goodsIntro = 3;
+  string goodsCoverImg = 4;
+  int64 sellingPrice = 5;
+  string goodsDetailContent = 6;
+  int64 originalPrice = 7;
+  string tag = 8;
+  repeated string goodsCarouselList = 9;
+}
+
+// 搜索商品
+message SearchGoodsRequest {
+  int64 pageNumber = 1;
+  int64 goodsCategoryId = 2;
+  string keyword = 3;
+  string orderBy = 4;
+}
+
+message SearchGoods {
+  int64 goodsId = 1;
+  string goodsName = 2;
+  string goodsIntro = 3;
+  string goodsCoverImg = 4;
+  int64 sellingPrice = 5;
+}
+
+message SearchGoodsResponse {
+  repeated SearchGoods searchGoodsList = 1;
+  int64 total = 2;
+}
+
+// 管理员
+// 商品基本信息
+message GoodsInfo {
+  int64 goodsId = 1;
+  string goodsName = 2;
+  string goodsIntro = 3;
+  int64 goodsCategoryId = 4;
+  string goodsCoverImg = 5;
+  string goodsCarousel = 6;
+  string goodsDetailContent = 7;
+  int64 originalPrice = 8;
+  int64 sellingPrice = 9;
+  int64 stockNum = 10;
+  string tag = 11;
+  int64 goodsSellStatus = 12;
+  int64 CreateUser = 13;
+  int64 CreateTime = 14;
+  int64 UpdateUser = 15;
+  int64 UpdateTime = 16;
+}
+// 增加新商品
+message AddGoodsInfoRequest {
+  GoodsInfo goodsInfo = 1;
+}
+message AddGoodsInfoResponse {
+}
+
+// 更新商品信息
+message UpdateGoodsInfoRequest {
+  GoodsInfo goodsInfo = 1;
+}
+message UpdateGoodsInfoResponse {
+}
+
+// 修改商品状态（上架、下架)
+message AlterGoodsStatusRequest {
+  repeated int64 ids = 1;
+  int64 status = 2;
+}
+message AlterGoodsStatusResponse {
+}
+
+// 删除商品信息
+message DeleteGoodsInfoRequest {
+  int64 goodsId = 1;
+}
+message DeleteGoodsInfoResponse {
+}
+
+// 查看商品信息
+message GetGoodsInfoRequest {
+  int64 id = 1;
+}
+message GetGoodsInfoResponse {
+  GoodsInfo goodsInfo = 1;
+}
+
+// 获取商品筛选列表
+message GetGoodsListRequest {
+  int64 pageNumber = 1;
+  int64 pageSize = 2;
+  string goodsName = 3;
+  string goodsStatus = 4;
+}
+message GetGoodsListResponse {
+  repeated GoodsInfo goodsInfo = 1;
+  int64 total = 2;
+}
+
+// service
+service goodsinfo {
+  // 普通用户
+  rpc getGoodsDetail(GetGoodsDetailRequest) returns(GetGoodsDetailResponse);
+  rpc searchGoods(SearchGoodsRequest) returns(SearchGoodsResponse);
+  // 管理员
+  rpc addGoodsInfo(AddGoodsInfoRequest) returns(AddGoodsInfoResponse);
+  rpc updateGoodsInfo(UpdateGoodsInfoRequest) returns(UpdateGoodsInfoResponse);
+  rpc alterGoodsStatus(AlterGoodsStatusRequest) returns(AlterGoodsStatusResponse);
+  rpc deleteGoodsInfo(DeleteGoodsInfoRequest) returns(DeleteGoodsInfoResponse);
+  rpc getGoodsInfo(GetGoodsInfoRequest) returns(GetGoodsInfoResponse);
+  rpc getGoodsList(GetGoodsListRequest) returns(GetGoodsListResponse);
+}

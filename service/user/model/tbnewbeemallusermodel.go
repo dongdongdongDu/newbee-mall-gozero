@@ -25,12 +25,12 @@ type (
 )
 
 func (m *customTbNewbeeMallUserModel) TakePart(ctx context.Context, limit, offset int64) ([]*TbNewbeeMallUser, error) {
-	var resp []*TbNewbeeMallUser
+	var res []*TbNewbeeMallUser
 	query := fmt.Sprintf("select %s from %s order by `create_time` desc limit ? offset ?", tbNewbeeMallUserRows, m.table)
-	err := m.QueryRowsNoCacheCtx(ctx, &resp, query, limit, offset)
+	err := m.QueryRowsNoCacheCtx(ctx, &res, query, limit, offset)
 	switch err {
 	case nil:
-		return resp, nil
+		return res, nil
 	case sqlc.ErrNotFound:
 		return nil, ErrNotFound
 	default:
@@ -39,14 +39,14 @@ func (m *customTbNewbeeMallUserModel) TakePart(ctx context.Context, limit, offse
 }
 func (m *customTbNewbeeMallUserModel) CountAll(ctx context.Context) (int64, error) {
 	tbNewbeeMallUserAllKey := "cache:tbNewbeeMallUser:users:countAll"
-	var resp int64
-	err := m.QueryRowCtx(ctx, &resp, tbNewbeeMallUserAllKey, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) error {
+	var res int64
+	err := m.QueryRowCtx(ctx, &res, tbNewbeeMallUserAllKey, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) error {
 		query := fmt.Sprintf("select count(*) from %s", m.table)
 		return conn.QueryRowCtx(ctx, v, query)
 	})
 	switch err {
 	case nil:
-		return resp, nil
+		return res, nil
 	case sqlc.ErrNotFound:
 		return 0, ErrNotFound
 	default:

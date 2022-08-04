@@ -54,7 +54,11 @@ func (l *AdminLoginLogic) AdminLogin(in *admin.AdminLoginRequest) (*admin.AdminL
 	}
 	// 复制
 	var adminToken admin.AdminToken
-	_ = copier.Copy(&adminToken, token.AdminToken)
+	err = copier.Copy(&adminToken, token.AdminToken)
+	if err != nil {
+		logx.Error("复制失败" + err.Error())
+		return nil, errors.New("复制失败" + err.Error())
+	}
 
 	return &admin.AdminLoginResponse{
 		AdminToken: &adminToken,

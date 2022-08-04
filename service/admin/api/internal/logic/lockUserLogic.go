@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 	"newbee-mall-gozero/common/response"
 	"newbee-mall-gozero/service/admin/rpc/admin"
 
@@ -27,16 +26,8 @@ func NewLockUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LockUser
 }
 
 func (l *LockUserLogic) LockUser(req *types.LockUserRequest) (resp *types.Response, err error) {
-	idsBytes, err := json.Marshal(req.Ids)
-	if err != nil {
-		logx.Error("ids序列化失败")
-		return &types.Response{
-			ResultCode: response.ERROR,
-			Msg:        "更新失败",
-		}, nil
-	}
 	_, err = l.svcCtx.AdminRpc.LockUser(l.ctx, &admin.LockUserRequest{
-		Ids:        string(idsBytes),
+		Ids:        req.Ids,
 		LockStatus: req.LockStatus,
 	})
 	if err != nil {

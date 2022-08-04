@@ -25,7 +25,6 @@ func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserListLogic) GetUserList(in *admin.GetUserListRequest) (*admin.GetUserListResponse, error) {
-	// todo: add your logic here and delete this line
 	// 分页
 	limit := in.PageSize
 	offset := in.PageSize * (in.PageNumber - 1)

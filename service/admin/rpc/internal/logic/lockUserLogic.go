@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"newbee-mall-gozero/service/admin/rpc/admin"
 	"newbee-mall-gozero/service/admin/rpc/internal/svc"
@@ -25,19 +24,12 @@ func NewLockUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LockUser
 }
 
 func (l *LockUserLogic) LockUser(in *admin.LockUserRequest) (*admin.LockUserResponse, error) {
-	// todo: add your logic here and delete this line
 	if in.LockStatus != 0 && in.LockStatus != 1 {
 		logx.Error("非法操作")
 		return nil, errors.New("非法操作")
 	}
 
-	var ids []int64
-	err := json.Unmarshal([]byte(in.Ids), &ids)
-	if err != nil {
-		logx.Error("ids序列化失败")
-		return nil, errors.New("ids序列化失败")
-	}
-	for _, id := range ids {
+	for _, id := range in.Ids {
 		// 查找
 		userRes, err := l.svcCtx.UserModel.FindOne(l.ctx, id)
 		if err != nil {

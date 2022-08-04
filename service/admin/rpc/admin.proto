@@ -81,7 +81,7 @@ message GetUserListResponse {
 }
 // 用户禁用或解除
 message  LockUserRequest {
-  string ids = 1;
+  repeated int64 ids = 1;
   int64 lockStatus = 2;
 }
 message LockUserResponse {
