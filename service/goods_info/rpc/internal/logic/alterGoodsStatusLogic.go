@@ -24,7 +24,7 @@ func NewAlterGoodsStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *AlterGoodsStatusLogic) AlterGoodsStatus(in *goodsinfo.AlterGoodsStatusRequest) (*goodsinfo.AlterGoodsStatusResponse, error) {
+func (l *AlterGoodsStatusLogic) AlterGoodsStatus(in *goodsinfo.AlterGoodsStatusRequest) (*goodsinfo.EmptyResponse, error) {
 	if in.Status != 0 && in.Status != 1 {
 		logx.Error("非法操作")
 		return nil, errors.New("非法操作")
@@ -46,5 +46,5 @@ func (l *AlterGoodsStatusLogic) AlterGoodsStatus(in *goodsinfo.AlterGoodsStatusR
 		}
 	}
 
-	return &goodsinfo.AlterGoodsStatusResponse{}, nil
+	return &goodsinfo.EmptyResponse{}, nil
 }

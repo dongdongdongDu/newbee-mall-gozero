@@ -25,7 +25,7 @@ func NewUpdateAdminNameLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 	}
 }
 
-func (l *UpdateAdminNameLogic) UpdateAdminName(in *admin.UpdateAdminNameRequest) (*admin.UpdateAdminNameResponse, error) {
+func (l *UpdateAdminNameLogic) UpdateAdminName(in *admin.UpdateAdminNameRequest) (*admin.EmptyResponse, error) {
 	// 查询token
 	tokenRes, err := l.svcCtx.AdminTokenRpc.GetExistToken(l.ctx, &admintoken.GetExistTokenRequest{
 		Token: in.Token,
@@ -56,5 +56,5 @@ func (l *UpdateAdminNameLogic) UpdateAdminName(in *admin.UpdateAdminNameRequest)
 		return nil, errors.New("用户信息更新失败" + err.Error())
 	}
 
-	return &admin.UpdateAdminNameResponse{}, nil
+	return &admin.EmptyResponse{}, nil
 }

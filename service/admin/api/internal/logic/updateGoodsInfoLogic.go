@@ -31,7 +31,7 @@ func (l *UpdateGoodsInfoLogic) UpdateGoodsInfo(req *types.UpdateGoodsInfoRequest
 		GoodsId:            req.GoodsId,
 		GoodsName:          req.GoodsName,
 		GoodsIntro:         req.GoodsIntro,
-		GoodsCategoryId:    req.GoodsId,
+		GoodsCategoryId:    req.GoodsCategoryId,
 		GoodsCoverImg:      req.GoodsCoverImg,
 		GoodsCarousel:      req.GoodsCarousel,
 		GoodsDetailContent: req.GoodsDetailContent,

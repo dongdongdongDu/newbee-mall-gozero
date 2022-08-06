@@ -29,7 +29,7 @@ func NewGetGoodsInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetG
 func (l *GetGoodsInfoLogic) GetGoodsInfo(req *types.GetGoodsInfoRequest) (resp *types.Response, err error) {
 	// 查找
 	res, err := l.svcCtx.GoodsInfoRpc.GetGoodsInfo(l.ctx, &goodsinfo.GetGoodsInfoRequest{
-		Id: req.GoodsId,
+		Id: req.Id,
 	})
 	if err != nil {
 		return &types.Response{

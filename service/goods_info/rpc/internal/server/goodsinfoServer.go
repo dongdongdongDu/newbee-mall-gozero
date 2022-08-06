@@ -34,22 +34,22 @@ func (s *GoodsinfoServer) SearchGoods(ctx context.Context, in *goodsinfo.SearchG
 }
 
 //  管理员
-func (s *GoodsinfoServer) AddGoodsInfo(ctx context.Context, in *goodsinfo.AddGoodsInfoRequest) (*goodsinfo.AddGoodsInfoResponse, error) {
+func (s *GoodsinfoServer) AddGoodsInfo(ctx context.Context, in *goodsinfo.AddGoodsInfoRequest) (*goodsinfo.EmptyResponse, error) {
 	l := logic.NewAddGoodsInfoLogic(ctx, s.svcCtx)
 	return l.AddGoodsInfo(in)
 }
 
-func (s *GoodsinfoServer) UpdateGoodsInfo(ctx context.Context, in *goodsinfo.UpdateGoodsInfoRequest) (*goodsinfo.UpdateGoodsInfoResponse, error) {
+func (s *GoodsinfoServer) UpdateGoodsInfo(ctx context.Context, in *goodsinfo.UpdateGoodsInfoRequest) (*goodsinfo.EmptyResponse, error) {
 	l := logic.NewUpdateGoodsInfoLogic(ctx, s.svcCtx)
 	return l.UpdateGoodsInfo(in)
 }
 
-func (s *GoodsinfoServer) AlterGoodsStatus(ctx context.Context, in *goodsinfo.AlterGoodsStatusRequest) (*goodsinfo.AlterGoodsStatusResponse, error) {
+func (s *GoodsinfoServer) AlterGoodsStatus(ctx context.Context, in *goodsinfo.AlterGoodsStatusRequest) (*goodsinfo.EmptyResponse, error) {
 	l := logic.NewAlterGoodsStatusLogic(ctx, s.svcCtx)
 	return l.AlterGoodsStatus(in)
 }
 
-func (s *GoodsinfoServer) DeleteGoodsInfo(ctx context.Context, in *goodsinfo.DeleteGoodsInfoRequest) (*goodsinfo.DeleteGoodsInfoResponse, error) {
+func (s *GoodsinfoServer) DeleteGoodsInfo(ctx context.Context, in *goodsinfo.DeleteGoodsInfoRequest) (*goodsinfo.EmptyResponse, error) {
 	l := logic.NewDeleteGoodsInfoLogic(ctx, s.svcCtx)
 	return l.DeleteGoodsInfo(in)
 }

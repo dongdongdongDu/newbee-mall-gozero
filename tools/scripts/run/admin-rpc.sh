@@ -1,0 +1,1 @@
+go run ../../../service/admin/rpc/admin.go -f ../../../service/admin/rpc/etc/admin.yaml

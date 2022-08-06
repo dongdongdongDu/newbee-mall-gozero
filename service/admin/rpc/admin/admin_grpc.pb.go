@@ -24,11 +24,11 @@ const _ = grpc.SupportPackageIsVersion7
 type AdminClient interface {
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 	GetAdminProfile(ctx context.Context, in *GetAdminProfileRequest, opts ...grpc.CallOption) (*GetAdminProfileResponse, error)
-	UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*UpdateAdminNameResponse, error)
-	UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*UpdateAdminPwdResponse, error)
+	UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+	UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	GetUserList(ctx context.Context, in *GetUserListRequest, opts ...grpc.CallOption) (*GetUserListResponse, error)
-	LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*LockUserResponse, error)
-	AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*AdminLogoutResponse, error)
+	LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+	AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 }
 
 type adminClient struct {
@@ -57,8 +57,8 @@ func (c *adminClient) GetAdminProfile(ctx context.Context, in *GetAdminProfileRe
 	return out, nil
 }
 
-func (c *adminClient) UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*UpdateAdminNameResponse, error) {
-	out := new(UpdateAdminNameResponse)
+func (c *adminClient) UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/admin.admin/updateAdminName", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -66,8 +66,8 @@ func (c *adminClient) UpdateAdminName(ctx context.Context, in *UpdateAdminNameRe
 	return out, nil
 }
 
-func (c *adminClient) UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*UpdateAdminPwdResponse, error) {
-	out := new(UpdateAdminPwdResponse)
+func (c *adminClient) UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/admin.admin/updateAdminPwd", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -84,8 +84,8 @@ func (c *adminClient) GetUserList(ctx context.Context, in *GetUserListRequest, o
 	return out, nil
 }
 
-func (c *adminClient) LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*LockUserResponse, error) {
-	out := new(LockUserResponse)
+func (c *adminClient) LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/admin.admin/lockUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -93,8 +93,8 @@ func (c *adminClient) LockUser(ctx context.Context, in *LockUserRequest, opts ..
 	return out, nil
 }
 
-func (c *adminClient) AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*AdminLogoutResponse, error) {
-	out := new(AdminLogoutResponse)
+func (c *adminClient) AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/admin.admin/adminLogout", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -108,11 +108,11 @@ func (c *adminClient) AdminLogout(ctx context.Context, in *AdminLogoutRequest, o
 type AdminServer interface {
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
 	GetAdminProfile(context.Context, *GetAdminProfileRequest) (*GetAdminProfileResponse, error)
-	UpdateAdminName(context.Context, *UpdateAdminNameRequest) (*UpdateAdminNameResponse, error)
-	UpdateAdminPwd(context.Context, *UpdateAdminPwdRequest) (*UpdateAdminPwdResponse, error)
+	UpdateAdminName(context.Context, *UpdateAdminNameRequest) (*EmptyResponse, error)
+	UpdateAdminPwd(context.Context, *UpdateAdminPwdRequest) (*EmptyResponse, error)
 	GetUserList(context.Context, *GetUserListRequest) (*GetUserListResponse, error)
-	LockUser(context.Context, *LockUserRequest) (*LockUserResponse, error)
-	AdminLogout(context.Context, *AdminLogoutRequest) (*AdminLogoutResponse, error)
+	LockUser(context.Context, *LockUserRequest) (*EmptyResponse, error)
+	AdminLogout(context.Context, *AdminLogoutRequest) (*EmptyResponse, error)
 	mustEmbedUnimplementedAdminServer()
 }
 
@@ -126,19 +126,19 @@ func (UnimplementedAdminServer) AdminLogin(context.Context, *AdminLoginRequest) 
 func (UnimplementedAdminServer) GetAdminProfile(context.Context, *GetAdminProfileRequest) (*GetAdminProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAdminProfile not implemented")
 }
-func (UnimplementedAdminServer) UpdateAdminName(context.Context, *UpdateAdminNameRequest) (*UpdateAdminNameResponse, error) {
+func (UnimplementedAdminServer) UpdateAdminName(context.Context, *UpdateAdminNameRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAdminName not implemented")
 }
-func (UnimplementedAdminServer) UpdateAdminPwd(context.Context, *UpdateAdminPwdRequest) (*UpdateAdminPwdResponse, error) {
+func (UnimplementedAdminServer) UpdateAdminPwd(context.Context, *UpdateAdminPwdRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAdminPwd not implemented")
 }
 func (UnimplementedAdminServer) GetUserList(context.Context, *GetUserListRequest) (*GetUserListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
 }
-func (UnimplementedAdminServer) LockUser(context.Context, *LockUserRequest) (*LockUserResponse, error) {
+func (UnimplementedAdminServer) LockUser(context.Context, *LockUserRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LockUser not implemented")
 }
-func (UnimplementedAdminServer) AdminLogout(context.Context, *AdminLogoutRequest) (*AdminLogoutResponse, error) {
+func (UnimplementedAdminServer) AdminLogout(context.Context, *AdminLogoutRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminLogout not implemented")
 }
 func (UnimplementedAdminServer) mustEmbedUnimplementedAdminServer() {}

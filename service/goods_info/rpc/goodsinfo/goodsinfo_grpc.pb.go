@@ -26,10 +26,10 @@ type GoodsinfoClient interface {
 	GetGoodsDetail(ctx context.Context, in *GetGoodsDetailRequest, opts ...grpc.CallOption) (*GetGoodsDetailResponse, error)
 	SearchGoods(ctx context.Context, in *SearchGoodsRequest, opts ...grpc.CallOption) (*SearchGoodsResponse, error)
 	// 管理员
-	AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*AddGoodsInfoResponse, error)
-	UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*UpdateGoodsInfoResponse, error)
-	AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*AlterGoodsStatusResponse, error)
-	DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*DeleteGoodsInfoResponse, error)
+	AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+	UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+	AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+	DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	GetGoodsInfo(ctx context.Context, in *GetGoodsInfoRequest, opts ...grpc.CallOption) (*GetGoodsInfoResponse, error)
 	GetGoodsList(ctx context.Context, in *GetGoodsListRequest, opts ...grpc.CallOption) (*GetGoodsListResponse, error)
 }
@@ -60,8 +60,8 @@ func (c *goodsinfoClient) SearchGoods(ctx context.Context, in *SearchGoodsReques
 	return out, nil
 }
 
-func (c *goodsinfoClient) AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*AddGoodsInfoResponse, error) {
-	out := new(AddGoodsInfoResponse)
+func (c *goodsinfoClient) AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/goodsinfo.goodsinfo/addGoodsInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -69,8 +69,8 @@ func (c *goodsinfoClient) AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequ
 	return out, nil
 }
 
-func (c *goodsinfoClient) UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*UpdateGoodsInfoResponse, error) {
-	out := new(UpdateGoodsInfoResponse)
+func (c *goodsinfoClient) UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/goodsinfo.goodsinfo/updateGoodsInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -78,8 +78,8 @@ func (c *goodsinfoClient) UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsIn
 	return out, nil
 }
 
-func (c *goodsinfoClient) AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*AlterGoodsStatusResponse, error) {
-	out := new(AlterGoodsStatusResponse)
+func (c *goodsinfoClient) AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/goodsinfo.goodsinfo/alterGoodsStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -87,8 +87,8 @@ func (c *goodsinfoClient) AlterGoodsStatus(ctx context.Context, in *AlterGoodsSt
 	return out, nil
 }
 
-func (c *goodsinfoClient) DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*DeleteGoodsInfoResponse, error) {
-	out := new(DeleteGoodsInfoResponse)
+func (c *goodsinfoClient) DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/goodsinfo.goodsinfo/deleteGoodsInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -122,10 +122,10 @@ type GoodsinfoServer interface {
 	GetGoodsDetail(context.Context, *GetGoodsDetailRequest) (*GetGoodsDetailResponse, error)
 	SearchGoods(context.Context, *SearchGoodsRequest) (*SearchGoodsResponse, error)
 	// 管理员
-	AddGoodsInfo(context.Context, *AddGoodsInfoRequest) (*AddGoodsInfoResponse, error)
-	UpdateGoodsInfo(context.Context, *UpdateGoodsInfoRequest) (*UpdateGoodsInfoResponse, error)
-	AlterGoodsStatus(context.Context, *AlterGoodsStatusRequest) (*AlterGoodsStatusResponse, error)
-	DeleteGoodsInfo(context.Context, *DeleteGoodsInfoRequest) (*DeleteGoodsInfoResponse, error)
+	AddGoodsInfo(context.Context, *AddGoodsInfoRequest) (*EmptyResponse, error)
+	UpdateGoodsInfo(context.Context, *UpdateGoodsInfoRequest) (*EmptyResponse, error)
+	AlterGoodsStatus(context.Context, *AlterGoodsStatusRequest) (*EmptyResponse, error)
+	DeleteGoodsInfo(context.Context, *DeleteGoodsInfoRequest) (*EmptyResponse, error)
 	GetGoodsInfo(context.Context, *GetGoodsInfoRequest) (*GetGoodsInfoResponse, error)
 	GetGoodsList(context.Context, *GetGoodsListRequest) (*GetGoodsListResponse, error)
 	mustEmbedUnimplementedGoodsinfoServer()
@@ -141,16 +141,16 @@ func (UnimplementedGoodsinfoServer) GetGoodsDetail(context.Context, *GetGoodsDet
 func (UnimplementedGoodsinfoServer) SearchGoods(context.Context, *SearchGoodsRequest) (*SearchGoodsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchGoods not implemented")
 }
-func (UnimplementedGoodsinfoServer) AddGoodsInfo(context.Context, *AddGoodsInfoRequest) (*AddGoodsInfoResponse, error) {
+func (UnimplementedGoodsinfoServer) AddGoodsInfo(context.Context, *AddGoodsInfoRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddGoodsInfo not implemented")
 }
-func (UnimplementedGoodsinfoServer) UpdateGoodsInfo(context.Context, *UpdateGoodsInfoRequest) (*UpdateGoodsInfoResponse, error) {
+func (UnimplementedGoodsinfoServer) UpdateGoodsInfo(context.Context, *UpdateGoodsInfoRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateGoodsInfo not implemented")
 }
-func (UnimplementedGoodsinfoServer) AlterGoodsStatus(context.Context, *AlterGoodsStatusRequest) (*AlterGoodsStatusResponse, error) {
+func (UnimplementedGoodsinfoServer) AlterGoodsStatus(context.Context, *AlterGoodsStatusRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AlterGoodsStatus not implemented")
 }
-func (UnimplementedGoodsinfoServer) DeleteGoodsInfo(context.Context, *DeleteGoodsInfoRequest) (*DeleteGoodsInfoResponse, error) {
+func (UnimplementedGoodsinfoServer) DeleteGoodsInfo(context.Context, *DeleteGoodsInfoRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteGoodsInfo not implemented")
 }
 func (UnimplementedGoodsinfoServer) GetGoodsInfo(context.Context, *GetGoodsInfoRequest) (*GetGoodsInfoResponse, error) {

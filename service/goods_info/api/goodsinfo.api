@@ -11,10 +11,10 @@ info(
 type (
 	// 搜索
 	SearchGoodsRequest {
-		GoodsCategoryId int64  `form:"goodsCategoryId"`
-		PageNumber      int64  `form:"pageNumber"`
-		Keyword         string `form:"keyword"`
-		OrderBy         string `form:"orderBy"`
+		GoodsCategoryId int64  `form:"goodsCategoryId, optional"`
+		PageNumber      int64  `form:"pageNumber, optional"`
+		Keyword         string `form:"keyword, optional"`
+		OrderBy         string `form:"orderBy, optional"`
 	}
 	SearchGoodsResponse {
 		List       interface{} `json:"list"`

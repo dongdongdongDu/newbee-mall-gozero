@@ -67,14 +67,10 @@ message GoodsInfo {
 message AddGoodsInfoRequest {
   GoodsInfo goodsInfo = 1;
 }
-message AddGoodsInfoResponse {
-}
 
 // 更新商品信息
 message UpdateGoodsInfoRequest {
   GoodsInfo goodsInfo = 1;
-}
-message UpdateGoodsInfoResponse {
 }
 
 // 修改商品状态（上架、下架)
@@ -82,14 +78,10 @@ message AlterGoodsStatusRequest {
   repeated int64 ids = 1;
   int64 status = 2;
 }
-message AlterGoodsStatusResponse {
-}
 
 // 删除商品信息
 message DeleteGoodsInfoRequest {
   int64 goodsId = 1;
-}
-message DeleteGoodsInfoResponse {
 }
 
 // 查看商品信息
@@ -112,16 +104,20 @@ message GetGoodsListResponse {
   int64 total = 2;
 }
 
+// 空响应
+message EmptyResponse {
+}
+
 // service
 service goodsinfo {
   // 普通用户
   rpc getGoodsDetail(GetGoodsDetailRequest) returns(GetGoodsDetailResponse);
   rpc searchGoods(SearchGoodsRequest) returns(SearchGoodsResponse);
   // 管理员
-  rpc addGoodsInfo(AddGoodsInfoRequest) returns(AddGoodsInfoResponse);
-  rpc updateGoodsInfo(UpdateGoodsInfoRequest) returns(UpdateGoodsInfoResponse);
-  rpc alterGoodsStatus(AlterGoodsStatusRequest) returns(AlterGoodsStatusResponse);
-  rpc deleteGoodsInfo(DeleteGoodsInfoRequest) returns(DeleteGoodsInfoResponse);
+  rpc addGoodsInfo(AddGoodsInfoRequest) returns(EmptyResponse);
+  rpc updateGoodsInfo(UpdateGoodsInfoRequest) returns(EmptyResponse);
+  rpc alterGoodsStatus(AlterGoodsStatusRequest) returns(EmptyResponse);
+  rpc deleteGoodsInfo(DeleteGoodsInfoRequest) returns(EmptyResponse);
   rpc getGoodsInfo(GetGoodsInfoRequest) returns(GetGoodsInfoResponse);
   rpc getGoodsList(GetGoodsListRequest) returns(GetGoodsListResponse);
 }

@@ -23,7 +23,7 @@ func NewLockUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LockUser
 	}
 }
 
-func (l *LockUserLogic) LockUser(in *admin.LockUserRequest) (*admin.LockUserResponse, error) {
+func (l *LockUserLogic) LockUser(in *admin.LockUserRequest) (*admin.EmptyResponse, error) {
 	if in.LockStatus != 0 && in.LockStatus != 1 {
 		logx.Error("非法操作")
 		return nil, errors.New("非法操作")
@@ -44,5 +44,5 @@ func (l *LockUserLogic) LockUser(in *admin.LockUserRequest) (*admin.LockUserResp
 			return nil, errors.New("用户锁定更新失败" + err.Error())
 		}
 	}
-	return &admin.LockUserResponse{}, nil
+	return &admin.EmptyResponse{}, nil
 }

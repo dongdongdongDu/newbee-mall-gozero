@@ -16,10 +16,10 @@ type (
 		GetGoodsDetail(ctx context.Context, in *GetGoodsDetailRequest, opts ...grpc.CallOption) (*GetGoodsDetailResponse, error)
 		SearchGoods(ctx context.Context, in *SearchGoodsRequest, opts ...grpc.CallOption) (*SearchGoodsResponse, error)
 		//  管理员
-		AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*AddGoodsInfoResponse, error)
-		UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*UpdateGoodsInfoResponse, error)
-		AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*AlterGoodsStatusResponse, error)
-		DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*DeleteGoodsInfoResponse, error)
+		AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+		UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+		AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+		DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 		GetGoodsInfo(ctx context.Context, in *GetGoodsInfoRequest, opts ...grpc.CallOption) (*GetGoodsInfoResponse, error)
 		GetGoodsList(ctx context.Context, in *GetGoodsListRequest, opts ...grpc.CallOption) (*GetGoodsListResponse, error)
 	}
@@ -47,22 +47,22 @@ func (m *defaultGoodsinfo) SearchGoods(ctx context.Context, in *SearchGoodsReque
 }
 
 //  管理员
-func (m *defaultGoodsinfo) AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*AddGoodsInfoResponse, error) {
+func (m *defaultGoodsinfo) AddGoodsInfo(ctx context.Context, in *AddGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewGoodsinfoClient(m.cli.Conn())
 	return client.AddGoodsInfo(ctx, in, opts...)
 }
 
-func (m *defaultGoodsinfo) UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*UpdateGoodsInfoResponse, error) {
+func (m *defaultGoodsinfo) UpdateGoodsInfo(ctx context.Context, in *UpdateGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewGoodsinfoClient(m.cli.Conn())
 	return client.UpdateGoodsInfo(ctx, in, opts...)
 }
 
-func (m *defaultGoodsinfo) AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*AlterGoodsStatusResponse, error) {
+func (m *defaultGoodsinfo) AlterGoodsStatus(ctx context.Context, in *AlterGoodsStatusRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewGoodsinfoClient(m.cli.Conn())
 	return client.AlterGoodsStatus(ctx, in, opts...)
 }
 
-func (m *defaultGoodsinfo) DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*DeleteGoodsInfoResponse, error) {
+func (m *defaultGoodsinfo) DeleteGoodsInfo(ctx context.Context, in *DeleteGoodsInfoRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewGoodsinfoClient(m.cli.Conn())
 	return client.DeleteGoodsInfo(ctx, in, opts...)
 }

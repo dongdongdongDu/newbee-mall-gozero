@@ -32,12 +32,12 @@ func (s *AdminServer) GetAdminProfile(ctx context.Context, in *admin.GetAdminPro
 	return l.GetAdminProfile(in)
 }
 
-func (s *AdminServer) UpdateAdminName(ctx context.Context, in *admin.UpdateAdminNameRequest) (*admin.UpdateAdminNameResponse, error) {
+func (s *AdminServer) UpdateAdminName(ctx context.Context, in *admin.UpdateAdminNameRequest) (*admin.EmptyResponse, error) {
 	l := logic.NewUpdateAdminNameLogic(ctx, s.svcCtx)
 	return l.UpdateAdminName(in)
 }
 
-func (s *AdminServer) UpdateAdminPwd(ctx context.Context, in *admin.UpdateAdminPwdRequest) (*admin.UpdateAdminPwdResponse, error) {
+func (s *AdminServer) UpdateAdminPwd(ctx context.Context, in *admin.UpdateAdminPwdRequest) (*admin.EmptyResponse, error) {
 	l := logic.NewUpdateAdminPwdLogic(ctx, s.svcCtx)
 	return l.UpdateAdminPwd(in)
 }
@@ -47,12 +47,12 @@ func (s *AdminServer) GetUserList(ctx context.Context, in *admin.GetUserListRequ
 	return l.GetUserList(in)
 }
 
-func (s *AdminServer) LockUser(ctx context.Context, in *admin.LockUserRequest) (*admin.LockUserResponse, error) {
+func (s *AdminServer) LockUser(ctx context.Context, in *admin.LockUserRequest) (*admin.EmptyResponse, error) {
 	l := logic.NewLockUserLogic(ctx, s.svcCtx)
 	return l.LockUser(in)
 }
 
-func (s *AdminServer) AdminLogout(ctx context.Context, in *admin.AdminLogoutRequest) (*admin.AdminLogoutResponse, error) {
+func (s *AdminServer) AdminLogout(ctx context.Context, in *admin.AdminLogoutRequest) (*admin.EmptyResponse, error) {
 	l := logic.NewAdminLogoutLogic(ctx, s.svcCtx)
 	return l.AdminLogout(in)
 }

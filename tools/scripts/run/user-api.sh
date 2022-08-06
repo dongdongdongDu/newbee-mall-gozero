@@ -1,0 +1,1 @@
+go run ../../../service/user/api/user.go -f ../../../service/user/api/etc/user.yaml

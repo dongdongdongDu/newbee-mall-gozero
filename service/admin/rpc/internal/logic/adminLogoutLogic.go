@@ -23,7 +23,7 @@ func NewAdminLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Admin
 	}
 }
 
-func (l *AdminLogoutLogic) AdminLogout(in *admin.AdminLogoutRequest) (*admin.AdminLogoutResponse, error) {
+func (l *AdminLogoutLogic) AdminLogout(in *admin.AdminLogoutRequest) (*admin.EmptyResponse, error) {
 	// 删除token
 	_, err := l.svcCtx.AdminTokenRpc.DeleteToken(l.ctx, &admintoken.DeleteTokenRequest{
 		Token: in.AdminToken,
@@ -33,5 +33,5 @@ func (l *AdminLogoutLogic) AdminLogout(in *admin.AdminLogoutRequest) (*admin.Adm
 		return nil, err
 	}
 
-	return &admin.AdminLogoutResponse{}, nil
+	return &admin.EmptyResponse{}, nil
 }

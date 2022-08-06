@@ -99,7 +99,7 @@ type DeleteGoodsInfoRequest struct {
 }
 
 type GetGoodsInfoRequest struct {
-	GoodsId int64 `json:"goodsId"`
+	Id int64 `path:"id"`
 }
 
 type GoodsInfo struct {
@@ -142,8 +142,8 @@ type GetGoodsInfoResponse struct {
 type GetGoodsListRequest struct {
 	PageNumber      int64  `json:"pageNumber"`
 	PageSize        int64  `json:"pageSize"`
-	GoodsName       string `form:"goodsName"`
-	GoodsSellStatus string `form:"goodsSellStatus"`
+	GoodsName       string `form:"goodsName, optional"`
+	GoodsSellStatus string `form:"goodsSellStatus, optional"`
 }
 
 type Response struct {

@@ -2,10 +2,10 @@
 package types
 
 type SearchGoodsRequest struct {
-	GoodsCategoryId int64  `form:"goodsCategoryId"`
-	PageNumber      int64  `form:"pageNumber"`
-	Keyword         string `form:"keyword"`
-	OrderBy         string `form:"orderBy"`
+	GoodsCategoryId int64  `form:"goodsCategoryId, optional"`
+	PageNumber      int64  `form:"pageNumber, optional"`
+	Keyword         string `form:"keyword, optional"`
+	OrderBy         string `form:"orderBy, optional"`
 }
 
 type SearchGoodsResponse struct {

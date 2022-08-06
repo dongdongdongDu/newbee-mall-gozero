@@ -117,7 +117,7 @@ type (
 
 	// 查看商品信息
 	GetGoodsInfoRequest {
-		GoodsId int64 `json:"goodsId"`
+		Id int64 `path:"id"`
 	}
 	// 商品信息
 	GoodsInfo {
@@ -160,8 +160,8 @@ type (
 	GetGoodsListRequest {
 		PageNumber      int64  `json:"pageNumber"`
 		PageSize        int64  `json:"pageSize"`
-		GoodsName       string `form:"goodsName"`
-		GoodsSellStatus string `form:"goodsSellStatus"`
+		GoodsName       string `form:"goodsName, optional"`
+		GoodsSellStatus string `form:"goodsSellStatus, optional"`
 	}
 
 	// 响应

@@ -1,0 +1,1 @@
+go run ../../../service/goods_info/rpc/goodsinfo.go -f ../../../service/goods_info/rpc/etc/goodsinfo.yaml

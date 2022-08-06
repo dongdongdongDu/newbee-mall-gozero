@@ -26,7 +26,7 @@ func NewUpdateAdminPwdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateAdminPwdLogic) UpdateAdminPwd(in *admin.UpdateAdminPwdRequest) (*admin.UpdateAdminPwdResponse, error) {
+func (l *UpdateAdminPwdLogic) UpdateAdminPwd(in *admin.UpdateAdminPwdRequest) (*admin.EmptyResponse, error) {
 	// 查询token
 	tokenRes, err := l.svcCtx.AdminTokenRpc.GetExistToken(l.ctx, &admintoken.GetExistTokenRequest{
 		Token: in.Token,
@@ -60,5 +60,5 @@ func (l *UpdateAdminPwdLogic) UpdateAdminPwd(in *admin.UpdateAdminPwdRequest) (*
 		return nil, errors.New("用户信息更新失败" + err.Error())
 	}
 
-	return &admin.UpdateAdminPwdResponse{}, nil
+	return &admin.EmptyResponse{}, nil
 }

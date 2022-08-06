@@ -1,0 +1,1 @@
+go run ../../../service/admin_token/rpc/admintoken.go -f ../../../service/admin_token/rpc/etc/admintoken.yaml

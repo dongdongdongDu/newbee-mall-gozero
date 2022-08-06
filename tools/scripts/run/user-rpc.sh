@@ -1,0 +1,1 @@
+go run ../../../service/user/rpc/user.go -f ../../../service/user/rpc/etc/user.yaml

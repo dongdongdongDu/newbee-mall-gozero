@@ -26,7 +26,7 @@ func NewUpdateGoodsInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 	}
 }
 
-func (l *UpdateGoodsInfoLogic) UpdateGoodsInfo(in *goodsinfo.UpdateGoodsInfoRequest) (*goodsinfo.UpdateGoodsInfoResponse, error) {
+func (l *UpdateGoodsInfoLogic) UpdateGoodsInfo(in *goodsinfo.UpdateGoodsInfoRequest) (*goodsinfo.EmptyResponse, error) {
 	// 查询商品
 	res, err := l.svcCtx.GoodsInfoModel.FindOne(l.ctx, in.GoodsInfo.GoodsId)
 	if err != nil {
@@ -60,5 +60,5 @@ func (l *UpdateGoodsInfoLogic) UpdateGoodsInfo(in *goodsinfo.UpdateGoodsInfoRequ
 		return nil, errors.New("商品信息更新失败")
 	}
 
-	return &goodsinfo.UpdateGoodsInfoResponse{}, nil
+	return &goodsinfo.EmptyResponse{}, nil
 }

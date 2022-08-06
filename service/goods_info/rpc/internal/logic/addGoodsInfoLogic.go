@@ -26,7 +26,7 @@ func NewAddGoodsInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddG
 	}
 }
 
-func (l *AddGoodsInfoLogic) AddGoodsInfo(in *goodsinfo.AddGoodsInfoRequest) (*goodsinfo.AddGoodsInfoResponse, error) {
+func (l *AddGoodsInfoLogic) AddGoodsInfo(in *goodsinfo.AddGoodsInfoRequest) (*goodsinfo.EmptyResponse, error) {
 	// 查询goodsCategory
 	goodsCategory, err := l.svcCtx.GoodsCategoryModel.FindOne(l.ctx, in.GoodsInfo.GoodsCategoryId)
 	if err != nil {
@@ -65,5 +65,5 @@ func (l *AddGoodsInfoLogic) AddGoodsInfo(in *goodsinfo.AddGoodsInfoRequest) (*go
 		return nil, err
 	}
 
-	return &goodsinfo.AddGoodsInfoResponse{}, nil
+	return &goodsinfo.EmptyResponse{}, nil
 }

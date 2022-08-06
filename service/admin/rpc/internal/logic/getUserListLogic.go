@@ -34,6 +34,13 @@ func (l *GetUserListLogic) GetUserList(in *admin.GetUserListRequest) (*admin.Get
 		logx.Error("用户列表获取失败" + err.Error())
 		return nil, errors.New("用户列表获取失败" + err.Error())
 	}
+	// 查询总数
+	totalCount, err := l.svcCtx.UserModel.CountAll(l.ctx)
+	if err != nil {
+		logx.Error("用户总数获取失败" + err.Error())
+		return nil, errors.New("用户总数获取失败" + err.Error())
+	}
+
 	usersList := make([]*admin.UserModel, 0)
 	for _, user := range usersRes {
 		usersList = append(usersList, &admin.UserModel{
@@ -46,13 +53,6 @@ func (l *GetUserListLogic) GetUserList(in *admin.GetUserListRequest) (*admin.Get
 			LockedFlag:    user.LockedFlag,
 			CreateTime:    user.CreateTime.Unix(),
 		})
-	}
-
-	// 查询总数
-	totalCount, err := l.svcCtx.UserModel.CountAll(l.ctx)
-	if err != nil {
-		logx.Error("用户总数获取失败" + err.Error())
-		return nil, errors.New("用户总数获取失败" + err.Error())
 	}
 
 	return &admin.GetUserListResponse{

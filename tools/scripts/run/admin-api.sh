@@ -1,0 +1,1 @@
+go run ../../../service/admin/api/admin.go -f ../../../service/admin/api/etc/admin.yaml

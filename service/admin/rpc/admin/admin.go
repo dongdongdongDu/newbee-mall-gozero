@@ -14,11 +14,11 @@ type (
 	Admin interface {
 		AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 		GetAdminProfile(ctx context.Context, in *GetAdminProfileRequest, opts ...grpc.CallOption) (*GetAdminProfileResponse, error)
-		UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*UpdateAdminNameResponse, error)
-		UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*UpdateAdminPwdResponse, error)
+		UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+		UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 		GetUserList(ctx context.Context, in *GetUserListRequest, opts ...grpc.CallOption) (*GetUserListResponse, error)
-		LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*LockUserResponse, error)
-		AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*AdminLogoutResponse, error)
+		LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+		AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	}
 
 	defaultAdmin struct {
@@ -42,12 +42,12 @@ func (m *defaultAdmin) GetAdminProfile(ctx context.Context, in *GetAdminProfileR
 	return client.GetAdminProfile(ctx, in, opts...)
 }
 
-func (m *defaultAdmin) UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*UpdateAdminNameResponse, error) {
+func (m *defaultAdmin) UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewAdminClient(m.cli.Conn())
 	return client.UpdateAdminName(ctx, in, opts...)
 }
 
-func (m *defaultAdmin) UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*UpdateAdminPwdResponse, error) {
+func (m *defaultAdmin) UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewAdminClient(m.cli.Conn())
 	return client.UpdateAdminPwd(ctx, in, opts...)
 }
@@ -57,12 +57,12 @@ func (m *defaultAdmin) GetUserList(ctx context.Context, in *GetUserListRequest, 
 	return client.GetUserList(ctx, in, opts...)
 }
 
-func (m *defaultAdmin) LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*LockUserResponse, error) {
+func (m *defaultAdmin) LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewAdminClient(m.cli.Conn())
 	return client.LockUser(ctx, in, opts...)
 }
 
-func (m *defaultAdmin) AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*AdminLogoutResponse, error) {
+func (m *defaultAdmin) AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	client := NewAdminClient(m.cli.Conn())
 	return client.AdminLogout(ctx, in, opts...)
 }

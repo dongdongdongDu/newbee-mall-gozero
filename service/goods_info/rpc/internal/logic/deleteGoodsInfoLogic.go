@@ -24,12 +24,12 @@ func NewDeleteGoodsInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 	}
 }
 
-func (l *DeleteGoodsInfoLogic) DeleteGoodsInfo(in *goodsinfo.DeleteGoodsInfoRequest) (*goodsinfo.DeleteGoodsInfoResponse, error) {
+func (l *DeleteGoodsInfoLogic) DeleteGoodsInfo(in *goodsinfo.DeleteGoodsInfoRequest) (*goodsinfo.EmptyResponse, error) {
 	err := l.svcCtx.GoodsInfoModel.Delete(l.ctx, in.GoodsId)
 	if err != nil {
 		logx.Error("删除商品失败" + err.Error())
 		return nil, errors.New("删除商品失败" + err.Error())
 	}
 
-	return &goodsinfo.DeleteGoodsInfoResponse{}, nil
+	return &goodsinfo.EmptyResponse{}, nil
 }

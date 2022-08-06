@@ -29,7 +29,7 @@ func (l *GetGoodsListLogic) GetGoodsList(in *goodsinfo.GetGoodsListRequest) (*go
 	limit := in.PageSize
 	offset := in.PageSize * (in.PageNumber - 1)
 	// 查找
-	goodsRes, err := l.svcCtx.GoodsInfoModel.Find(l.ctx, in.GoodsName, in.GoodsStatus, limit, offset)
+	goodsRes, total, err := l.svcCtx.GoodsInfoModel.Find(l.ctx, in.GoodsName, in.GoodsStatus, limit, offset)
 	if err != nil {
 		logx.Error("商品列表获取失败" + err.Error())
 		return nil, errors.New("商品列表获取失败" + err.Error())
@@ -41,10 +41,9 @@ func (l *GetGoodsListLogic) GetGoodsList(in *goodsinfo.GetGoodsListRequest) (*go
 		err = copier.Copy(&goodsInfo, goods)
 		goodsList = append(goodsList, &goodsInfo)
 	}
-	total := len(goodsList)
 
 	return &goodsinfo.GetGoodsListResponse{
 		GoodsInfo: goodsList,
-		Total:     int64(total),
+		Total:     total,
 	}, nil
 }
