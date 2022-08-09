@@ -86,6 +86,7 @@ type (
 		StockNum           int64  `json:"stockNum"`
 		Tag                string `json:"tag"`
 		GoodsSellStatus    int64  `json:"goodsSellStatus"`
+		Token              string `header:"token"`
 	}
 
 	// 更新商品信息
@@ -102,6 +103,7 @@ type (
 		StockNum           int64  `json:"stockNum, optional"`
 		Tag                string `json:"tag, optional"`
 		GoodsSellStatus    int64  `json:"goodsSellStatus, optional"`
+		Token              string `header:"token"`
 	}
 
 	// 修改商品状态（上架、下架)
@@ -164,9 +166,53 @@ type (
 		GoodsSellStatus string `form:"goodsSellStatus, optional"`
 	}
 
+	// 增加分类
+	AddCategoryRequest {
+		CategoryLevel int64  `json:"categoryLevel"`
+		ParentId      int64  `json:"parentId"`
+		CategoryName  string `json:"categoryName"`
+		CategoryRank  int64  `json:"categoryRank"`
+		IsDeleted     int64  `json:"isDeleted"`
+		Token         string `header:"token"`
+	}
+
+	// 更新分类
+	UpdateCategoryRequest {
+		CategoryId    int64  `json:"categoryId"`
+		CategoryLevel int64  `json:"categoryLevel"`
+		ParentId      int64  `json:"parentId"`
+		CategoryName  string `json:"categoryName"`
+		CategoryRank  string `json:"categoryRank"`
+		IsDeleted     int64  `json:"isDeleted"`
+		Token         string `header:"token"`
+	}
+
+	// 删除分类
+	DeleteCategoryRequest {
+		Ids []int64 `json:"ids"`
+	}
+
+	// 获取分类列表
+	GetCategoryListRequest {
+		CategoryLevel string `json:"categoryLevel"`
+		ParentId      string `json:"parentId"`
+		PageNumber    int64  `json:"pageNumber"`
+		PageSize      int64  `json:"pageSize"`
+	}
+
+	// 查看分类
+	GetCategoryRequest {
+		Id int64 `path:"id"`
+	}
+
+	// 查看选中
+	GetCategoryForSelectRequest {
+		Id int64 `json:"id"`
+	}
+
 	// 响应
 	Response {
-		ResultCode int         `json:"resultCode"`
+		ResultCode int64       `json:"resultCode"`
 		Msg        string      `json:"message"`
 		Data       interface{} `json:"data"`
 	}
@@ -230,4 +276,28 @@ service admin {
 	// 获取商品筛选列表
 	@handler GetGoodsList
 	get /goods/list (GetGoodsListRequest) returns (Response)
+	
+	// 增加分类
+	@handler AddCategory
+	post /categories (AddCategoryRequest) returns (Response)
+	
+	// 更新分类
+	@handler UpdateCategory
+	put /categories (UpdateCategoryRequest) returns (Response)
+	
+	// 删除分类
+	@handler DeleteCategory
+	delete /categories (DeleteCategoryRequest) returns (Response)
+	
+	// 获取分类列表
+	@handler GetCategoryList
+	get /categories	(GetCategoryListRequest) returns (Response)
+	
+	// 查看分类
+	@handler GetCategory
+	get /categories/:id (GetCategoryRequest) returns (Response)
+	
+	// 查看选中
+	@handler GetCategoryForSelect
+	get /categories4Select (GetCategoryForSelectRequest) returns (Response)
 }

@@ -1,0 +1,46 @@
+syntax = "v1"
+
+info(
+	title: "goodscategory"
+	desc: "goodscategory"
+	author: "dongdongdongDu"
+	email: "137564641@qq.com"
+	version: "1.0"
+)
+
+type (
+	// 第三级
+	ThirdLevelCategoryVO {
+		CategoryId    int64  `json:"categoryId"`
+		CategoryLevel int64  `json:"categoryLevel"`
+		CategoryName  string `json:"categoryName"`
+	}
+	// 第二级
+	SecondLevelCategoryVO {
+		CategoryId            int64                  `json:"categoryId"`
+		ParentId              int64                  `json:"parentId"`
+		CategoryLevel         int64                  `json:"categoryLevel"`
+		CategoryName          string                 `json:"categoryName"`
+		ThirdLevelCategoryVOS []ThirdLevelCategoryVO `json:"thirdLevelCategoryVOS"`
+	}
+	// 主页分类的响应
+	GetCategoriesForIndexResponse {
+		CategoryId int `json:"categoryId"`
+		//ParentId               int64                      `json:"parentId"`
+		CategoryLevel          int64                   `json:"categoryLevel"`
+		CategoryName           string                  `json:"categoryName"`
+		SecondLevelCategoryVOS []SecondLevelCategoryVO `json:"secondLevelCategoryVOS"`
+	}
+	// 响应
+	Response {
+		ResultCode int64       `json:"resultCode"`
+		Msg        string      `json:"msg"`
+		Data       interface{} `json:"data"`
+	}
+)
+
+service goodscategory {
+	// 登录
+	@handler GetCategories
+	get /categories () returns (Response)
+}

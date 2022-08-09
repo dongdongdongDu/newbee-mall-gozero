@@ -1,6 +1,6 @@
-Name: user
+Name: goodscategory
 Host: 0.0.0.0
-Port: 8002
+Port: 8005
 
 Mysql:
   DataSource: root:dongdong@tcp(127.0.0.1:3306)/newbee_mall_db?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
@@ -9,21 +9,6 @@ CacheRedis:
     Pass: dongdong
     Type: node
 
-AdminRpc:
-  Etcd:
-    Hosts:
-      - 127.0.0.1:2379
-    Key: admin.rpc
-AdminTokenRpc:
-  Etcd:
-    Hosts:
-      - 127.0.0.1:2379
-    Key: admintoken.rpc
-GoodsInfoRpc:
-  Etcd:
-    Hosts:
-      - 127.0.0.1:2379
-    Key: goodsinfo.rpc
 GoodsCategoryRpc:
   Etcd:
     Hosts:

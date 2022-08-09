@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
+	"newbee-mall-gozero/service/admin_token/rpc/admintoken"
 	"newbee-mall-gozero/service/goods_info/rpc/goodsinfo"
 
 	"newbee-mall-gozero/service/admin/api/internal/svc"
@@ -26,6 +27,15 @@ func NewUpdateGoodsInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateGoodsInfoLogic) UpdateGoodsInfo(req *types.UpdateGoodsInfoRequest) (resp *types.Response, err error) {
+	adminToken, err := l.svcCtx.AdminTokenRpc.GetExistToken(l.ctx, &admintoken.GetExistTokenRequest{
+		Token: req.Token,
+	})
+	if err != nil {
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "创建失败！" + err.Error(),
+		}, nil
+	}
 	// 更新
 	_, err = l.svcCtx.GoodsInfoRpc.UpdateGoodsInfo(l.ctx, &goodsinfo.UpdateGoodsInfoRequest{GoodsInfo: &goodsinfo.GoodsInfo{
 		GoodsId:            req.GoodsId,
@@ -40,6 +50,7 @@ func (l *UpdateGoodsInfoLogic) UpdateGoodsInfo(req *types.UpdateGoodsInfoRequest
 		StockNum:           req.StockNum,
 		Tag:                req.Tag,
 		GoodsSellStatus:    req.GoodsSellStatus,
+		UpdateUser:         adminToken.AdminToken.AdminUserId,
 	}})
 
 	if err != nil {

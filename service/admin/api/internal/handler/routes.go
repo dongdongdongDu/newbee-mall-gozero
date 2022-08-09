@@ -84,6 +84,36 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/goods/list",
 					Handler: GetGoodsListHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/categories",
+					Handler: AddCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/categories",
+					Handler: UpdateCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/categories",
+					Handler: DeleteCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/categories",
+					Handler: GetCategoryListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/categories/:id",
+					Handler: GetCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/categories4Select",
+					Handler: GetCategoryForSelectHandler(serverCtx),
+				},
 			}...,
 		),
 	)

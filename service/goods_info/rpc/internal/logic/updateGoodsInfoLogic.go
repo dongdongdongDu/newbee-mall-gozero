@@ -49,8 +49,6 @@ func (l *UpdateGoodsInfoLogic) UpdateGoodsInfo(in *goodsinfo.UpdateGoodsInfoRequ
 	res.StockNum = in.GoodsInfo.StockNum
 	res.Tag = in.GoodsInfo.Tag
 	res.GoodsSellStatus = in.GoodsInfo.GoodsSellStatus
-	res.CreateUser = in.GoodsInfo.CreateUser
-	res.CreateTime = time.Now()
 	res.UpdateUser = in.GoodsInfo.UpdateUser
 	res.UpdateTime = time.Now()
 

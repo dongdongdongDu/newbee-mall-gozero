@@ -72,6 +72,7 @@ type AddGoodsInfoRequest struct {
 	StockNum           int64  `json:"stockNum"`
 	Tag                string `json:"tag"`
 	GoodsSellStatus    int64  `json:"goodsSellStatus"`
+	Token              string `header:"token"`
 }
 
 type UpdateGoodsInfoRequest struct {
@@ -87,6 +88,7 @@ type UpdateGoodsInfoRequest struct {
 	StockNum           int64  `json:"stockNum, optional"`
 	Tag                string `json:"tag, optional"`
 	GoodsSellStatus    int64  `json:"goodsSellStatus, optional"`
+	Token              string `header:"token"`
 }
 
 type AlterGoodsStatusRequest struct {
@@ -146,8 +148,46 @@ type GetGoodsListRequest struct {
 	GoodsSellStatus string `form:"goodsSellStatus, optional"`
 }
 
+type AddCategoryRequest struct {
+	CategoryLevel int64  `json:"categoryLevel"`
+	ParentId      int64  `json:"parentId"`
+	CategoryName  string `json:"categoryName"`
+	CategoryRank  int64  `json:"categoryRank"`
+	IsDeleted     int64  `json:"isDeleted"`
+	Token         string `header:"token"`
+}
+
+type UpdateCategoryRequest struct {
+	CategoryId    int64  `json:"categoryId"`
+	CategoryLevel int64  `json:"categoryLevel"`
+	ParentId      int64  `json:"parentId"`
+	CategoryName  string `json:"categoryName"`
+	CategoryRank  string `json:"categoryRank"`
+	IsDeleted     int64  `json:"isDeleted"`
+	Token         string `header:"token"`
+}
+
+type DeleteCategoryRequest struct {
+	Ids []int64 `json:"ids"`
+}
+
+type GetCategoryListRequest struct {
+	CategoryLevel string `json:"categoryLevel"`
+	ParentId      string `json:"parentId"`
+	PageNumber    int64  `json:"pageNumber"`
+	PageSize      int64  `json:"pageSize"`
+}
+
+type GetCategoryRequest struct {
+	Id int64 `path:"id"`
+}
+
+type GetCategoryForSelectRequest struct {
+	Id int64 `json:"id"`
+}
+
 type Response struct {
-	ResultCode int         `json:"resultCode"`
+	ResultCode int64       `json:"resultCode"`
 	Msg        string      `json:"message"`
 	Data       interface{} `json:"data"`
 }

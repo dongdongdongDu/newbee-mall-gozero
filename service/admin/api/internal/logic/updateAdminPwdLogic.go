@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
+	"newbee-mall-gozero/common/verify"
 	"newbee-mall-gozero/service/admin/rpc/admin"
 
 	"newbee-mall-gozero/service/admin/api/internal/svc"
@@ -26,6 +27,13 @@ func NewUpdateAdminPwdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateAdminPwdLogic) UpdateAdminPwd(req *types.UpdateAdminPwdRequest) (resp *types.Response, err error) {
+	// 校验输入格式
+	if err := verify.Verify(*req, verify.GoodsAddParamVerify); err != nil {
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        err.Error(),
+		}, nil
+	}
 	// 更新信息
 	_, err = l.svcCtx.AdminRpc.UpdateAdminPwd(l.ctx, &admin.UpdateAdminPwdRequest{
 		Token:            req.Token,
