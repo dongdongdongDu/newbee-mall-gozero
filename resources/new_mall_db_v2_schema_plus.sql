@@ -5,6 +5,7 @@
 # by dongdongdongDu
 # add table tb_newbee_mall_admin_user unique key idx_login_user_name_unique
 # add table tb_newbee_mall_user unique key idx_login_name_unique
+# add column update_time ON UPDATE CURRENT_TIMESTAMP
 # ------------------------------------------------------------
 
 SET NAMES utf8mb4;
@@ -56,7 +57,7 @@ CREATE TABLE `tb_newbee_mall_carousel`
     `is_deleted`    tinyint(4)   NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `create_user`   int(11)      NOT NULL DEFAULT '0' COMMENT '创建者id',
-    `update_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `update_user`   int(11)      NOT NULL DEFAULT '0' COMMENT '修改者id',
     PRIMARY KEY (`carousel_id`) USING BTREE
 ) ENGINE = InnoDB
@@ -104,7 +105,7 @@ CREATE TABLE `tb_newbee_mall_goods_category`
     `is_deleted`     tinyint(4)  NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `create_user`    int(11)     NOT NULL DEFAULT '0' COMMENT '创建者id',
-    `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `update_user`    int(11)              DEFAULT '0' COMMENT '修改者id',
     PRIMARY KEY (`category_id`) USING BTREE
 ) ENGINE = InnoDB
@@ -248,7 +249,7 @@ CREATE TABLE `tb_newbee_mall_goods_info`
     `create_user`          int(11)             NOT NULL DEFAULT '0' COMMENT '添加者主键id',
     `create_time`          datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品添加时间',
     `update_user`          int(11)             NOT NULL DEFAULT '0' COMMENT '修改者主键id',
-    `update_time`          datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品修改时间',
+    `update_time`          datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '商品修改时间',
     PRIMARY KEY (`goods_id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -2038,7 +2039,7 @@ CREATE TABLE `tb_newbee_mall_index_config`
     `is_deleted`   tinyint(4)   NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `create_user`  int(11)      NOT NULL DEFAULT '0' COMMENT '创建者id',
-    `update_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
+    `update_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最新修改时间',
     `update_user`  int(11)               DEFAULT '0' COMMENT '修改者id',
     PRIMARY KEY (`config_id`)
 ) ENGINE = InnoDB
@@ -2103,7 +2104,7 @@ CREATE TABLE `tb_newbee_mall_order`
     `extra_info`   varchar(100) NOT NULL DEFAULT '' COMMENT '订单body',
     `is_deleted`   tinyint(4)   NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
+    `update_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最新修改时间',
     PRIMARY KEY (`order_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -2158,7 +2159,7 @@ CREATE TABLE `tb_newbee_mall_shopping_cart_item`
     `goods_count`  int(11)    NOT NULL DEFAULT '1' COMMENT '数量(最大为5)',
     `is_deleted`   tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`  datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time`  datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
+    `update_time`  datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最新修改时间',
     PRIMARY KEY (`cart_item_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -2216,7 +2217,7 @@ CREATE TABLE `tb_newbee_mall_user_address`
     `detail_address` varchar(64) NOT NULL DEFAULT '' COMMENT '收件详细地址(街道/楼宇/单元)',
     `is_deleted`     tinyint(4)  NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
-    `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`address_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='收货地址表';
@@ -2230,7 +2231,7 @@ CREATE TABLE `tb_newbee_mall_user_token`
 (
     `user_id`     bigint(20)  NOT NULL COMMENT '用户主键id',
     `token`       varchar(32) NOT NULL COMMENT 'token值(32位字符串)',
-    `update_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `expire_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'token过期时间',
     PRIMARY KEY (`user_id`),
     UNIQUE KEY `uq_token` (`token`)
@@ -2246,7 +2247,7 @@ CREATE TABLE `tb_newbee_mall_admin_user_token`
 (
     `admin_user_id` bigint(20)  NOT NULL COMMENT '用户主键id',
     `token`         varchar(32) NOT NULL COMMENT 'token值(32位字符串)',
-    `update_time`   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time`   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `expire_time`   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'token过期时间',
     PRIMARY KEY (`admin_user_id`),
     UNIQUE KEY `uq_token` (`token`)

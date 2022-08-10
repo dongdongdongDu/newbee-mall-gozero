@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"strconv"
 )
 
 var _ TbNewbeeMallGoodsCategoryModel = (*customTbNewbeeMallGoodsCategoryModel)(nil)
@@ -62,10 +62,21 @@ func (m customTbNewbeeMallGoodsCategoryModel) GetCategoryListByParentIdAndLevel(
 
 func (m customTbNewbeeMallGoodsCategoryModel) GetCategoriesByParentIdsAndLevel(ctx context.Context, ids []int64, level int64, limit int64) ([]*TbNewbeeMallGoodsCategory, error) {
 	var res []*TbNewbeeMallGoodsCategory
+	if len(ids) == 0 {
+		return res, nil
+	}
+	idstr := "("
+	for i := 0; i < len(ids); i++ {
+		idstr += strconv.FormatInt(ids[i], 10)
+		if i != len(ids)-1 {
+			idstr += ","
+		}
+	}
+	idstr += ")"
 	query := fmt.Sprintf("select %s from %s where `is_deleted` = 0", tbNewbeeMallGoodsCategoryRows, m.table)
-	conditions := fmt.Sprintf(" and `parent_id` in %d and `category_level` = %d", ids, level)
+	conditions := fmt.Sprintf(" and `parent_id` in %s and `category_level` = %d", idstr, level)
 	query = query + conditions + " order by `category_rank` desc"
-	logx.Info("SQL:", query)
+	//logx.Info("SQL:", query)
 	err := m.QueryRowsNoCacheCtx(ctx, &res, query)
 	if err != nil {
 		if err == sqlc.ErrNotFound {

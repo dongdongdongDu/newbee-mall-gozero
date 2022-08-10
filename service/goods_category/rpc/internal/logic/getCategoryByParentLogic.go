@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/jinzhu/copier"
 	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
 	"newbee-mall-gozero/service/goods_category/rpc/internal/svc"
 
@@ -33,11 +32,21 @@ func (l *GetCategoryByParentLogic) GetCategoryByParent(in *goodscategory.GetCate
 	}
 	var categoryList []*goodscategory.Category
 	for _, item := range categories {
-		var category goodscategory.Category
-		err = copier.Copy(&category, item)
-		if err != nil {
-			logx.Error("分类复制失败" + err.Error())
-			return nil, errors.New("分类复制失败" + err.Error())
+		//var category goodscategory.Category
+		//err = copier.Copy(&category, item)
+		//if err != nil {
+		//	logx.Error("分类复制失败" + err.Error())
+		//	return nil, errors.New("分类复制失败" + err.Error())
+		//}
+		category := goodscategory.Category{
+			CategoryId:    item.CategoryId,
+			CategoryLevel: item.CategoryLevel,
+			ParentId:      item.ParentId,
+			CategoryName:  item.CategoryName,
+			CategoryRank:  item.CategoryRank,
+			IsDeleted:     item.IsDeleted,
+			CreateTime:    item.CreateTime.Unix(),
+			UpdateTime:    item.UpdateTime.Unix(),
 		}
 		categoryList = append(categoryList, &category)
 	}

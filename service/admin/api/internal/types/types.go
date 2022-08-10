@@ -162,7 +162,7 @@ type UpdateCategoryRequest struct {
 	CategoryLevel int64  `json:"categoryLevel"`
 	ParentId      int64  `json:"parentId"`
 	CategoryName  string `json:"categoryName"`
-	CategoryRank  string `json:"categoryRank"`
+	CategoryRank  int64  `json:"categoryRank"`
 	IsDeleted     int64  `json:"isDeleted"`
 	Token         string `header:"token"`
 }
@@ -184,6 +184,15 @@ type GetCategoryRequest struct {
 
 type GetCategoryForSelectRequest struct {
 	Id int64 `json:"id"`
+}
+
+type GetCategoryForSelectLevel1Response struct {
+	SecondLevelCategories []*GoodsCategory `json:"secondLevelCategories"`
+	ThirdLevelCategories  []*GoodsCategory `json:"thirdLevelCategories"`
+}
+
+type GetCategoryForSelectLevel2Response struct {
+	ThirdLevelCategories []*GoodsCategory `json:"thirdLevelCategories"`
 }
 
 type Response struct {

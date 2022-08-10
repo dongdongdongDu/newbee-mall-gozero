@@ -38,7 +38,7 @@ func (l *DeleteCategoryLogic) DeleteCategory(req *types.DeleteCategoryRequest) (
 
 	return &types.Response{
 		ResultCode: response.SUCCESS,
-		Msg:        "删除失败",
+		Msg:        "删除成功",
 		Data:       map[string]interface{}{},
 	}, nil
 }

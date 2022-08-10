@@ -3,10 +3,10 @@ package logic
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
-	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
-
 	"newbee-mall-gozero/service/admin/api/internal/svc"
 	"newbee-mall-gozero/service/admin/api/internal/types"
+	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -37,17 +37,11 @@ func (l *GetCategoryForSelectLogic) GetCategoryForSelect(req *types.GetCategoryF
 		}, nil
 	}
 	level := res.Category.CategoryLevel
-	if level == 3 || level == 0 {
-		return &types.Response{
-			ResultCode: response.ERROR,
-			Msg:        "参数异常",
-		}, nil
-	}
-	categoryResult := make(map[string]interface{})
 	if level == 1 {
 		levelTwoList, err := l.svcCtx.GoodsCategoryRpc.GetCategoryByParent(l.ctx, &goodscategory.GetCategoryByParentRequest{
 			Ids:           []int64{req.Id},
 			CategoryLevel: 2,
+			Limit:         10,
 		})
 		if err != nil {
 			return &types.Response{
@@ -55,6 +49,8 @@ func (l *GetCategoryForSelectLogic) GetCategoryForSelect(req *types.GetCategoryF
 				Msg:        "获取失败",
 			}, nil
 		}
+		logx.Info(len(levelTwoList.CategoryList))
+		logx.Info(levelTwoList.CategoryList)
 		var secondLevelIds []int64
 		for _, category := range levelTwoList.CategoryList {
 			secondLevelIds = append(secondLevelIds, category.CategoryId)
@@ -63,6 +59,7 @@ func (l *GetCategoryForSelectLogic) GetCategoryForSelect(req *types.GetCategoryF
 		levelThreeList, err := l.svcCtx.GoodsCategoryRpc.GetCategoryByParent(l.ctx, &goodscategory.GetCategoryByParentRequest{
 			Ids:           secondLevelIds,
 			CategoryLevel: 3,
+			Limit:         10,
 		})
 		if err != nil {
 			return &types.Response{
@@ -70,14 +67,50 @@ func (l *GetCategoryForSelectLogic) GetCategoryForSelect(req *types.GetCategoryF
 				Msg:        "获取失败",
 			}, nil
 		}
-		categoryResult["secondLevelCategories"] = levelTwoList.CategoryList
-		categoryResult["thirdLevelCategories"] = levelThreeList.CategoryList
-
-	}
-	if level == 2 {
+		logx.Info(levelThreeList.CategoryList)
+		var secondLevelCategories []*types.GoodsCategory
+		for _, category := range levelTwoList.CategoryList {
+			secondCategory := types.GoodsCategory{
+				CategoryId:    category.CategoryId,
+				CategoryLevel: category.CategoryLevel,
+				ParentId:      category.ParentId,
+				CategoryName:  category.CategoryName,
+				CategoryRank:  category.CategoryRank,
+				IsDeleted:     category.IsDeleted,
+				CreateTime:    time.Unix(category.CreateTime, 0).Format("2006-01-02 15:04:05"),
+				UpdateTime:    time.Unix(category.UpdateTime, 0).Format("2006-01-02 15:04:05"),
+			}
+			secondLevelCategories = append(secondLevelCategories, &secondCategory)
+		}
+		var thirdLevelCategories []*types.GoodsCategory
+		for _, category := range levelThreeList.CategoryList {
+			thirdCategory := types.GoodsCategory{
+				CategoryId:    category.CategoryId,
+				CategoryLevel: category.CategoryLevel,
+				ParentId:      category.ParentId,
+				CategoryName:  category.CategoryName,
+				CategoryRank:  category.CategoryRank,
+				IsDeleted:     category.IsDeleted,
+				CreateTime:    time.Unix(category.CreateTime, 0).Format("2006-01-02 15:04:05"),
+				UpdateTime:    time.Unix(category.UpdateTime, 0).Format("2006-01-02 15:04:05"),
+			}
+			thirdLevelCategories = append(thirdLevelCategories, &thirdCategory)
+		}
+		logx.Info(secondLevelCategories)
+		logx.Info(thirdLevelCategories)
+		return &types.Response{
+			ResultCode: response.SUCCESS,
+			Msg:        "SUCCESS",
+			Data: types.GetCategoryForSelectLevel1Response{
+				SecondLevelCategories: secondLevelCategories,
+				ThirdLevelCategories:  thirdLevelCategories,
+			},
+		}, nil
+	} else if level == 2 {
 		levelThreeList, err := l.svcCtx.GoodsCategoryRpc.GetCategoryByParent(l.ctx, &goodscategory.GetCategoryByParentRequest{
 			Ids:           []int64{req.Id},
 			CategoryLevel: 3,
+			Limit:         10,
 		})
 		if err != nil {
 			return &types.Response{
@@ -85,12 +118,31 @@ func (l *GetCategoryForSelectLogic) GetCategoryForSelect(req *types.GetCategoryF
 				Msg:        "获取失败",
 			}, nil
 		}
-		categoryResult["thirdLevelCategories"] = levelThreeList.CategoryList
+		var thirdLevelCategories []*types.GoodsCategory
+		for _, category := range levelThreeList.CategoryList {
+			thirdCategory := types.GoodsCategory{
+				CategoryId:    category.CategoryId,
+				CategoryLevel: category.CategoryLevel,
+				ParentId:      category.ParentId,
+				CategoryName:  category.CategoryName,
+				CategoryRank:  category.CategoryRank,
+				IsDeleted:     category.IsDeleted,
+				CreateTime:    time.Unix(category.CreateTime, 0).Format("2006-01-02 15:04:05"),
+				UpdateTime:    time.Unix(category.UpdateTime, 0).Format("2006-01-02 15:04:05"),
+			}
+			thirdLevelCategories = append(thirdLevelCategories, &thirdCategory)
+		}
+		return &types.Response{
+			ResultCode: response.SUCCESS,
+			Msg:        "SUCCESS",
+			Data: types.GetCategoryForSelectLevel2Response{
+				ThirdLevelCategories: thirdLevelCategories,
+			},
+		}, nil
+	} else {
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "参数异常",
+		}, nil
 	}
-
-	return &types.Response{
-		ResultCode: response.SUCCESS,
-		Msg:        "SUCCESS",
-		Data:       categoryResult,
-	}, nil
 }

@@ -182,7 +182,7 @@ type (
 		CategoryLevel int64  `json:"categoryLevel"`
 		ParentId      int64  `json:"parentId"`
 		CategoryName  string `json:"categoryName"`
-		CategoryRank  string `json:"categoryRank"`
+		CategoryRank  int64  `json:"categoryRank"`
 		IsDeleted     int64  `json:"isDeleted"`
 		Token         string `header:"token"`
 	}
@@ -208,6 +208,13 @@ type (
 	// 查看选中
 	GetCategoryForSelectRequest {
 		Id int64 `json:"id"`
+	}
+	GetCategoryForSelectLevel1Response {
+		SecondLevelCategories []*GoodsCategory `json:"secondLevelCategories"`
+		ThirdLevelCategories  []*GoodsCategory `json:"thirdLevelCategories"`
+	}
+	GetCategoryForSelectLevel2Response {
+		ThirdLevelCategories []*GoodsCategory `json:"thirdLevelCategories"`
 	}
 
 	// 响应

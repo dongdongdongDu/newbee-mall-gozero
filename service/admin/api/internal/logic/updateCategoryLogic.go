@@ -3,12 +3,10 @@ package logic
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
-	"newbee-mall-gozero/service/admin_token/rpc/admintoken"
-	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
-	"strconv"
-
 	"newbee-mall-gozero/service/admin/api/internal/svc"
 	"newbee-mall-gozero/service/admin/api/internal/types"
+	"newbee-mall-gozero/service/admin_token/rpc/admintoken"
+	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -38,21 +36,15 @@ func (l *UpdateCategoryLogic) UpdateCategory(req *types.UpdateCategoryRequest) (
 			Msg:        "更新失败！" + err.Error(),
 		}, nil
 	}
-	rank, err := strconv.Atoi(req.CategoryRank)
-	if err != nil {
-		logx.Error("string 转 int 失败")
-		return &types.Response{
-			ResultCode: response.ERROR,
-			Msg:        "更新失败！" + err.Error(),
-		}, nil
-	}
+
 	// 更新
 	_, err = l.svcCtx.GoodsCategoryRpc.UpdateCategory(l.ctx, &goodscategory.UpdateCategoryRequest{
 		Category: &goodscategory.Category{
+			CategoryId:    req.CategoryId,
 			CategoryLevel: req.CategoryLevel,
 			ParentId:      req.ParentId,
 			CategoryName:  req.CategoryName,
-			CategoryRank:  int64(rank),
+			CategoryRank:  req.CategoryRank,
 			IsDeleted:     req.IsDeleted,
 		},
 		UpdateUser: adminToken.AdminToken.AdminUserId,

@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
+	"newbee-mall-gozero/common/verify"
 	"newbee-mall-gozero/service/admin_token/rpc/admintoken"
 	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
 
@@ -27,6 +28,13 @@ func NewAddCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCa
 }
 
 func (l *AddCategoryLogic) AddCategory(req *types.AddCategoryRequest) (resp *types.Response, err error) {
+	// 校验输入格式
+	if err := verify.Verify(*req, verify.AddCategoryVerify); err != nil {
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        err.Error(),
+		}, nil
+	}
 	// 获取当前用户
 	adminToken, err := l.svcCtx.AdminTokenRpc.GetExistToken(l.ctx, &admintoken.GetExistTokenRequest{
 		Token: req.Token,
