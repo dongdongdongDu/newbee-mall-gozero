@@ -63,34 +63,6 @@ message DeleteCategoryRequest {
   repeated int64 ids = 1;
 }
 
-//// 主页的分类
-//message GetCategoriesByParentIdsRequest {
-//  repeated int64 ids = 1;
-//  int64 level = 2;
-//}
-//message GetCategoriesByParentIdsResponse {
-//
-//}
-
-// 首页分类数据
-//message ThirdLevelCategory {
-//  int64 CategoryId = 1;
-//  int64  CategoryLevel = 2;
-//  string  CategoryName = 3;
-//}
-//message SecondLevelCategory {
-//  int64 CategoryId = 1;
-//  int64 ParentId = 2;
-//  int64 CategoryLevel = 3;
-//  string CategoryName = 4;
-//  repeated ThirdLevelCategory ThirdLevelCategory = 5;
-//}
-//message IndexCategory {
-//  int64 CategoryId = 1;
-//  int64 CategoryLevel = 2;
-//  string CategoryName = 3;
-//  repeated SecondLevelCategory SecondLevelCategory = 4;
-//}
 
 // 空响应
 message EmptyResponse {

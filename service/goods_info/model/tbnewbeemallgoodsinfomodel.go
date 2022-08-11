@@ -8,6 +8,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"strconv"
 )
 
 var _ TbNewbeeMallGoodsInfoModel = (*customTbNewbeeMallGoodsInfoModel)(nil)
@@ -20,6 +21,7 @@ type (
 		Search(ctx context.Context, pageNumber, goodsCategoryId int64, keyword, orderBy string) ([]*TbNewbeeMallGoodsInfo, int64, error)
 		Find(ctx context.Context, name, status string, limit, offset int64) ([]*TbNewbeeMallGoodsInfo, int64, error)
 		CountAll(ctx context.Context) (int64, error)
+		GetForIndex(ctx context.Context, ids []int64) ([]*TbNewbeeMallGoodsInfo, error)
 	}
 
 	customTbNewbeeMallGoodsInfoModel struct {
@@ -123,6 +125,34 @@ func (m *customTbNewbeeMallGoodsInfoModel) Find(ctx context.Context, name, statu
 	}
 
 	return res, total, nil
+}
+
+func (m customTbNewbeeMallGoodsInfoModel) GetForIndex(ctx context.Context, ids []int64) ([]*TbNewbeeMallGoodsInfo, error) {
+	var res []*TbNewbeeMallGoodsInfo
+	if len(ids) == 0 {
+		return res, nil
+	}
+	idstr := "("
+	for i := 0; i < len(ids); i++ {
+		idstr += strconv.FormatInt(ids[i], 10)
+		if i != len(ids)-1 {
+			idstr += ","
+		}
+	}
+	idstr += ")"
+	query := fmt.Sprintf("select %s from %s", tbNewbeeMallGoodsInfoRows, m.table)
+	conditions := fmt.Sprintf(" where `goods_id` in %s", idstr)
+	query = query + conditions
+	err := m.QueryRowsNoCacheCtx(ctx, &res, query)
+	if err != nil {
+		if err == sqlc.ErrNotFound {
+			return nil, ErrNotFound
+		} else {
+			return nil, err
+		}
+	}
+
+	return res, nil
 }
 
 // NewTbNewbeeMallGoodsInfoModel returns a model for the database table.

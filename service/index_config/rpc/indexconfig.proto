@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package indexconfig;
+
+option go_package = './indexconfig';
+
+// 获取首页IndexConfig
+message GetConfigForIndexRequest {
+  int64 configType = 1;
+  int64 num = 2;
+}
+message IndexGoods {
+  int64 goodsId = 1;
+  string goodsName = 2;
+  string goodsIntro = 3;
+  string goodsCoverImg = 4;
+  int64 sellingPrice = 5;
+  string tag = 6;
+}
+message GetConfigForIndexResponse {
+  repeated IndexGoods indexGoodsList = 1;
+}
+
+// 增加IndexConfig
+message AddConfigRequest {
+  string configName = 1;
+  int64 configType = 2;
+  int64 goodsId = 3;
+  string redirectUrl = 4;
+  int64 configRank = 5;
+  int64 user = 6;
+}
+
+// 更新IndexConfig
+message UpdateConfigRequest {
+  int64 configId = 1;
+  string configName = 2;
+  int64 configType = 3;
+  int64 goodsId = 4;
+  string redirectUrl = 5;
+  int64 configRank = 6;
+  int64 user = 7;
+}
+
+// 删除IndexConfig
+message DeleteConfigRequest {
+  repeated int64 ids = 1;
+}
+
+// 查找IndexConfig
+message GetConfigRequest {
+  int64 id = 1;
+}
+message Config {
+  int64 configId = 1;
+  string configName = 2;
+  int64 configType = 3;
+  int64 goodsId = 4;
+  string redirectUrl =5;
+  int64 configRank = 6;
+  int64 isDeleted = 7;
+  int64 createTime = 8;
+  int64 createUser = 9;
+  int64 updateTime = 10;
+  int64 updateUser = 11;
+}
+message GetConfigResponse {
+  Config config = 1;
+}
+
+// 获取IndexConfigList
+message GetConfigListRequest {
+  int64 configType = 1;
+  int64 pageNumber = 2;
+  int64 pageSize = 3;
+}
+message GetConfigListResponse {
+  repeated Config configList = 1;
+  int64 total = 2;
+}
+
+// 空响应
+message EmptyResponse {
+}
+
+// service
+service indexconfig {
+  rpc getConfigForIndex(GetConfigForIndexRequest) returns(GetConfigForIndexResponse);
+  rpc addConfig(AddConfigRequest) returns(EmptyResponse);
+  rpc updateConfig(UpdateConfigRequest) returns(EmptyResponse);
+  rpc deleteConfig(DeleteConfigRequest) returns(EmptyResponse);
+  rpc getConfig(GetConfigRequest) returns(GetConfigResponse);
+  rpc getConfigList(GetConfigListRequest) returns(GetConfigListResponse);
+}

@@ -6,5 +6,11 @@
 | admintoken    |      | 9003 |
 | goodsinfo     | 8004 | 9004 |
 | goodscategory | 8005 | 9005 |
+| carousel      | 8006 | 9006 |
+| indexconfig   | 8007 | 9007 |
+|               |      |      |
+|               |      |      |
+|               |      |      |
+|               |      |      |
 |               |      |      |
 

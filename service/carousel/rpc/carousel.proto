@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package carousel;
+
+option go_package = './carousel';
+
+// 获取首页的轮播图
+message GetCarouselsForIndexRequest {
+  int64 num = 1;
+}
+message CarouselsForIndex {
+  string  carouselUrl = 1;
+  string  redirectUrl = 2;
+}
+message GetCarouselsForIndexResponse {
+  repeated CarouselsForIndex carouselIndex = 1;
+}
+
+// 增加轮播图
+message AddCarouselRequest {
+  string  carouselUrl = 1;
+  string  redirectUrl = 2;
+  int64 carouselRank = 3;
+  int64 user = 4;
+}
+
+// 更新轮播图
+message UpdateCarouselRequest {
+  int64  carouselId = 1;
+  string  carouselUrl = 2;
+  string  redirectUrl = 3;
+  int64 carouselRank = 4;
+  int64 user = 5;
+}
+
+// 删除轮播图
+message DeleteCarouselRequest {
+  repeated int64 ids = 1;
+}
+
+// Carousel Model
+message CarouselType {
+  int64 carouselId = 1;
+  string  carouselUrl = 2;
+  string  redirectUrl = 3;
+  int64 carouselRank = 4;
+  int64 isDeleted = 5;
+  int64 createTime = 6;
+  int64 createUser = 7;
+  int64 updateTime = 8;
+  int64 updateUser = 9;
+}
+
+// 查找
+message GetCarouselRequest {
+  int64 id = 1;
+}
+message GetCarouselResponse {
+  CarouselType carousel = 1;
+}
+
+// 查找列表
+message GetCarouselListRequest {
+  int64 pageNumber = 1;
+  int64 pageSize = 2;
+}
+message GetCarouselListResponse {
+  repeated CarouselType carouselList = 1;
+  int64 total = 2;
+}
+
+// 空响应
+message EmptyResponse {
+}
+
+// service
+service carousel {
+  rpc getCarouselsForIndex(GetCarouselsForIndexRequest) returns(GetCarouselsForIndexResponse);
+  rpc addCarousel(AddCarouselRequest) returns(EmptyResponse);
+  rpc updateCarousel(UpdateCarouselRequest) returns(EmptyResponse);
+  rpc deleteCarousel(DeleteCarouselRequest) returns(EmptyResponse);
+  rpc getCarousel(GetCarouselRequest) returns(GetCarouselResponse);
+  rpc getCarouselList(GetCarouselListRequest) returns(GetCarouselListResponse);
+}

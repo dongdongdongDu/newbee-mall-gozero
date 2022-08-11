@@ -8,7 +8,7 @@ CREATE TABLE `tb_newbee_mall_goods_category`
     `is_deleted`     tinyint(4)  NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `create_user`    int(11)     NOT NULL DEFAULT '0' COMMENT '创建者id',
-    `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `update_user`    int(11)              DEFAULT '0' COMMENT '修改者id',
     PRIMARY KEY (`category_id`) USING BTREE
 ) ENGINE = InnoDB
