@@ -27,7 +27,6 @@ func NewAddConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddConf
 
 func (l *AddConfigLogic) AddConfig(in *indexconfig.AddConfigRequest) (*indexconfig.EmptyResponse, error) {
 	config := model.TbNewbeeMallIndexConfig{
-		ConfigId:    0,
 		ConfigName:  in.ConfigName,
 		ConfigType:  in.ConfigType,
 		GoodsId:     in.GoodsId,

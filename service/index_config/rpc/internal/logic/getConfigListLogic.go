@@ -37,6 +37,12 @@ func (l *GetConfigListLogic) GetConfigList(in *indexconfig.GetConfigListRequest)
 	for _, item := range list {
 		var c indexconfig.Config
 		err = copier.Copy(&c, item)
+		if err != nil {
+			logx.Error("复制失败" + err.Error())
+			return nil, errors.New("复制失败" + err.Error())
+		}
+		c.CreateTime = item.CreateTime.Unix()
+		c.UpdateTime = item.UpdateTime.Unix()
 		configList = append(configList, &c)
 	}
 

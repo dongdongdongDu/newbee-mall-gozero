@@ -40,6 +40,8 @@ func (l *GetCategoryLogic) GetCategory(in *goodscategory.GetCategoryRequest) (*g
 	// 复制
 	var category goodscategory.Category
 	err = copier.Copy(&category, res)
+	category.CreateTime = res.CreateTime.Unix()
+	category.UpdateTime = res.UpdateTime.Unix()
 	if err != nil {
 		logx.Error("复制失败" + err.Error())
 		return nil, errors.New("复制失败" + err.Error())

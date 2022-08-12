@@ -26,7 +26,6 @@ func NewDeleteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeleteConfigLogic) DeleteConfig(in *indexconfig.DeleteConfigRequest) (*indexconfig.EmptyResponse, error) {
-	// todo: add your logic here and delete this line
 	// 遍历Ids修改IsDeleted值
 	for _, id := range in.Ids {
 		// 查找

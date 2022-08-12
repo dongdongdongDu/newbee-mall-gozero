@@ -31,7 +31,7 @@ func (m customTbNewbeeMallIndexConfigModel) GetConfigList(ctx context.Context, c
 		return nil, 0, errors.New("configType值不合法")
 	}
 	query := fmt.Sprintf("select %s from %s where `config_type` = %d ", tbNewbeeMallIndexConfigRows, m.table, configType)
-	query = query + " order by `category_rank` desc"
+	query = query + " order by `config_rank` desc"
 	err := m.QueryRowsNoCacheCtx(ctx, &res, query)
 	if err != nil {
 		if err == sqlc.ErrNotFound {
@@ -59,7 +59,7 @@ func (m customTbNewbeeMallIndexConfigModel) GetConfigForIndex(ctx context.Contex
 		return nil, errors.New("configType值不合法")
 	}
 	query := fmt.Sprintf("select %s from %s where `is_deleted` = 0 and `config_type` = %d ", tbNewbeeMallIndexConfigRows, m.table, configType)
-	query = query + " order by `category_rank` desc limit ?"
+	query = query + " order by `config_rank` desc limit ?"
 	err := m.QueryRowsNoCacheCtx(ctx, &res, query, limit)
 	if err != nil {
 		if err == sqlc.ErrNotFound {

@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"errors"
 	"github.com/jinzhu/copier"
 	"newbee-mall-gozero/common/response"
 	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
@@ -36,7 +35,10 @@ func (l *GetCategoriesLogic) GetCategories() (resp *types.Response, err error) {
 	})
 	if err != nil {
 		logx.Error("一级分类列表获取失败" + err.Error())
-		return nil, errors.New("一级分类列表获取失败" + err.Error())
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "一级分类列表获取失败" + err.Error(),
+		}, nil
 	}
 	var firstLevelIds []int64
 	for _, category := range firstLevelList.CategoryList {
@@ -50,7 +52,10 @@ func (l *GetCategoriesLogic) GetCategories() (resp *types.Response, err error) {
 	})
 	if err != nil {
 		logx.Error("二级分类列表获取失败" + err.Error())
-		return nil, errors.New("二级分类列表获取失败" + err.Error())
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "二级分类列表获取失败" + err.Error(),
+		}, nil
 	}
 	var secondLevelIds []int64
 	for _, category := range secondLevelList.CategoryList {
@@ -64,7 +69,10 @@ func (l *GetCategoriesLogic) GetCategories() (resp *types.Response, err error) {
 	})
 	if err != nil {
 		logx.Error("三级分类列表获取失败" + err.Error())
-		return nil, errors.New("三级分类列表获取失败" + err.Error())
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        "三级分类列表获取失败" + err.Error(),
+		}, nil
 	}
 	thirdLevelCategoryMap := make(map[int64][]*goodscategory.Category)
 	for _, thirdLevelCategory := range thirdLevelList.CategoryList {

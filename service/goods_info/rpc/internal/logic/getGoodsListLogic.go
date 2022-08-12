@@ -39,6 +39,8 @@ func (l *GetGoodsListLogic) GetGoodsList(in *goodsinfo.GetGoodsListRequest) (*go
 	for _, goods := range goodsRes {
 		var goodsInfo goodsinfo.GoodsInfo
 		err = copier.Copy(&goodsInfo, goods)
+		goodsInfo.CreateTime = goods.CreateTime.Unix()
+		goodsInfo.UpdateTime = goods.UpdateTime.Unix()
 		goodsList = append(goodsList, &goodsInfo)
 	}
 

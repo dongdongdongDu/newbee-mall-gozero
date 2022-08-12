@@ -57,3 +57,72 @@ type Response struct {
 	Msg        string      `json:"message"`
 	Data       interface{} `json:"data"`
 }
+
+type SaveAddressRequest struct {
+	UserName      string `json:"userName"`
+	UserPhone     string `json:"userPhone"`
+	DefaultFlag   int64  `json:"defaultFlag"` // 0-不是 1-是
+	ProvinceName  string `json:"provinceName"`
+	CityName      string `json:"cityName"`
+	RegionName    string `json:"regionName"`
+	DetailAddress string `json:"detailAddress"`
+	Token         string `header:"token"`
+}
+
+type UpdateAddressRequest struct {
+	AddressId     int64  `json:"addressId"`
+	UserId        int64  `json:"userId, optional"`
+	UserName      string `json:"userName"`
+	UserPhone     string `json:"userPhone"`
+	DefaultFlag   int64  `json:"defaultFlag"` // 0-不是 1-是
+	ProvinceName  string `json:"provinceName"`
+	CityName      string `json:"cityName"`
+	RegionName    string `json:"regionName"`
+	DetailAddress string `json:"detailAddress"`
+	Token         string `header:"token"`
+}
+
+type DeleteAddressRequest struct {
+	AddressId int64  `path:"addressId"`
+	Token     string `header:"token"`
+}
+
+type GetMyAddressRequest struct {
+	Token string `header:"token"`
+}
+
+type Address struct {
+	AddressId     int64  `json:"addressId"`
+	UserId        int64  `json:"userId"`
+	UserName      string `json:"userName"`
+	UserPhone     string `json:"userPhone"`
+	DefaultFlag   int64  `json:"defaultFlag"`
+	ProvinceName  string `json:"provinceN"`
+	CityName      string `json:"cityName"`
+	RegionName    string `json:"regionName"`
+	DetailAddress string `json:"detailAddress"`
+	IsDeleted     int64  `json:"isDeleted"`
+	CreateTime    string `json:"createTime"`
+	UpdateTime    string `json:"updateTime"`
+}
+
+type GetMyAddressResponse struct {
+	AddressList []Address `json:"addressList"`
+}
+
+type GetAddressByIdRequest struct {
+	AddressId int64  `path:"addressId"`
+	Token     string `header:"token"`
+}
+
+type GetAddressByIdResponse struct {
+	Address Address `json:"address"`
+}
+
+type GetDefaultAddressRequest struct {
+	Token string `header:"token"`
+}
+
+type GetDefaultAddressResponse struct {
+	Address Address `json:"address"`
+}

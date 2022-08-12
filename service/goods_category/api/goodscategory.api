@@ -42,5 +42,5 @@ type (
 service goodscategory {
 	// 登录
 	@handler GetCategories
-	get /categories () returns (Response)
+	get /categories returns (Response)
 }

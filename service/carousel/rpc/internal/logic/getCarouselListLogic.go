@@ -43,6 +43,8 @@ func (l *GetCarouselListLogic) GetCarouselList(in *carousel.GetCarouselListReque
 			logx.Error("复制失败" + err.Error())
 			return nil, errors.New("复制失败" + err.Error())
 		}
+		c.CreateTime = item.CreateTime.Unix()
+		c.UpdateTime = item.UpdateTime.Unix()
 		carouselList = append(carouselList, &c)
 	}
 	// 查询总数

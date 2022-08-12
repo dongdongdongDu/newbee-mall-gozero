@@ -69,8 +69,77 @@ type (
 		Msg        string      `json:"message"`
 		Data       interface{} `json:"data"`
 	}
+
+	// 保存地址（新增）
+	SaveAddressRequest {
+		UserName      string `json:"userName"`
+		UserPhone     string `json:"userPhone"`
+		DefaultFlag   int64  `json:"defaultFlag"` // 0-不是 1-是
+		ProvinceName  string `json:"provinceName"`
+		CityName      string `json:"cityName"`
+		RegionName    string `json:"regionName"`
+		DetailAddress string `json:"detailAddress"`
+		Token         string `header:"token"`
+	}
+	// 更新地址
+	UpdateAddressRequest {
+		AddressId     int64  `json:"addressId"`
+		UserId        int64  `json:"userId, optional"`
+		UserName      string `json:"userName"`
+		UserPhone     string `json:"userPhone"`
+		DefaultFlag   int64  `json:"defaultFlag"` // 0-不是 1-是
+		ProvinceName  string `json:"provinceName"`
+		CityName      string `json:"cityName"`
+		RegionName    string `json:"regionName"`
+		DetailAddress string `json:"detailAddress"`
+		Token         string `header:"token"`
+	}
+	// 删除地址
+	DeleteAddressRequest {
+		AddressId int64  `path:"addressId"`
+		Token     string `header:"token"`
+	}
+	// 获取用户地址
+	GetMyAddressRequest {
+		Token string `header:"token"`
+	}
+	Address {
+		AddressId     int64  `json:"addressId"`
+		UserId        int64  `json:"userId"`
+		UserName      string `json:"userName"`
+		UserPhone     string `json:"userPhone"`
+		DefaultFlag   int64  `json:"defaultFlag"`
+		ProvinceName  string `json:"provinceN"`
+		CityName      string `json:"cityName"`
+		RegionName    string `json:"regionName"`
+		DetailAddress string `json:"detailAddress"`
+		IsDeleted     int64  `json:"isDeleted"`
+		CreateTime    string `json:"createTime"`
+		UpdateTime    string `json:"updateTime"`
+	}
+	GetMyAddressResponse {
+		AddressList []Address `json:"addressList"`
+	}
+	// 根据id获取地址
+	GetAddressByIdRequest {
+		AddressId int64  `path:"addressId"`
+		Token     string `header:"token"`
+	}
+	GetAddressByIdResponse {
+		Address Address `json:"address"`
+	}
+	// 获取默认地址
+	GetDefaultAddressRequest {
+		Token string `header:"token"`
+	}
+	GetDefaultAddressResponse {
+		Address Address `json:"address"`
+	}
 )
 
+@server(
+	group: user
+)
 service user {
 	// 登录
 	@handler Login
@@ -84,6 +153,7 @@ service user {
 // 需要登录
 @server(
 	middleware : UserJwtAuth
+	group: user
 )
 service user {
 	// 获取用户信息
@@ -97,8 +167,46 @@ service user {
 	// 退出登录
 	@handler Logout
 	post /user/logout (LogoutRequest) returns (Response)
-	
+}
+
+// 需要登录
+@server(
+	middleware : UserJwtAuth
+	group: goodsInfo
+)
+service user {
 	// 查看商品详情
 	@handler GetGoodsDetail
 	get /goods/detail/:id (GetGoodsDetailRequest) returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : UserJwtAuth
+	group: userAddress
+)
+service user {
+	// 保存地址（新增）
+	@handler SaveAddress
+	post /address (SaveAddressRequest) returns (Response)
+	
+	// 更新地址
+	@handler UpdateAddress
+	put /address (UpdateAddressRequest) returns (Response)
+	
+	// 删除地址
+	@handler DeleteAddress
+	delete /address/:addressId (DeleteAddressRequest) returns (Response)
+	
+	// 获取用户地址
+	@handler GetMyAddress
+	get /address (GetMyAddressRequest) returns (Response)
+	
+	// 根据id获取地址
+	@handler GetAddressById
+	get /address/:addressId (GetAddressByIdRequest) returns (Response)
+	
+	// 获取默认地址
+	@handler GetDefaultAddress
+	get /address/default (GetDefaultAddressRequest) returns (Response)
 }

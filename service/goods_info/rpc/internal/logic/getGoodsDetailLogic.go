@@ -46,6 +46,7 @@ func (l *GetGoodsDetailLogic) GetGoodsDetail(in *goodsinfo.GetGoodsDetailRequest
 		logx.Error("copy失败" + err.Error())
 		return nil, errors.New("copy失败" + err.Error())
 	}
+
 	res.GoodsCarouselList = list
 	return &res, nil
 }

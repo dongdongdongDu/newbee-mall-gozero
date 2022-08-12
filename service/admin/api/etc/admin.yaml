@@ -29,3 +29,13 @@ GoodsCategoryRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: goodscategory.rpc
+CarouselRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: carousel.rpc
+IndexConfigRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: indexconfig.rpc

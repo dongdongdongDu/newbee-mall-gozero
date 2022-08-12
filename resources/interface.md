@@ -7,9 +7,9 @@
 | goodsinfo     | 8004 | 9004 |
 | goodscategory | 8005 | 9005 |
 | carousel      | 8006 | 9006 |
-| indexconfig   | 8007 | 9007 |
-|               |      |      |
-|               |      |      |
+| indexconfig   |      | 9007 |
+| useraddress   |      | 9008 |
+| orderaddress  |      | 9009 |
 |               |      |      |
 |               |      |      |
 |               |      |      |

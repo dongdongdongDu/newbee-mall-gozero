@@ -43,6 +43,8 @@ func (l *GetGoodsInfoLogic) GetGoodsInfo(in *goodsinfo.GetGoodsInfoRequest) (*go
 		logx.Error("复制失败" + err.Error())
 		return nil, errors.New("复制失败" + err.Error())
 	}
+	goodsInfo.CreateTime = res.CreateTime.Unix()
+	goodsInfo.UpdateTime = res.UpdateTime.Unix()
 
 	return &goodsinfo.GetGoodsInfoResponse{
 		GoodsInfo: &goodsInfo,

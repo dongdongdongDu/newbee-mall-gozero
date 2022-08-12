@@ -43,6 +43,8 @@ func (l *GetConfigLogic) GetConfig(in *indexconfig.GetConfigRequest) (*indexconf
 		logx.Error("复制失败" + err.Error())
 		return nil, errors.New("复制失败" + err.Error())
 	}
+	config.CreateTime = res.CreateTime.Unix()
+	config.UpdateTime = res.UpdateTime.Unix()
 
 	return &indexconfig.GetConfigResponse{
 		Config: &config,

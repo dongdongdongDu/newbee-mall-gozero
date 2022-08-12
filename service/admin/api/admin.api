@@ -9,6 +9,13 @@ info(
 )
 
 type (
+	// 响应
+	Response {
+		ResultCode int64       `json:"resultCode"`
+		Msg        string      `json:"message"`
+		Data       interface{} `json:"data"`
+	}
+
 	// 管理员
 	Admin {
 		AdminUserId   int64  `json:"adminUserId"`
@@ -216,15 +223,105 @@ type (
 	GetCategoryForSelectLevel2Response {
 		ThirdLevelCategories []*GoodsCategory `json:"thirdLevelCategories"`
 	}
+	// carousel
+	Carousel {
+		CarouselId   int64  `json:"carouselId"`
+		CarouselUrl  string `json:"carouselUrl"`
+		RedirectUrl  string `json:"redirectUrl"`
+		CarouselRank int64  `json:"carouselRank"`
+		IsDeleted    int64  `json:"isDeleted"`
+		CreateTime   string `json:"createTime"`
+		CreateUser   int64  `json:"createUser"`
+		UpdateTime   string `json:"updateTime"`
+		UpdateUser   int64  `json:"updateUser"`
+	}
+	// 新增carousel
+	AddCarouselRequest {
+		CarouselUrl  string `json:"carouselUrl"`
+		RedirectUrl  string `json:"redirectUrl"`
+		CarouselRank int64  `json:"carouselRank"`
+		Token        string `header:"token"`
+	}
+	// 更新carousel
+	UpdateCarouselRequest {
+		CarouselId   int64  `json:"carouselId"`
+		CarouselUrl  string `json:"carouselUrl"`
+		RedirectUrl  string `json:"redirectUrl"`
+		CarouselRank int64  `json:"carouselRank"`
+		Token        string `header:"token"`
+	}
+	// 删除carousel
+	DeleteCarouselRequest {
+		Ids []int64 `json:"ids"`
+	}
+	// 获取carousel
+	GetCarouselRequest {
+		Id int64 `path:"id"`
+	}
+	GetCarouselResponse {
+		Carousel Carousel `json:"carousel"`
+	}
+	// 获取carousel列表
+	GetCarouselListRequest {
+		PageNumber int64 `json:"pageNumber"`
+		PageSize   int64 `json:"pageSize"`
+	}
 
-	// 响应
-	Response {
-		ResultCode int64       `json:"resultCode"`
-		Msg        string      `json:"message"`
-		Data       interface{} `json:"data"`
+	// IndexConfig
+	IndexConfig {
+		ConfigId    int64  `json:"configId"`
+		ConfigName  string `json:"configName"`
+		ConfigType  int64  `json:"configType"`
+		GoodsId     int64  `json:"goodsId"`
+		RedirectUrl string `json:"redirectUrl"`
+		ConfigRank  int64  `json:"configRank"`
+		IsDeleted   int64  `json:"isDeleted"`
+		CreateTime  string `json:"createTime"`
+		CreateUser  int64  `json:"createUser"`
+		UpdateTime  string `json:"updateTime"`
+		UpdateUser  int64  `json:"updateUser"`
+	}
+	// 新增IndexConfig
+	AddIndexConfigRequest {
+		ConfigName  string `json:"configName"`
+		ConfigType  int64  `json:"configType"`
+		GoodsId     int64  `json:"goodsId"`
+		RedirectUrl string `json:"redirectUrl"`
+		ConfigRank  int64  `json:"configRank"`
+		Token       string `header:"token"`
+	}
+	// 更新IndexConfig
+	UpdateIndexConfigRequest {
+		ConfigId    int64  `json:"configId"`
+		ConfigName  string `json:"configName"`
+		RedirectUrl string `json:"redirectUrl"`
+		ConfigType  int64  `json:"configType"`
+		GoodsId     int64  `json:"goodsId"`
+		ConfigRank  int64  `json:"configRank"`
+		Token       string `header:"token"`
+	}
+	// 删除IndexConfig
+	DeleteIndexConfigRequest {
+		Ids []int64 `json:"ids"`
+	}
+	// 获取IndexConfig
+	GetIndexConfigRequest {
+		Id int64 `path:"id"`
+	}
+	GetIndexConfigResponse {
+		IndexConfig IndexConfig `json:"indexConfig"`
+	}
+	// 获取IndexConfig列表
+	GetIndexConfigListRequest {
+		ConfigType int64 `json:"configType"`
+		PageNumber int64 `json:"pageNumber"`
+		PageSize   int64 `json:"pageSize"`
 	}
 )
 
+@server(
+	group: admin
+)
 service admin {
 	// 登录
 	@handler AdminLogin
@@ -234,6 +331,7 @@ service admin {
 // 需要登录
 @server(
 	middleware : AdminJwtAuth
+	group: admin
 )
 service admin {
 	// 获取管理员信息
@@ -248,6 +346,17 @@ service admin {
 	@handler UpdateAdminPwd
 	put /admin/password (UpdateAdminPwdRequest) returns (Response)
 	
+	// 退出登录
+	@handler AdminLogout
+	post /admin/logout (LogoutRequest) returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : AdminJwtAuth
+	group: user
+)
+service admin {
 	// 查看用户列表
 	@handler GetUserList
 	get /admin/users (GetUserListRequest) returns (Response)
@@ -255,11 +364,14 @@ service admin {
 	// 用户禁用或解除
 	@handler LockUser
 	put /admin/users/:lockStatus (LockUserRequest) returns (Response)
-	
-	// 退出登录
-	@handler AdminLogout
-	post /admin/logout (LogoutRequest) returns (Response)
-	
+}
+
+// 需要登录
+@server(
+	middleware : AdminJwtAuth
+	group: goodsInfo
+)
+service admin {
 	// 增加新商品
 	@handler AddGoodsInfo
 	post /goods (AddGoodsInfoRequest) returns (Response)
@@ -283,7 +395,14 @@ service admin {
 	// 获取商品筛选列表
 	@handler GetGoodsList
 	get /goods/list (GetGoodsListRequest) returns (Response)
-	
+}
+
+// 需要登录
+@server(
+	middleware : AdminJwtAuth
+	group: category
+)
+service admin {
 	// 增加分类
 	@handler AddCategory
 	post /categories (AddCategoryRequest) returns (Response)
@@ -307,4 +426,58 @@ service admin {
 	// 查看选中
 	@handler GetCategoryForSelect
 	get /categories4Select (GetCategoryForSelectRequest) returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : AdminJwtAuth
+	group: carousel
+)
+service admin {
+	// 新增carousel
+	@handler AddCarousel
+	post /carousels (AddCarouselRequest) returns (Response)
+	
+	// 更新carousel
+	@handler UpdateCarousel
+	put /carousels (UpdateCarouselRequest) returns (Response)
+	
+	// 删除carousel
+	@handler DeleteCarousel
+	delete /carousels (DeleteCarouselRequest) returns (Response)
+	
+	// 获取carousel
+	@handler GetCarousel
+	get /carousels/:id (GetCarouselRequest) returns (Response)
+	
+	// 获取carousel列表
+	@handler GetCarouselList
+	get /carousels (GetCarouselListRequest)	returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : AdminJwtAuth
+	group: indexconfig
+)
+service admin {
+	// 新增IndexConfig
+	@handler AddIndexConfig
+	post /indexConfigs (AddIndexConfigRequest) returns (Response)
+	
+	// 更新IndexConfig
+	@handler UpdateIndexConfig
+	put /indexConfigs (UpdateIndexConfigRequest) returns (Response)
+	
+	// 删除IndexConfig
+	@handler DeleteIndexConfig
+	delete /indexConfigs (DeleteIndexConfigRequest) returns (Response)
+	
+	// 获取IndexConfig
+	@handler GetIndexConfig
+	get /indexConfigs/:id (GetIndexConfigRequest) returns (Response)
+	
+	// 获取IndexConfig列表
+	@handler GetIndexConfiglList
+	get /indexConfigs (GetIndexConfigListRequest) returns (Response)
 }

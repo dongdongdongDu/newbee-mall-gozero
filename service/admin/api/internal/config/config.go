@@ -12,4 +12,6 @@ type Config struct {
 	AdminTokenRpc    zrpc.RpcClientConf
 	GoodsInfoRpc     zrpc.RpcClientConf
 	GoodsCategoryRpc zrpc.RpcClientConf
+	CarouselRpc      zrpc.RpcClientConf
+	IndexConfigRpc   zrpc.RpcClientConf
 }

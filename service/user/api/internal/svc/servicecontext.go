@@ -7,24 +7,27 @@ import (
 	"newbee-mall-gozero/service/user/api/internal/config"
 	"newbee-mall-gozero/service/user/api/internal/middleware"
 	"newbee-mall-gozero/service/user/rpc/user"
+	"newbee-mall-gozero/service/user_address/rpc/useraddress"
 	"newbee-mall-gozero/service/user_token/rpc/usertoken"
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	UserRpc      user.UserClient
-	UserJwtAuth  rest.Middleware
-	UserTokenRpc usertoken.UsertokenClient
-	GoodsInfoRpc goodsinfo.GoodsinfoClient
+	Config         config.Config
+	UserRpc        user.UserClient
+	UserJwtAuth    rest.Middleware
+	UserTokenRpc   usertoken.UsertokenClient
+	GoodsInfoRpc   goodsinfo.GoodsinfoClient
+	UserAddressRpc useraddress.UseraddressClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	UserTokenRpc := usertoken.NewUsertoken(zrpc.MustNewClient(c.UserTokenRpc))
 	return &ServiceContext{
-		Config:       c,
-		UserRpc:      user.NewUser(zrpc.MustNewClient(c.UserRpc)),
-		UserJwtAuth:  middleware.NewUserJwtAuthMiddleware(UserTokenRpc).Handle,
-		UserTokenRpc: UserTokenRpc,
-		GoodsInfoRpc: goodsinfo.NewGoodsinfo(zrpc.MustNewClient(c.GoodsInfoRpc)),
+		Config:         c,
+		UserRpc:        user.NewUser(zrpc.MustNewClient(c.UserRpc)),
+		UserJwtAuth:    middleware.NewUserJwtAuthMiddleware(UserTokenRpc).Handle,
+		UserTokenRpc:   UserTokenRpc,
+		GoodsInfoRpc:   goodsinfo.NewGoodsinfo(zrpc.MustNewClient(c.GoodsInfoRpc)),
+		UserAddressRpc: useraddress.NewUseraddress(zrpc.MustNewClient(c.UserAddressRpc)),
 	}
 }

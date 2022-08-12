@@ -38,6 +38,12 @@ func (l *GetCategoryListLogic) GetCategoryList(in *goodscategory.GetCategoryList
 	for _, item := range list {
 		var category goodscategory.Category
 		err = copier.Copy(&category, item)
+		if err != nil {
+			logx.Error("复制失败" + err.Error())
+			return nil, errors.New("复制失败" + err.Error())
+		}
+		category.CreateTime = item.CreateTime.Unix()
+		category.UpdateTime = item.UpdateTime.Unix()
 		categoryList = append(categoryList, &category)
 	}
 

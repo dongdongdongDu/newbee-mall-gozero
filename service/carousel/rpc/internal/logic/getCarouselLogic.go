@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/jinzhu/copier"
 	"newbee-mall-gozero/service/carousel/model"
 
 	"newbee-mall-gozero/service/carousel/rpc/carousel"
@@ -38,12 +37,24 @@ func (l *GetCarouselLogic) GetCarousel(in *carousel.GetCarouselRequest) (*carous
 		return nil, errors.New("轮播图获取失败" + err.Error())
 	}
 	// 复制
-	var c carousel.CarouselType
-	err = copier.Copy(&c, res)
-	if err != nil {
-		logx.Error("复制失败" + err.Error())
-		return nil, errors.New("复制失败" + err.Error())
+	//var c carousel.CarouselType
+	//err = copier.Copy(&c, res)
+	c := carousel.CarouselType{
+		CarouselId:   res.CarouselId,
+		CarouselUrl:  res.CarouselUrl,
+		RedirectUrl:  res.RedirectUrl,
+		CarouselRank: res.CarouselRank,
+		IsDeleted:    res.IsDeleted,
+		CreateTime:   res.CreateTime.Unix(),
+		CreateUser:   res.CreateUser,
+		UpdateTime:   res.UpdateTime.Unix(),
+		UpdateUser:   res.UpdateUser,
 	}
+
+	//if err != nil {
+	//	logx.Error("复制失败" + err.Error())
+	//	return nil, errors.New("复制失败" + err.Error())
+	//}
 
 	return &carousel.GetCarouselResponse{
 		Carousel: &c,
