@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package useraddress;
+
+option go_package = './useraddress';
+
+// 空响应
+message EmptyResponse {
+}
+
+// 保存地址（新增）
+message SaveAddressRequest {
+  string userName = 1;
+  string userPhone = 2;
+  int64  defaultFlag = 3;
+  string provinceName = 4;
+  string cityName = 5;
+  string regionName = 6;
+  string detailAddress = 7;
+  int64  user = 8;
+}
+
+// 更新地址
+message UpdateAddressRequest {
+  int64  addressId = 1;
+  string userName = 2;
+  string userPhone = 3;
+  int64  defaultFlag = 4;
+  string provinceName = 5;
+  string cityName = 6;
+  string regionName = 7;
+  string detailAddress = 8;
+  int64  user = 9;
+}
+
+// 删除地址
+message DeleteAddressRequest {
+  int64 id = 1;
+  int64 user = 2;
+}
+
+// 地址Model
+message Address {
+  int64  addressId = 1;
+  int64  userId = 2;
+  string userName = 3;
+  string userPhone = 4;
+  int64  defaultFlag = 5;
+  string provinceName = 6;
+  string cityName = 7;
+  string regionName = 8;
+  string detailAddress = 9;
+  int64  isDeleted = 10;
+  int64  createTime = 11;
+  int64  updateTime = 12;
+}
+
+// 获取用户地址
+message GetMyAddressRequest {
+  int64 user = 1;
+}
+message GetMyAddressResponse {
+  repeated Address addressList = 1;
+}
+
+// 根据id获取地址
+message GetAddressByIdRequest {
+  int64 id = 1;
+  int64 user = 2;
+}
+message GetAddressByIdResponse {
+  Address address = 1;
+}
+
+// 获取默认地址
+message GetDefaultAddressRequest {
+  int64 user = 1;
+}
+message GetDefaultAddressResponse {
+  Address address = 1;
+}
+
+service useraddress {
+  rpc saveAddress(SaveAddressRequest) returns(EmptyResponse);
+  rpc updateAddress(UpdateAddressRequest) returns(EmptyResponse);
+  rpc deleteAddress(DeleteAddressRequest) returns(EmptyResponse);
+  rpc getMyAddress(GetMyAddressRequest) returns(GetMyAddressResponse);
+  rpc getAddressById(GetAddressByIdRequest) returns(GetAddressByIdResponse);
+  rpc getDefaultAddress(GetDefaultAddressRequest) returns(GetDefaultAddressResponse);
+}

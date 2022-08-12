@@ -1,0 +1,42 @@
+syntax = "v1"
+
+info(
+	title: "carousel"
+	desc: "carousel"
+	author: "dongdongdongDu"
+	email: "137564641@qq.com"
+	version: "1.0"
+)
+
+type (
+	Carousel {
+		CarouselUrl string `json:"carouselUrl"`
+		RedirectUrl string `json:"redirectUrl"`
+	}
+	IndexGoods {
+		GoodsId       int64  `json:"goodsId"`
+		GoodsName     string `json:"goodsName"`
+		GoodsIntro    string `json:"goodsIntro"`
+		GoodsCoverImg string `json:"goodsCoverImg"`
+		SellingPrice  int64  `json:"sellingPrice"`
+		Tag           string `json:"tag"`
+	}
+	// 获取首页数据
+	GetIndexInfoResponse {
+		Carousels      []*Carousel   `json:"carousels"`
+		HotGoods       []*IndexGoods `json:"hotGoods"`
+		NewGoods       []*IndexGoods `json:"newGoods"`
+		RecommendGoods []*IndexGoods `json:"recommendGoods"`
+	}
+	// 响应
+	Response {
+		ResultCode int64       `json:"resultCode"`
+		Msg        string      `json:"msg"`
+		Data       interface{} `json:"data"`
+	}
+)
+
+service carousel {
+	@handler GetIndexInfo
+	get /index-infos returns (Response)
+}
