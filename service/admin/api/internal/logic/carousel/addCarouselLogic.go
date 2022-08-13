@@ -3,6 +3,7 @@ package carousel
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
+	"newbee-mall-gozero/common/verify"
 	"newbee-mall-gozero/service/admin_token/rpc/admintoken"
 	"newbee-mall-gozero/service/carousel/rpc/carousel"
 
@@ -27,6 +28,13 @@ func NewAddCarouselLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCa
 }
 
 func (l *AddCarouselLogic) AddCarousel(req *types.AddCarouselRequest) (resp *types.Response, err error) {
+	// 校验输入格式
+	if err := verify.Verify(*req, verify.CarouselAddParamVerify); err != nil {
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        err.Error(),
+		}, nil
+	}
 	// 获取当前用户
 	adminToken, err := l.svcCtx.AdminTokenRpc.GetExistToken(l.ctx, &admintoken.GetExistTokenRequest{
 		Token: req.Token,

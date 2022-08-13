@@ -3,6 +3,7 @@ package indexconfig
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
+	"newbee-mall-gozero/common/verify"
 	"newbee-mall-gozero/service/admin_token/rpc/admintoken"
 	"newbee-mall-gozero/service/index_config/rpc/indexconfig"
 
@@ -27,6 +28,13 @@ func NewAddIndexConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ad
 }
 
 func (l *AddIndexConfigLogic) AddIndexConfig(req *types.AddIndexConfigRequest) (resp *types.Response, err error) {
+	// 校验输入格式
+	if err := verify.Verify(*req, verify.IndexConfigAddParamVerify); err != nil {
+		return &types.Response{
+			ResultCode: response.ERROR,
+			Msg:        err.Error(),
+		}, nil
+	}
 	// 获取当前用户
 	adminToken, err := l.svcCtx.AdminTokenRpc.GetExistToken(l.ctx, &admintoken.GetExistTokenRequest{
 		Token: req.Token,
