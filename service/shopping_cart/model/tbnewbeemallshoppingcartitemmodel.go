@@ -6,7 +6,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"strconv"
+	"newbee-mall-gozero/common/nums"
 )
 
 var _ TbNewbeeMallShoppingCartItemModel = (*customTbNewbeeMallShoppingCartItemModel)(nil)
@@ -47,15 +47,7 @@ func (m customTbNewbeeMallShoppingCartItemModel) FindItems(ctx context.Context, 
 	if len(cartItemIds) == 0 {
 		return res, nil
 	}
-	idstr := "("
-	for i := 0; i < len(cartItemIds); i++ {
-		idstr += strconv.FormatInt(cartItemIds[i], 10)
-		if i != len(cartItemIds)-1 {
-			idstr += ","
-		}
-	}
-	idstr += ")"
-
+	idstr := nums.IntToStr(cartItemIds)
 	query := fmt.Sprintf("select %s from %s", tbNewbeeMallShoppingCartItemRows, m.table)
 	conditions := fmt.Sprintf(" where `cart_item_id` in %s and `user_id` = %d and `is_deleted` = 0", idstr, userId)
 	query = query + conditions

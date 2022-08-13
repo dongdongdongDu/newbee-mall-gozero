@@ -8,7 +8,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"strconv"
+	"newbee-mall-gozero/common/nums"
 )
 
 var _ TbNewbeeMallGoodsInfoModel = (*customTbNewbeeMallGoodsInfoModel)(nil)
@@ -132,14 +132,7 @@ func (m customTbNewbeeMallGoodsInfoModel) GetForIndex(ctx context.Context, ids [
 	if len(ids) == 0 {
 		return res, nil
 	}
-	idstr := "("
-	for i := 0; i < len(ids); i++ {
-		idstr += strconv.FormatInt(ids[i], 10)
-		if i != len(ids)-1 {
-			idstr += ","
-		}
-	}
-	idstr += ")"
+	idstr := nums.IntToStr(ids)
 	query := fmt.Sprintf("select %s from %s", tbNewbeeMallGoodsInfoRows, m.table)
 	conditions := fmt.Sprintf(" where `goods_id` in %s", idstr)
 	query = query + conditions

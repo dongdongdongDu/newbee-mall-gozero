@@ -7,7 +7,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"strconv"
+	"newbee-mall-gozero/common/nums"
 )
 
 var _ TbNewbeeMallGoodsCategoryModel = (*customTbNewbeeMallGoodsCategoryModel)(nil)
@@ -65,14 +65,7 @@ func (m customTbNewbeeMallGoodsCategoryModel) GetCategoriesByParentIdsAndLevel(c
 	if len(ids) == 0 {
 		return res, nil
 	}
-	idstr := "("
-	for i := 0; i < len(ids); i++ {
-		idstr += strconv.FormatInt(ids[i], 10)
-		if i != len(ids)-1 {
-			idstr += ","
-		}
-	}
-	idstr += ")"
+	idstr := nums.IntToStr(ids)
 	query := fmt.Sprintf("select %s from %s where `is_deleted` = 0", tbNewbeeMallGoodsCategoryRows, m.table)
 	conditions := fmt.Sprintf(" and `parent_id` in %s and `category_level` = %d", idstr, level)
 	query = query + conditions + " order by `category_rank` desc"
