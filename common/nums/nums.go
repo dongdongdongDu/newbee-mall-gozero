@@ -1,8 +1,10 @@
 package nums
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -23,4 +25,31 @@ func GenValidateCode(width int) string {
 		}
 	}
 	return sb.String()
+}
+
+// StrToInt "2,3" 转换为[2,3]
+func StrToInt(strNum string) ([]int64, error) {
+	strNums := strings.Split(strNum, ",")
+	var nums []int64
+	for _, s := range strNums {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			return nums, errors.New("Atoi失败" + err.Error())
+		}
+		nums = append(nums, int64(i))
+	}
+	return nums, nil
+}
+
+// IntToStr [2,3] 转换为 "(2,3)"
+func IntToStr(nums []int64) string {
+	idStr := "("
+	for i := 0; i < len(nums); i++ {
+		idStr += strconv.FormatInt(nums[i], 10)
+		if i != len(nums)-1 {
+			idStr += ","
+		}
+	}
+	idStr += ")"
+	return idStr
 }
