@@ -39,7 +39,7 @@ func (l *AddCartItemLogic) AddCartItem(in *shoppingcart.AddCartItemRequest) (*sh
 	}
 	// 查找是否已在购物车里
 	res, err := l.svcCtx.ShoppingCartItemModel.FindItem(l.ctx, in.GoodsId, in.User)
-	if err == nil {
+	if err != nil {
 		logx.Error("查找失败" + err.Error())
 		return nil, errors.New("查找失败" + err.Error())
 	}

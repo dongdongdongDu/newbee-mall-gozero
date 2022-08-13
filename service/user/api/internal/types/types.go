@@ -126,3 +126,42 @@ type GetDefaultAddressRequest struct {
 type GetDefaultAddressResponse struct {
 	Address Address `json:"address"`
 }
+
+type AddCartItemRequest struct {
+	GoodsId    int64  `json:"goodsId"`
+	GoodsCount int64  `json:"goodsCount"`
+	Token      string `header:"token"`
+}
+
+type UpdateCartItemRequest struct {
+	CartItemId int64  `json:"cartItemId"`
+	GoodsCount int64  `json:"goodsCount"`
+	Token      string `header:"token"`
+}
+
+type DeleteCartItemRequest struct {
+	Id    int64  `path:"id"`
+	Token string `header:"token"`
+}
+
+type GetCartListRequest struct {
+	Token string `header:"token"`
+}
+
+type CartItem struct {
+	CartItemId    int64  `json:"cartItemId"`
+	GoodsId       int64  `json:"goodsId"`
+	GoodsCount    int64  `json:"goodsCount"`
+	GoodsName     string `json:"goodsName"`
+	GoodsCoverImg string `json:"goodsCoverImg"`
+	SellingPrice  int64  `json:"sellingPrice"`
+}
+
+type GetCartListResponse struct {
+	CartItemList []CartItem `json:"cartItemList"`
+}
+
+type GetCartItemsRequest struct {
+	CartItemIds string `form:"cartItemIds"`
+	Token       string `header:"token"`
+}

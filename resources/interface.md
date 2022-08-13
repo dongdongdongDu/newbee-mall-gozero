@@ -10,7 +10,7 @@
 | indexconfig   |      | 9007 |
 | useraddress   |      | 9008 |
 | orderaddress  |      | 9009 |
-|               |      |      |
+| shoppingcart  |      | 9010 |
 |               |      |      |
 |               |      |      |
 

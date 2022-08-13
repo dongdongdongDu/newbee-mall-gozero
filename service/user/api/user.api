@@ -135,6 +135,44 @@ type (
 	GetDefaultAddressResponse {
 		Address Address `json:"address"`
 	}
+
+	// 添加购物车项
+	AddCartItemRequest {
+		GoodsId    int64  `json:"goodsId"`
+		GoodsCount int64  `json:"goodsCount"`
+		Token      string `header:"token"`
+	}
+	// 修改购物车项
+	UpdateCartItemRequest {
+		CartItemId int64  `json:"cartItemId"`
+		GoodsCount int64  `json:"goodsCount"`
+		Token      string `header:"token"`
+	}
+	// 删除购物车项
+	DeleteCartItemRequest {
+		Id    int64  `path:"id"`
+		Token string `header:"token"`
+	}
+	// 获取购物车内容
+	GetCartListRequest {
+		Token string `header:"token"`
+	}
+	CartItem {
+		CartItemId    int64  `json:"cartItemId"`
+		GoodsId       int64  `json:"goodsId"`
+		GoodsCount    int64  `json:"goodsCount"`
+		GoodsName     string `json:"goodsName"`
+		GoodsCoverImg string `json:"goodsCoverImg"`
+		SellingPrice  int64  `json:"sellingPrice"`
+	}
+	GetCartListResponse {
+		CartItemList []CartItem `json:"cartItemList"`
+	}
+	// 查询明细
+	GetCartItemsRequest {
+		CartItemIds string `form:"cartItemIds"`
+		Token       string `header:"token"`
+	}
 )
 
 @server(
@@ -209,4 +247,31 @@ service user {
 	// 获取默认地址
 	@handler GetDefaultAddress
 	get /address/default (GetDefaultAddressRequest) returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : UserJwtAuth
+	group: shoppingCart
+)
+service user {
+	// 添加购物车项
+	@handler AddCartItem
+	post /shop-cart (AddCartItemRequest) returns (Response)
+	
+	// 修改购物车项
+	@handler UpdateCartItem
+	put /shop-cart (UpdateCartItemRequest) returns (Response)
+	
+	// 删除购物车项
+	@handler DeleteCartItem
+	delete /shop-cart/:id (DeleteCartItemRequest) returns (Response)
+	
+	// 获取购物车内容
+	@handler GetCartList
+	get /shop-cart (GetCartListRequest) returns (Response)
+	
+	// 查询明细
+	@handler GetCartItems
+	get /shop-cart/settle (GetCartItemsRequest) returns (Response)
 }

@@ -58,7 +58,7 @@ func (l *GetMyAddressLogic) GetMyAddress(req *types.GetMyAddressRequest) (resp *
 			logx.Error("复制失败" + err.Error())
 			return &types.Response{
 				ResultCode: response.ERROR,
-				Msg:        "复制失败" + err.Error(),
+				Msg:        "获取用户地址失败" + err.Error(),
 			}, nil
 		}
 		address.CreateTime = time.Unix(item.CreateTime, 0).Format("2006-01-02 15:04:05")

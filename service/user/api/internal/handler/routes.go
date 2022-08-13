@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	goodsInfo "newbee-mall-gozero/service/user/api/internal/handler/goodsInfo"
+	shoppingCart "newbee-mall-gozero/service/user/api/internal/handler/shoppingCart"
 	user "newbee-mall-gozero/service/user/api/internal/handler/user"
 	userAddress "newbee-mall-gozero/service/user/api/internal/handler/userAddress"
 	"newbee-mall-gozero/service/user/api/internal/svc"
@@ -97,6 +98,39 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/address/default",
 					Handler: userAddress.GetDefaultAddressHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.UserJwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/shop-cart",
+					Handler: shoppingCart.AddCartItemHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/shop-cart",
+					Handler: shoppingCart.UpdateCartItemHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/shop-cart/:id",
+					Handler: shoppingCart.DeleteCartItemHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/shop-cart",
+					Handler: shoppingCart.GetCartListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/shop-cart/settle",
+					Handler: shoppingCart.GetCartItemsHandler(serverCtx),
 				},
 			}...,
 		),

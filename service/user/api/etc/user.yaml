@@ -29,3 +29,8 @@ UserAddressRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: useraddress.rpc
+ShoppingCartRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: shoppingcart.rpc
