@@ -33,9 +33,9 @@ func (l *AddCarouselLogic) AddCarousel(in *carousel.AddCarouselRequest) (*carous
 		CarouselRank: in.CarouselRank,
 		IsDeleted:    0,
 		CreateTime:   time.Now(),
-		CreateUser:   in.User,
+		CreateUser:   in.UserId,
 		UpdateTime:   time.Now(),
-		UpdateUser:   in.User,
+		UpdateUser:   in.UserId,
 	}
 	_, err := l.svcCtx.CarouselModel.Insert(l.ctx, &newCarousel)
 	if err != nil {

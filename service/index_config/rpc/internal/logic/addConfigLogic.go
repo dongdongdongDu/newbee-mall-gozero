@@ -34,9 +34,9 @@ func (l *AddConfigLogic) AddConfig(in *indexconfig.AddConfigRequest) (*indexconf
 		ConfigRank:  in.ConfigRank,
 		IsDeleted:   0,
 		CreateTime:  time.Now(),
-		CreateUser:  in.User,
+		CreateUser:  in.UserId,
 		UpdateTime:  time.Now(),
-		UpdateUser:  in.User,
+		UpdateUser:  in.UserId,
 	}
 	_, err := l.svcCtx.ConfigModel.Insert(l.ctx, &config)
 	if err != nil {

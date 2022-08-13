@@ -36,7 +36,7 @@ func (l *DeleteAddressLogic) DeleteAddress(in *useraddress.DeleteAddressRequest)
 		logx.Error("地址获取失败" + err.Error())
 		return nil, errors.New("地址获取失败" + err.Error())
 	}
-	if res.UserId != in.User {
+	if res.UserId != in.UserId {
 		logx.Error("userId不相等")
 		return nil, errors.New("禁止该操作")
 	}

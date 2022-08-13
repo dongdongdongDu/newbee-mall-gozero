@@ -29,7 +29,7 @@ func NewGetCartItemsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetC
 
 func (l *GetCartItemsLogic) GetCartItems(in *shoppingcart.GetCartItemsRequest) (*shoppingcart.GetCartItemsResponse, error) {
 	// 查找
-	items, err := l.svcCtx.ShoppingCartItemModel.FindItems(l.ctx, in.CartItemIds, in.User)
+	items, err := l.svcCtx.ShoppingCartItemModel.FindItems(l.ctx, in.CartItemIds, in.UserId)
 	if err != nil {
 		logx.Error("购物车列表获取失败" + err.Error())
 		return nil, errors.New("购物车列表获取失败" + err.Error())

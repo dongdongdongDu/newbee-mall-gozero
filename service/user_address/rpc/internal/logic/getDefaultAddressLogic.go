@@ -27,7 +27,7 @@ func NewGetDefaultAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *GetDefaultAddressLogic) GetDefaultAddress(in *useraddress.GetDefaultAddressRequest) (*useraddress.GetDefaultAddressResponse, error) {
-	res, err := l.svcCtx.UserAddressModel.FindDefault(l.ctx, in.User)
+	res, err := l.svcCtx.UserAddressModel.FindDefault(l.ctx, in.UserId)
 	if err != nil {
 		if err == model.ErrNotFound {
 			logx.Error("不存在的地址")
@@ -36,7 +36,7 @@ func (l *GetDefaultAddressLogic) GetDefaultAddress(in *useraddress.GetDefaultAdd
 		logx.Error("地址获取失败" + err.Error())
 		return nil, errors.New("地址获取失败" + err.Error())
 	}
-	if res.UserId != in.User {
+	if res.UserId != in.UserId {
 		logx.Error("userId不相等")
 		return nil, errors.New("禁止该操作")
 	}

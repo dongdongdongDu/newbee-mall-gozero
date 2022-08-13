@@ -29,7 +29,7 @@ func NewGetCartListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCa
 
 func (l *GetCartListLogic) GetCartList(in *shoppingcart.GetCartListRequest) (*shoppingcart.GetCartListResponse, error) {
 	// 查找
-	items, err := l.svcCtx.ShoppingCartItemModel.FindNotDelItemByUser(l.ctx, in.User)
+	items, err := l.svcCtx.ShoppingCartItemModel.FindNotDelItemByUser(l.ctx, in.UserId)
 	if err != nil {
 		logx.Error("购物车列表获取失败" + err.Error())
 		return nil, errors.New("购物车列表获取失败" + err.Error())

@@ -41,7 +41,7 @@ func (l *UpdateConfigLogic) UpdateConfig(in *indexconfig.UpdateConfigRequest) (*
 	res.GoodsId = in.GoodsId
 	res.RedirectUrl = in.RedirectUrl
 	res.ConfigRank = in.ConfigRank
-	res.UpdateUser = in.User
+	res.UpdateUser = in.UserId
 	res.UpdateTime = time.Now()
 
 	err = l.svcCtx.ConfigModel.Update(l.ctx, res)

@@ -25,7 +25,7 @@ func NewGetMyAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetM
 }
 
 func (l *GetMyAddressLogic) GetMyAddress(in *useraddress.GetMyAddressRequest) (*useraddress.GetMyAddressResponse, error) {
-	addressLsit, err := l.svcCtx.UserAddressModel.FindMyAddress(l.ctx, in.User)
+	addressLsit, err := l.svcCtx.UserAddressModel.FindMyAddress(l.ctx, in.UserId)
 	if err != nil {
 		logx.Error("地址获取失败" + err.Error())
 		return nil, errors.New("地址获取失败" + err.Error())

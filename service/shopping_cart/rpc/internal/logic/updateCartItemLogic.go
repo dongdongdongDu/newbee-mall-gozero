@@ -36,7 +36,7 @@ func (l *UpdateCartItemLogic) UpdateCartItem(in *shoppingcart.UpdateCartItemRequ
 		logx.Error("查找失败！" + err.Error())
 		return nil, errors.New("查找失败！" + err.Error())
 	}
-	if res.UserId != in.User {
+	if res.UserId != in.UserId {
 		logx.Error("userId不相等")
 		return nil, errors.New("禁止该操作")
 	}

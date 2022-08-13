@@ -27,7 +27,7 @@ func NewSaveAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveA
 
 func (l *SaveAddressLogic) SaveAddress(in *useraddress.SaveAddressRequest) (*useraddress.EmptyResponse, error) {
 	address := model.TbNewbeeMallUserAddress{
-		UserId:        in.User,
+		UserId:        in.UserId,
 		UserName:      in.UserName,
 		UserPhone:     in.UserPhone,
 		DefaultFlag:   in.DefaultFlag,

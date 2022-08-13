@@ -21,7 +21,7 @@ message AddCarouselRequest {
   string  carouselUrl = 1;
   string  redirectUrl = 2;
   int64 carouselRank = 3;
-  int64 user = 4;
+  int64 userId = 4;
 }
 
 // 更新轮播图
@@ -30,7 +30,7 @@ message UpdateCarouselRequest {
   string  carouselUrl = 2;
   string  redirectUrl = 3;
   int64 carouselRank = 4;
-  int64 user = 5;
+  int64 userId = 5;
 }
 
 // 删除轮播图

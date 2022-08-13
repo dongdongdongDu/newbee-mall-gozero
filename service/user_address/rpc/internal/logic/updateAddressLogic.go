@@ -37,13 +37,13 @@ func (l *UpdateAddressLogic) UpdateAddress(in *useraddress.UpdateAddressRequest)
 		logx.Error("地址获取失败" + err.Error())
 		return nil, errors.New("地址获取失败" + err.Error())
 	}
-	if res.UserId != in.User {
+	if res.UserId != in.UserId {
 		logx.Error("userId不相等")
 		return nil, errors.New("禁止该操作")
 	}
 	// 修改为默认地址，需要将原有的默认地址修改掉
 	if in.DefaultFlag == 1 {
-		defaultAddress, err := l.svcCtx.UserAddressModel.FindDefault(l.ctx, in.User)
+		defaultAddress, err := l.svcCtx.UserAddressModel.FindDefault(l.ctx, in.UserId)
 		if err == nil {
 			defaultAddress.DefaultFlag = 0
 			err := l.svcCtx.UserAddressModel.Update(l.ctx, defaultAddress)

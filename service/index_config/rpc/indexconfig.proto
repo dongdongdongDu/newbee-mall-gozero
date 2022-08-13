@@ -28,7 +28,7 @@ message AddConfigRequest {
   int64 goodsId = 3;
   string redirectUrl = 4;
   int64 configRank = 5;
-  int64 user = 6;
+  int64 userId = 6;
 }
 
 // 更新IndexConfig
@@ -39,7 +39,7 @@ message UpdateConfigRequest {
   int64 goodsId = 4;
   string redirectUrl = 5;
   int64 configRank = 6;
-  int64 user = 7;
+  int64 userId = 7;
 }
 
 // 删除IndexConfig

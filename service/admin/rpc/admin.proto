@@ -21,14 +21,14 @@ message AdminModel {
 }
 // 用户
 message UserModel {
-  int64 UserId = 1;
-  string NickName = 2;
-  string LoginName = 3;
-  string PasswordMd5 = 4;
-  string IntroduceSign = 5;
-  int64 IsDeleted = 6;
-  int64 LockedFlag = 7;
-  int64 CreateTime = 8;
+  int64 userId = 1;
+  string nickName = 2;
+  string loginName = 3;
+  string passwordMd5 = 4;
+  string introduceSign = 5;
+  int64 isDeleted = 6;
+  int64 lockedFlag = 7;
+  int64 createTime = 8;
 }
 
 // 管理员登录

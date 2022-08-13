@@ -41,7 +41,7 @@ func (l *UpdateCarouselLogic) UpdateCarousel(in *carousel.UpdateCarouselRequest)
 	res.RedirectUrl = in.RedirectUrl
 	res.CarouselRank = in.CarouselRank
 	res.UpdateTime = time.Now()
-	res.UpdateUser = in.User
+	res.UpdateUser = in.UserId
 
 	err = l.svcCtx.CarouselModel.Update(l.ctx, res)
 	if err != nil {
