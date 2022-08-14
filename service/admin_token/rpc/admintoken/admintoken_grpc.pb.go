@@ -88,7 +88,7 @@ func (UnimplementedAdmintokenServer) DeleteToken(context.Context, *DeleteTokenRe
 func (UnimplementedAdmintokenServer) mustEmbedUnimplementedAdmintokenServer() {}
 
 // UnsafeAdmintokenServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface.md is not recommended, as added methods to AdmintokenServer will
+// Use of this interface is not recommended, as added methods to AdmintokenServer will
 // result in compilation errors.
 type UnsafeAdmintokenServer interface {
 	mustEmbedUnimplementedAdmintokenServer()
