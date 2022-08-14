@@ -65,13 +65,16 @@ func (m *customTbNewbeeMallGoodsInfoModel) Search(ctx context.Context, pageNumbe
 
 	var limit int64 = 10
 	offset := 10 * (pageNumber - 1)
+	if total <= offset {
+		return nil, 0, errors.New("无效页码范围")
+	}
 	if offset+limit > total {
 		res = res[offset:]
 	} else {
 		res = res[offset : offset+limit]
 	}
 
-	return res, total, err
+	return res, total, nil
 }
 
 func (m *customTbNewbeeMallGoodsInfoModel) CountAll(ctx context.Context) (int64, error) {
