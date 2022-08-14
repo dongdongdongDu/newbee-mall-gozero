@@ -53,3 +53,30 @@ func IntToStr(nums []int64) string {
 	idStr += ")"
 	return idStr
 }
+
+// GenOrderNo 生成订单号
+func GenOrderNo() string {
+	numeric := [10]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	r := len(numeric)
+	rand.Seed(time.Now().UnixNano())
+
+	var sb strings.Builder
+	for i := 0; i < 4; i++ {
+		_, err := fmt.Fprintf(&sb, "%d", numeric[rand.Intn(r)])
+		if err != nil {
+			return ""
+		}
+	}
+	timestamp := strconv.FormatInt(time.Now().UnixNano()/1e6, 10)
+	return timestamp + sb.String()
+}
+
+// NumInList 数值是否存在
+func NumInList(num int64, nums []int64) bool {
+	for _, s := range nums {
+		if s == num {
+			return true
+		}
+	}
+	return false
+}
