@@ -41,8 +41,8 @@ func (l *GetAddressByIdLogic) GetAddressById(req *types.GetAddressByIdRequest) (
 	}
 	// 查找
 	res, err := l.svcCtx.UserAddressRpc.GetAddressById(l.ctx, &useraddress.GetAddressByIdRequest{
-		Id:   req.AddressId,
-		User: token.Token.UserId,
+		Id:     req.AddressId,
+		UserId: token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

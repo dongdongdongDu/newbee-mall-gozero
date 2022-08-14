@@ -54,7 +54,7 @@ func (l *AddCartItemLogic) AddCartItem(req *types.AddCartItemRequest) (resp *typ
 	_, err = l.svcCtx.ShoppingCartRpc.AddCartItem(l.ctx, &shoppingcart.AddCartItemRequest{
 		GoodsId:    req.GoodsId,
 		GoodsCount: req.GoodsCount,
-		User:       token.Token.UserId,
+		UserId:     token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

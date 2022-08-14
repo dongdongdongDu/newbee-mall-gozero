@@ -50,7 +50,7 @@ func (l *GetCartItemsLogic) GetCartItems(req *types.GetCartItemsRequest) (resp *
 	// 获取购物车明细
 	res, err := l.svcCtx.ShoppingCartRpc.GetCartItems(l.ctx, &shoppingcart.GetCartItemsRequest{
 		CartItemIds: cartItemIds,
-		User:        token.Token.UserId,
+		UserId:      token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

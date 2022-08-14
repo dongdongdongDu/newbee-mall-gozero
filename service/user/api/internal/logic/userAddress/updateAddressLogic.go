@@ -47,7 +47,7 @@ func (l *UpdateAddressLogic) UpdateAddress(req *types.UpdateAddressRequest) (res
 		CityName:      req.CityName,
 		RegionName:    req.RegionName,
 		DetailAddress: req.DetailAddress,
-		User:          token.Token.UserId,
+		UserId:        token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

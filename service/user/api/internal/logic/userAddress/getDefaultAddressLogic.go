@@ -41,7 +41,7 @@ func (l *GetDefaultAddressLogic) GetDefaultAddress(req *types.GetDefaultAddressR
 	}
 	// 查找
 	res, err := l.svcCtx.UserAddressRpc.GetDefaultAddress(l.ctx, &useraddress.GetDefaultAddressRequest{
-		User: token.Token.UserId,
+		UserId: token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

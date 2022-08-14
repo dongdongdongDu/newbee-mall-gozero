@@ -39,8 +39,8 @@ func (l *DeleteCartItemLogic) DeleteCartItem(req *types.DeleteCartItemRequest) (
 	}
 	// 删除
 	_, err = l.svcCtx.ShoppingCartRpc.DeleteCartItem(l.ctx, &shoppingcart.DeleteCartItemRequest{
-		Id:   req.Id,
-		User: token.Token.UserId,
+		Id:     req.Id,
+		UserId: token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

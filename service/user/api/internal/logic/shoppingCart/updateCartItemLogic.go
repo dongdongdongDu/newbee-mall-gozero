@@ -47,7 +47,7 @@ func (l *UpdateCartItemLogic) UpdateCartItem(req *types.UpdateCartItemRequest) (
 	_, err = l.svcCtx.ShoppingCartRpc.UpdateCartItem(l.ctx, &shoppingcart.UpdateCartItemRequest{
 		CartItemId: req.CartItemId,
 		GoodsCount: req.GoodsCount,
-		User:       token.Token.UserId,
+		UserId:     token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

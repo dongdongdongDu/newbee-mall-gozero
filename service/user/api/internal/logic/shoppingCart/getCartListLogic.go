@@ -40,7 +40,7 @@ func (l *GetCartListLogic) GetCartList(req *types.GetCartListRequest) (resp *typ
 	}
 	// 查询
 	res, err := l.svcCtx.ShoppingCartRpc.GetCartList(l.ctx, &shoppingcart.GetCartListRequest{
-		User: token.Token.UserId,
+		UserId: token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

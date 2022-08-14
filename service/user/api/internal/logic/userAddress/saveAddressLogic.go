@@ -46,7 +46,7 @@ func (l *SaveAddressLogic) SaveAddress(req *types.SaveAddressRequest) (resp *typ
 		CityName:      req.CityName,
 		RegionName:    req.RegionName,
 		DetailAddress: req.DetailAddress,
-		User:          token.Token.UserId,
+		UserId:        token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

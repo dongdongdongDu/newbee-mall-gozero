@@ -39,8 +39,8 @@ func (l *DeleteAddressLogic) DeleteAddress(req *types.DeleteAddressRequest) (res
 	}
 	// 删除
 	_, err = l.svcCtx.UserAddressRpc.DeleteAddress(l.ctx, &useraddress.DeleteAddressRequest{
-		Id:   req.AddressId,
-		User: token.Token.UserId,
+		Id:     req.AddressId,
+		UserId: token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{

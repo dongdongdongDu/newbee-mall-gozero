@@ -41,7 +41,7 @@ func (l *GetMyAddressLogic) GetMyAddress(req *types.GetMyAddressRequest) (resp *
 	}
 	// 查找
 	res, err := l.svcCtx.UserAddressRpc.GetMyAddress(l.ctx, &useraddress.GetMyAddressRequest{
-		User: token.Token.UserId,
+		UserId: token.Token.UserId,
 	})
 	if err != nil {
 		return &types.Response{
