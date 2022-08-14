@@ -178,12 +178,12 @@ type PaySuccessRequest struct {
 }
 
 type OrderRequest struct {
-	OrderNo string `form:"orderNo"`
+	OrderNo string `path:"orderNo"`
 	Token   string `header:"token"`
 }
 
 type GetOrderListRequest struct {
-	Status     string `form:"status"`
+	Status     string `form:"status, optional"`
 	PageNumber int64  `form:"pageNumber"`
 	Token      string `header:"token"`
 }

@@ -98,10 +98,11 @@ func (m *defaultTbNewbeeMallOrderModel) Insert(ctx context.Context, data *TbNewb
 
 func (m *defaultTbNewbeeMallOrderModel) Update(ctx context.Context, data *TbNewbeeMallOrder) error {
 	tbNewbeeMallOrderOrderIdKey := fmt.Sprintf("%s%v", cacheTbNewbeeMallOrderOrderIdPrefix, data.OrderId)
+	tbNewbeeMallOrderOrderNoKey := fmt.Sprintf("cache:tbNewbeeMallOrder:orderNo:%s", data.OrderNo)
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `order_id` = ?", m.table, tbNewbeeMallOrderRowsWithPlaceHolder)
 		return conn.ExecCtx(ctx, query, data.OrderNo, data.UserId, data.TotalPrice, data.PayStatus, data.PayType, data.PayTime, data.OrderStatus, data.ExtraInfo, data.IsDeleted, data.OrderId)
-	}, tbNewbeeMallOrderOrderIdKey)
+	}, tbNewbeeMallOrderOrderIdKey, tbNewbeeMallOrderOrderNoKey)
 	return err
 }
 

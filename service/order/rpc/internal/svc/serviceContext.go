@@ -28,11 +28,13 @@ type ServiceContext struct {
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.Mysql.DataSource)
 	return &ServiceContext{
-		Config:            c,
-		OrderModel:        order.NewTbNewbeeMallOrderModel(conn, c.CacheRedis),
-		OrderItemModel:    order_item.NewTbNewbeeMallOrderItemModel(conn, c.CacheRedis),
-		OrderAddressModel: order_address.NewTbNewbeeMallOrderAddressModel(conn, c.CacheRedis),
-		ShoppingCartRpc:   shoppingcart.NewShoppingcart(zrpc.MustNewClient(c.ShoppingCartRpc)),
-		UserAddressModel:  userAddress.NewTbNewbeeMallUserAddressModel(conn, c.CacheRedis),
+		Config:                c,
+		OrderModel:            order.NewTbNewbeeMallOrderModel(conn, c.CacheRedis),
+		OrderItemModel:        order_item.NewTbNewbeeMallOrderItemModel(conn, c.CacheRedis),
+		OrderAddressModel:     order_address.NewTbNewbeeMallOrderAddressModel(conn, c.CacheRedis),
+		ShoppingCartItemModel: shoppingCart.NewTbNewbeeMallShoppingCartItemModel(conn, c.CacheRedis),
+		GoodsInfoModel:        goodsInfo.NewTbNewbeeMallGoodsInfoModel(conn, c.CacheRedis),
+		ShoppingCartRpc:       shoppingcart.NewShoppingcart(zrpc.MustNewClient(c.ShoppingCartRpc)),
+		UserAddressModel:      userAddress.NewTbNewbeeMallUserAddressModel(conn, c.CacheRedis),
 	}
 }

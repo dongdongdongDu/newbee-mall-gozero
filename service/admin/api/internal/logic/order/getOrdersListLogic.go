@@ -65,7 +65,7 @@ func (l *GetOrdersListLogic) GetOrdersList(req *types.GetOrdersListRequest) (res
 			TotalCount: res.Total,
 			TotalPage:  int64(math.Ceil(float64(res.Total) / float64(5))),
 			CurrPage:   req.PageNumber,
-			PageSize:   5,
+			PageSize:   req.PageSize,
 		},
 	}, nil
 }

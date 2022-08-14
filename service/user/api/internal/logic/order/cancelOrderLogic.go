@@ -34,7 +34,7 @@ func (l *CancelOrderLogic) CancelOrder(req *types.OrderRequest) (resp *types.Res
 	if err != nil {
 		return &types.Response{
 			ResultCode: response.ERROR,
-			Msg:        "订单签收失败！" + err.Error(),
+			Msg:        "订单取消失败！" + err.Error(),
 		}, nil
 	}
 	_, err = l.svcCtx.OrderRpc.CancelOrder(l.ctx, &order.OrderRequest{
@@ -44,13 +44,13 @@ func (l *CancelOrderLogic) CancelOrder(req *types.OrderRequest) (resp *types.Res
 	if err != nil {
 		return &types.Response{
 			ResultCode: response.ERROR,
-			Msg:        "订单签收失败！",
+			Msg:        "订单取消失败！",
 		}, nil
 	}
 
 	return &types.Response{
 		ResultCode: response.SUCCESS,
-		Msg:        "订单签收成功",
+		Msg:        "订单取消成功",
 		Data:       map[string]interface{}{},
 	}, nil
 }

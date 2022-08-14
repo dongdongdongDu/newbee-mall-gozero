@@ -28,9 +28,9 @@ type (
 )
 
 func (m customTbNewbeeMallOrderModel) FindOneByNo(ctx context.Context, orderNo string) (*TbNewbeeMallOrder, error) {
-	tbNewbeeMallOrderOrderIdKey := fmt.Sprintf("cache:tbNewbeeMallOrder:orderNo:%s", orderNo)
+	tbNewbeeMallOrderOrderNoKey := fmt.Sprintf("cache:tbNewbeeMallOrder:orderNo:%s", orderNo)
 	var resp TbNewbeeMallOrder
-	err := m.QueryRowCtx(ctx, &resp, tbNewbeeMallOrderOrderIdKey, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) error {
+	err := m.QueryRowCtx(ctx, &resp, tbNewbeeMallOrderOrderNoKey, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) error {
 		query := fmt.Sprintf("select %s from %s where `order_no` = ? and `is_deleted` = 0 limit 1", tbNewbeeMallOrderRows, m.table)
 		return conn.QueryRowCtx(ctx, v, query, orderNo)
 	})
@@ -49,7 +49,7 @@ func (m customTbNewbeeMallOrderModel) FindByUserAndStatus(ctx context.Context, p
 	query := fmt.Sprintf("select %s from %s", tbNewbeeMallOrderRows, m.table)
 	conditions := fmt.Sprintf(" where `user_id` = %d and `is_deleted` = 0", userId)
 	if status != "" {
-		conditions = fmt.Sprintf(" and `order_status` = %s", status)
+		conditions += fmt.Sprintf(" and `order_status` = %s", status)
 	}
 	query = query + conditions
 	logx.Info("SQL:", query)

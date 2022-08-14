@@ -327,8 +327,8 @@ type GetOrderByIdResponse struct {
 type GetOrdersListRequest struct {
 	PageNumber  int64  `json:"pageNumber"`
 	PageSize    int64  `json:"pageSize"`
-	OrderNo     string `form:"orderNo"`
-	OrderStatus string `form:"orderStatus"`
+	OrderNo     string `form:"orderNo, optional"`
+	OrderStatus string `form:"orderStatus, optional"`
 }
 
 type OrdersListItem struct {

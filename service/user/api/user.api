@@ -188,12 +188,12 @@ type (
 	}
 	// 确认收货、取消订单、订单详情
 	OrderRequest {
-		OrderNo string `form:"orderNo"`
+		OrderNo string `path:"orderNo"`
 		Token   string `header:"token"`
 	}
 	// 订单列表
 	GetOrderListRequest {
-		Status     string `form:"status"`
+		Status     string `form:"status, optional"`
 		PageNumber int64  `form:"pageNumber"`
 		Token      string `header:"token"`
 	}
