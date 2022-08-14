@@ -317,6 +317,55 @@ type (
 		PageNumber int64 `json:"pageNumber"`
 		PageSize   int64 `json:"pageSize"`
 	}
+
+	// 订单业务
+	// 发货、出库、关闭订单
+	OrderRequest {
+		Ids []int64 `json:"ids"`
+	}
+	// 根据ID获取Order
+	GetOrderByIdRequest {
+		OrderId int64 `path:"orderId"`
+	}
+	OrderItem {
+		GoodsId       int64  `json:"goodsId"`
+		GoodsName     string `json:"goodsName"`
+		GoodsCount    int64  `json:"goodsCount"`
+		GoodsCoverImg string `json:"goodsCoverImg"`
+		SellingPrice  int64  `json:"sellingPrice"`
+	}
+	GetOrderByIdResponse {
+		OrderId                int64       `json:"orderId"`
+		OrderNo                string      `json:"orderNo"`
+		TotalPrice             int64       `json:"totalPrice"`
+		PayType                int64       `json:"payType"`
+		PayTypeString          string      `json:"payTypeString"`
+		OrderStatus            int64       `json:"orderStatus"`
+		OrderStatusString      string      `json:"orderStatusString"`
+		CreateTime             string      `json:"createTime"`
+		NewBeeMallOrderItemVOS []OrderItem `json:"newBeeMallOrderItemVOS"`
+	}
+	// 获取Order列表
+	GetOrdersListRequest {
+		PageNumber  int64  `json:"pageNumber"`
+		PageSize    int64  `json:"pageSize"`
+		OrderNo     string `form:"orderNo"`
+		OrderStatus string `form:"orderStatus"`
+	}
+	OrdersListItem {
+		OrderId     int64  `json:"orderId"`
+		OrderNo     string `json:"orderNo"`
+		UserId      int64  `json:"userId"`
+		TotalPrice  int64  `json:"totalPrice"`
+		PayStatus   int64  `json:"payStatus"`
+		PayType     int64  `json:"payType"`
+		PayTime     string `json:"payTime"`
+		OrderStatus int64  `json:"orderStatus"`
+		ExtraInfo   string `json:"extraInfo"`
+		IsDeleted   int64  `json:"isDeleted"`
+		CreateTime  string `json:"createTime"`
+		UpdateTime  string `json:"updateTime"`
+	}
 )
 
 @server(
@@ -480,4 +529,31 @@ service admin {
 	// 获取IndexConfig列表
 	@handler GetIndexConfiglList
 	get /indexConfigs (GetIndexConfigListRequest) returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : AdminJwtAuth
+	group: order
+)
+service admin {
+	// 发货
+	@handler ShipOrder
+	put /orders/checkDone (OrderRequest) returns (Response)
+	
+	// 出库
+	@handler CheckOrder
+	put /orders/checkOut (OrderRequest) returns (Response)
+	
+	// 关闭订单
+	@handler CloseOrder
+	put /orders/close (OrderRequest) returns (Response)
+	
+	// 根据ID获取Order
+	@handler GetOrderById
+	get /orders/:orderId (GetOrderByIdRequest) returns (Response)
+	
+	// 获取Order列表
+	@handler GetOrdersList
+	get /orders (GetOrdersListRequest) returns (Response)
 }

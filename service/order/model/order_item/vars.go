@@ -1,4 +1,4 @@
-package model
+package order_item
 
 import "github.com/zeromicro/go-zero/core/stores/sqlx"
 

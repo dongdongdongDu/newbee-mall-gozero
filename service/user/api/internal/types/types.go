@@ -165,3 +165,66 @@ type GetCartItemsRequest struct {
 	CartItemIds string `form:"cartItemIds"`
 	Token       string `header:"token"`
 }
+
+type AddOrderRequest struct {
+	CartItemIds []int64 `json:"cartItemIds"`
+	AddressId   int64   `json:"addressId"`
+	Token       string  `header:"token"`
+}
+
+type PaySuccessRequest struct {
+	OrderNo string `form:"orderNo"`
+	PayType int64  `form:"payType"`
+}
+
+type OrderRequest struct {
+	OrderNo string `form:"orderNo"`
+	Token   string `header:"token"`
+}
+
+type GetOrderListRequest struct {
+	Status     string `form:"status"`
+	PageNumber int64  `form:"pageNumber"`
+	Token      string `header:"token"`
+}
+
+type OrderItem struct {
+	GoodsId       int64  `json:"goodsId"`
+	GoodsName     string `json:"goodsName"`
+	GoodsCount    int64  `json:"goodsCount"`
+	GoodsCoverImg string `json:"goodsCoverImg"`
+	SellingPrice  int64  `json:"sellingPrice"`
+}
+
+type GetOrderDetailResponse struct {
+	OrderNo           string      `json:"orderNo"`
+	TotalPrice        int64       `json:"totalPrice"`
+	PayStatus         int64       `json:"payStatus"`
+	PayType           int64       `json:"payType"`
+	PayTypeString     string      `json:"payTypeString"`
+	PayTime           string      `json:"payTime"`
+	OrderStatus       int64       `json:"orderStatus"`
+	OrderStatusString string      `json:"orderStatusString"`
+	CreateTime        string      `json:"createTime"`
+	OrderItems        []OrderItem `json:"orderItems"`
+}
+
+type ListItem struct {
+	OrderId           int64       `json:"orderId"`
+	OrderNo           string      `json:"orderNo"`
+	TotalPrice        int64       `json:"totalPrice"`
+	PayType           int64       `json:"payType"`
+	PayTypeString     string      `json:"payTypeString"`
+	OrderStatus       int64       `json:"orderStatus"`
+	OrderStatusString string      `json:"orderStatusString"`
+	CreateTime        string      `json:"createTime"`
+	OrderItems        []OrderItem `json:"orderItems"`
+}
+
+type GetListResponse struct {
+	List       []ListItem `json:"list"`
+	TotalCount int64      `json:"totalCount"`
+	TotalPage  int64      `json:"totalPage"`
+	CurrPage   int64      `json:"currPage"`
+	PageSize   int64      `json:"pageSize"`
+}

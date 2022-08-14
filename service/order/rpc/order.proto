@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "./order";
+
+// 空响应
+message EmptyResponse {
+}
+
+// 新增订单
+message AddOrderRequest {
+  repeated int64 cartItemIds = 1;
+  int64 addressId = 2;
+  int64 userId = 3;
+}
+message AddOrderResponse {
+  string orderNo = 1;
+}
+
+// 模拟支付成功回调的接口
+message PaySuccessRequest {
+  string orderNo = 1;
+  int64 payType = 2;
+}
+
+// 确认收货、取消订单、订单详情
+message OrderRequest {
+  string orderNo = 1;
+  int64 userId = 2;
+}
+
+// 订单项
+message OrderItem {
+  int64 goodsId = 1;
+  string goodsName = 2;
+  int64 goodsCount = 3;
+  string goodsCoverImg = 4;
+  int64 sellingPrice = 5;
+}
+
+// 订单详情
+message GetOrderDetailResponse {
+  string orderNo = 1;
+  int64 totalPrice = 2;
+  int64 payStatus = 3;
+  int64 payType = 4;
+  string payTypeString = 5;
+  int64 payTime = 6;
+  int64 orderStatus = 7;
+  string orderStatusString = 8;
+  int64 createTime = 9;
+  repeated OrderItem orderItems = 10;
+}
+
+// 订单列表
+message GetOrderListRequest {
+  string status = 1;
+  int64 pageNumber = 2;
+  int64 userId = 3;
+}
+// 订单
+message OrderModel {
+  int64 orderId = 1;
+  string orderNo = 2;
+  int64 totalPrice = 3;
+  int64 payType = 4;
+  string payTypeString = 5;
+  int64 orderStatus = 6;
+  string orderStatusString = 7;
+  int64 createTime = 8;
+  repeated OrderItem orderItems = 9;
+}
+message GetOrderListResponse {
+  repeated OrderModel orderList = 1;
+  int64 total = 2;
+}
+
+// 发货、出库、关闭订单
+message CheckOrderRequest {
+  repeated int64 ids = 1;
+}
+
+// 根据id获取Order记录
+message GetOrderByIdRequest {
+  int64 id = 1;
+}
+message GetOrderByIdResponse {
+  OrderModel order = 1;
+}
+// 分页获取Order列表
+message GetOrdersListRequest {
+  string orderNo = 1;
+  string orderStatus = 2;
+  int64 pageNumber = 3;
+  int64 pageSize = 4;
+}
+message OrderInfo {
+  int64 orderId = 1;
+  string orderNo = 2;
+  int64 userId = 3;
+  int64 totalPrice = 4;
+  int64 payStatus = 5;
+  int64 payType = 6;
+  int64 payTime = 7;
+  int64 orderStatus = 8;
+  string extraInfo = 9;
+  int64 isDeleted = 10;
+  int64 createTime = 11;
+  int64 updateTime = 12;
+}
+message GetOrdersListResponse {
+  repeated OrderInfo orderList = 1;
+  int64 total = 2;
+}
+
+// 服务
+service order {
+  rpc addOrder(AddOrderRequest) returns(AddOrderResponse);
+  rpc paySuccess(PaySuccessRequest) returns(EmptyResponse);
+  rpc finishOrder(OrderRequest) returns(EmptyResponse);
+  rpc cancelOrder(OrderRequest) returns(EmptyResponse);
+  rpc getOrderDetail(OrderRequest) returns(GetOrderDetailResponse);
+  rpc getOrderList(GetOrderListRequest) returns(GetOrderListResponse);
+
+  rpc shipOrder(CheckOrderRequest) returns(EmptyResponse);
+  rpc checkOrder(CheckOrderRequest) returns(EmptyResponse);
+  rpc closeOrder(CheckOrderRequest) returns(EmptyResponse);
+  rpc getOrderById(GetOrderByIdRequest) returns(GetOrderByIdResponse);
+  rpc getOrdersList(GetOrdersListRequest) returns(GetOrdersListResponse);
+}

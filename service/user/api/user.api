@@ -173,6 +173,68 @@ type (
 		CartItemIds string `form:"cartItemIds"`
 		Token       string `header:"token"`
 	}
+
+	// 订单
+	// 保存订单
+	AddOrderRequest {
+		CartItemIds []int64 `json:"cartItemIds"`
+		AddressId   int64   `json:"addressId"`
+		Token       string  `header:"token"`
+	}
+	// 模拟支付
+	PaySuccessRequest {
+		OrderNo string `form:"orderNo"`
+		PayType int64  `form:"payType"`
+	}
+	// 确认收货、取消订单、订单详情
+	OrderRequest {
+		OrderNo string `form:"orderNo"`
+		Token   string `header:"token"`
+	}
+	// 订单列表
+	GetOrderListRequest {
+		Status     string `form:"status"`
+		PageNumber int64  `form:"pageNumber"`
+		Token      string `header:"token"`
+	}
+	// 订单响应
+	OrderItem {
+		GoodsId       int64  `json:"goodsId"`
+		GoodsName     string `json:"goodsName"`
+		GoodsCount    int64  `json:"goodsCount"`
+		GoodsCoverImg string `json:"goodsCoverImg"`
+		SellingPrice  int64  `json:"sellingPrice"`
+	}
+	GetOrderDetailResponse {
+		OrderNo           string      `json:"orderNo"`
+		TotalPrice        int64       `json:"totalPrice"`
+		PayStatus         int64       `json:"payStatus"`
+		PayType           int64       `json:"payType"`
+		PayTypeString     string      `json:"payTypeString"`
+		PayTime           string      `json:"payTime"`
+		OrderStatus       int64       `json:"orderStatus"`
+		OrderStatusString string      `json:"orderStatusString"`
+		CreateTime        string      `json:"createTime"`
+		OrderItems        []OrderItem `json:"orderItems"`
+	}
+	ListItem {
+		OrderId           int64       `json:"orderId"`
+		OrderNo           string      `json:"orderNo"`
+		TotalPrice        int64       `json:"totalPrice"`
+		PayType           int64       `json:"payType"`
+		PayTypeString     string      `json:"payTypeString"`
+		OrderStatus       int64       `json:"orderStatus"`
+		OrderStatusString string      `json:"orderStatusString"`
+		CreateTime        string      `json:"createTime"`
+		OrderItems        []OrderItem `json:"orderItems"`
+	}
+	GetListResponse {
+		List       []ListItem `json:"list"`
+		TotalCount int64      `json:"totalCount"`
+		TotalPage  int64      `json:"totalPage"`
+		CurrPage   int64      `json:"currPage"`
+		PageSize   int64      `json:"pageSize"`
+	}
 )
 
 @server(
@@ -274,4 +336,36 @@ service user {
 	// 查询明细
 	@handler GetCartItems
 	get /shop-cart/settle (GetCartItemsRequest) returns (Response)
+}
+
+// 需要登录
+@server(
+	middleware : UserJwtAuth
+	group: order
+)
+service user {
+	// 保存订单
+	@handler AddOrder
+	post /saveOrder (AddOrderRequest) returns (Response)
+	
+	// 模拟支付
+	@handler PaySuccess
+	get /paySuccess (PaySuccessRequest) returns (Response)
+	
+	// 确认收货
+	@handler FinishOrder
+	put /order/:orderNo/finish (OrderRequest) returns (Response)
+	
+	// 取消订单
+	@handler CancelOrder
+	put /order/:orderNo/cancel (OrderRequest) returns (Response)
+	
+	// 订单详情
+	@handler GetOrderDetail
+	get /order/:orderNo (OrderRequest) returns (Response)
+	
+	// 订单列表
+	@handler GetOrderList
+	get /order (GetOrderListRequest) returns (Response)
+	
 }

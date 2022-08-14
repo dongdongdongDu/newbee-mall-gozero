@@ -4,6 +4,7 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 	"newbee-mall-gozero/service/goods_info/rpc/goodsinfo"
+	"newbee-mall-gozero/service/order/rpc/order"
 	"newbee-mall-gozero/service/shopping_cart/rpc/shoppingcart"
 	"newbee-mall-gozero/service/user/api/internal/config"
 	"newbee-mall-gozero/service/user/api/internal/middleware"
@@ -20,6 +21,7 @@ type ServiceContext struct {
 	GoodsInfoRpc    goodsinfo.GoodsinfoClient
 	UserAddressRpc  useraddress.UseraddressClient
 	ShoppingCartRpc shoppingcart.ShoppingcartClient
+	OrderRpc        order.OrderClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -32,5 +34,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		GoodsInfoRpc:    goodsinfo.NewGoodsinfo(zrpc.MustNewClient(c.GoodsInfoRpc)),
 		UserAddressRpc:  useraddress.NewUseraddress(zrpc.MustNewClient(c.UserAddressRpc)),
 		ShoppingCartRpc: shoppingcart.NewShoppingcart(zrpc.MustNewClient(c.ShoppingCartRpc)),
+		OrderRpc:        order.NewOrder(zrpc.MustNewClient(c.OrderRpc)),
 	}
 }

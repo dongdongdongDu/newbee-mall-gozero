@@ -11,6 +11,7 @@ import (
 	"newbee-mall-gozero/service/goods_category/rpc/goodscategory"
 	"newbee-mall-gozero/service/goods_info/rpc/goodsinfo"
 	"newbee-mall-gozero/service/index_config/rpc/indexconfig"
+	"newbee-mall-gozero/service/order/rpc/order"
 )
 
 type ServiceContext struct {
@@ -22,6 +23,7 @@ type ServiceContext struct {
 	GoodsCategoryRpc goodscategory.GoodscategoryClient
 	CarouselRpc      carousel.CarouselClient
 	IndexConfigRpc   indexconfig.IndexconfigClient
+	OrderRpc         order.OrderClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -35,5 +37,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		GoodsCategoryRpc: goodscategory.NewGoodscategory(zrpc.MustNewClient(c.GoodsCategoryRpc)),
 		CarouselRpc:      carousel.NewCarousel(zrpc.MustNewClient(c.CarouselRpc)),
 		IndexConfigRpc:   indexconfig.NewIndexconfig(zrpc.MustNewClient(c.IndexConfigRpc)),
+		OrderRpc:         order.NewOrder(zrpc.MustNewClient(c.OrderRpc)),
 	}
 }

@@ -295,3 +295,53 @@ type GetIndexConfigListRequest struct {
 	PageNumber int64 `json:"pageNumber"`
 	PageSize   int64 `json:"pageSize"`
 }
+
+type OrderRequest struct {
+	Ids []int64 `json:"ids"`
+}
+
+type GetOrderByIdRequest struct {
+	OrderId int64 `path:"orderId"`
+}
+
+type OrderItem struct {
+	GoodsId       int64  `json:"goodsId"`
+	GoodsName     string `json:"goodsName"`
+	GoodsCount    int64  `json:"goodsCount"`
+	GoodsCoverImg string `json:"goodsCoverImg"`
+	SellingPrice  int64  `json:"sellingPrice"`
+}
+
+type GetOrderByIdResponse struct {
+	OrderId                int64       `json:"orderId"`
+	OrderNo                string      `json:"orderNo"`
+	TotalPrice             int64       `json:"totalPrice"`
+	PayType                int64       `json:"payType"`
+	PayTypeString          string      `json:"payTypeString"`
+	OrderStatus            int64       `json:"orderStatus"`
+	OrderStatusString      string      `json:"orderStatusString"`
+	CreateTime             string      `json:"createTime"`
+	NewBeeMallOrderItemVOS []OrderItem `json:"newBeeMallOrderItemVOS"`
+}
+
+type GetOrdersListRequest struct {
+	PageNumber  int64  `json:"pageNumber"`
+	PageSize    int64  `json:"pageSize"`
+	OrderNo     string `form:"orderNo"`
+	OrderStatus string `form:"orderStatus"`
+}
+
+type OrdersListItem struct {
+	OrderId     int64  `json:"orderId"`
+	OrderNo     string `json:"orderNo"`
+	UserId      int64  `json:"userId"`
+	TotalPrice  int64  `json:"totalPrice"`
+	PayStatus   int64  `json:"payStatus"`
+	PayType     int64  `json:"payType"`
+	PayTime     string `json:"payTime"`
+	OrderStatus int64  `json:"orderStatus"`
+	ExtraInfo   string `json:"extraInfo"`
+	IsDeleted   int64  `json:"isDeleted"`
+	CreateTime  string `json:"createTime"`
+	UpdateTime  string `json:"updateTime"`
+}

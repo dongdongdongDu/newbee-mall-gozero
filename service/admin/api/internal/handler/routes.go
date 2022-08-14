@@ -9,6 +9,7 @@ import (
 	category "newbee-mall-gozero/service/admin/api/internal/handler/category"
 	goodsInfo "newbee-mall-gozero/service/admin/api/internal/handler/goodsInfo"
 	indexconfig "newbee-mall-gozero/service/admin/api/internal/handler/indexconfig"
+	order "newbee-mall-gozero/service/admin/api/internal/handler/order"
 	user "newbee-mall-gozero/service/admin/api/internal/handler/user"
 	"newbee-mall-gozero/service/admin/api/internal/svc"
 
@@ -209,6 +210,39 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/indexConfigs",
 					Handler: indexconfig.GetIndexConfiglListHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AdminJwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPut,
+					Path:    "/orders/checkDone",
+					Handler: order.ShipOrderHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/orders/checkOut",
+					Handler: order.CheckOrderHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/orders/close",
+					Handler: order.CloseOrderHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/orders/:orderId",
+					Handler: order.GetOrderByIdHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/orders",
+					Handler: order.GetOrdersListHandler(serverCtx),
 				},
 			}...,
 		),

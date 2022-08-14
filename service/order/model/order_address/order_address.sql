@@ -1,6 +1,6 @@
 CREATE TABLE `tb_newbee_mall_order_address`
 (
-    `order_id`       bigint(20)  NOT NULL AUTO_INCREMENT,
+    `order_id`       bigint(20)  NOT NULL,
     `user_name`      varchar(30) NOT NULL DEFAULT '' COMMENT '收货人姓名',
     `user_phone`     varchar(11) NOT NULL DEFAULT '' COMMENT '收货人手机号',
     `province_name`  varchar(32) NOT NULL DEFAULT '' COMMENT '省',

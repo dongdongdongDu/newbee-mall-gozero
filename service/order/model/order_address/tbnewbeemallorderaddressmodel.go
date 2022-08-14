@@ -1,4 +1,4 @@
-package model
+package order_address
 
 import (
 	"github.com/zeromicro/go-zero/core/stores/cache"

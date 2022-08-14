@@ -14,4 +14,5 @@ type Config struct {
 	GoodsCategoryRpc zrpc.RpcClientConf
 	CarouselRpc      zrpc.RpcClientConf
 	IndexConfigRpc   zrpc.RpcClientConf
+	OrderRpc         zrpc.RpcClientConf
 }

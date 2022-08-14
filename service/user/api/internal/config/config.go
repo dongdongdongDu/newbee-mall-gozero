@@ -13,4 +13,5 @@ type Config struct {
 	GoodsInfoRpc    zrpc.RpcClientConf
 	UserAddressRpc  zrpc.RpcClientConf
 	ShoppingCartRpc zrpc.RpcClientConf
+	OrderRpc        zrpc.RpcClientConf
 }

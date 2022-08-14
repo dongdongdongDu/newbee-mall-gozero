@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	goodsInfo "newbee-mall-gozero/service/user/api/internal/handler/goodsInfo"
+	order "newbee-mall-gozero/service/user/api/internal/handler/order"
 	shoppingCart "newbee-mall-gozero/service/user/api/internal/handler/shoppingCart"
 	user "newbee-mall-gozero/service/user/api/internal/handler/user"
 	userAddress "newbee-mall-gozero/service/user/api/internal/handler/userAddress"
@@ -131,6 +132,44 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/shop-cart/settle",
 					Handler: shoppingCart.GetCartItemsHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.UserJwtAuth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/saveOrder",
+					Handler: order.AddOrderHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/paySuccess",
+					Handler: order.PaySuccessHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/order/:orderNo/finish",
+					Handler: order.FinishOrderHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/order/:orderNo/cancel",
+					Handler: order.CancelOrderHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/order/:orderNo",
+					Handler: order.GetOrderDetailHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/order",
+					Handler: order.GetOrderListHandler(serverCtx),
 				},
 			}...,
 		),

@@ -52,7 +52,7 @@ func (l *UpdateIndexConfigLogic) UpdateIndexConfig(req *types.UpdateIndexConfigR
 		GoodsId:     req.GoodsId,
 		RedirectUrl: req.RedirectUrl,
 		ConfigRank:  req.ConfigRank,
-		User:        adminToken.AdminToken.AdminUserId,
+		UserId:      adminToken.AdminToken.AdminUserId,
 	})
 	if err != nil {
 		return &types.Response{

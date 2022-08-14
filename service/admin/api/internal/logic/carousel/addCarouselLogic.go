@@ -49,7 +49,7 @@ func (l *AddCarouselLogic) AddCarousel(req *types.AddCarouselRequest) (resp *typ
 		CarouselUrl:  req.CarouselUrl,
 		RedirectUrl:  req.RedirectUrl,
 		CarouselRank: req.CarouselRank,
-		User:         adminToken.AdminToken.AdminUserId,
+		UserId:       adminToken.AdminToken.AdminUserId,
 	})
 	if err != nil {
 		return &types.Response{
