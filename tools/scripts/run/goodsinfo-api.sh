@@ -1,1 +1,0 @@
-go run ../../../service/goods_info/api/goodsinfo.go -f ../../../service/goods_info/api/etc/goodsinfo.yaml

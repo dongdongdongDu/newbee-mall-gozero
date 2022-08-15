@@ -1,1 +1,0 @@
-go run ../../../service/user_token/rpc/usertoken.go -f ../../../service/user_token/rpc/etc/usertoken.yaml
