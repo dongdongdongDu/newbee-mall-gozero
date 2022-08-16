@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"github.com/hibiken/asynq"
 	"github.com/zeromicro/go-zero/zrpc"
 	goodsInfo "newbee-mall-gozero/service/goods_info/model"
 	"newbee-mall-gozero/service/order/model/order"
@@ -23,6 +24,7 @@ type ServiceContext struct {
 	GoodsInfoModel        goodsInfo.TbNewbeeMallGoodsInfoModel
 	ShoppingCartRpc       shoppingcart.ShoppingcartClient
 	UserAddressModel      userAddress.TbNewbeeMallUserAddressModel
+	AsynqClient           *asynq.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -36,5 +38,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		GoodsInfoModel:        goodsInfo.NewTbNewbeeMallGoodsInfoModel(conn, c.CacheRedis),
 		ShoppingCartRpc:       shoppingcart.NewShoppingcart(zrpc.MustNewClient(c.ShoppingCartRpc)),
 		UserAddressModel:      userAddress.NewTbNewbeeMallUserAddressModel(conn, c.CacheRedis),
+		AsynqClient:           newAsynqClient(c),
 	}
 }

@@ -2,9 +2,12 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/hibiken/asynq"
 	"github.com/jinzhu/copier"
+	"newbee-mall-gozero/service/mqueue/job/jobtype"
 	"newbee-mall-gozero/service/order/model/order_address"
 	"newbee-mall-gozero/service/order/model/order_item"
 	"time"
@@ -188,6 +191,18 @@ func (l *AddOrderLogic) AddOrder(in *order.AddOrderRequest) (*order.AddOrderResp
 			logx.Error("订单项入库失败！" + err.Error())
 			return nil, errors.New("订单项入库失败！" + err.Error())
 		}
+	}
+
+	// 超时关闭订单任务
+	payload, err := json.Marshal(jobtype.DeferCloseOrderPayload{OrderNo: orderNo})
+	if err != nil {
+		logx.Error("超时关闭订单" + orderNo + "json序列化失败！" + err.Error())
+		return nil, errors.New("超时关闭订单" + orderNo + "json序列化失败！" + err.Error())
+	}
+	_, err = l.svcCtx.AsynqClient.Enqueue(asynq.NewTask(jobtype.DeferCloseOrder, payload), asynq.ProcessIn(20*time.Minute))
+	if err != nil {
+		logx.Error("超时关闭订单" + orderNo + "任务加入队列失败！" + err.Error())
+		return nil, errors.New("超时关闭订单" + orderNo + "任务加入队列失败！" + err.Error())
 	}
 
 	return &order.AddOrderResponse{

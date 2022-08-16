@@ -114,6 +114,10 @@ message GetOrdersListResponse {
   int64 total = 2;
 }
 
+message DeferCloseRequest {
+  string orderNo = 1;
+}
+
 // 服务
 service order {
   rpc addOrder(AddOrderRequest) returns(AddOrderResponse);
@@ -128,4 +132,5 @@ service order {
   rpc closeOrder(CheckOrderRequest) returns(EmptyResponse);
   rpc getOrderById(GetOrderByIdRequest) returns(GetOrderByIdResponse);
   rpc getOrdersList(GetOrdersListRequest) returns(GetOrdersListResponse);
+  rpc deferCloseOrder(DeferCloseRequest) returns(EmptyResponse);
 }

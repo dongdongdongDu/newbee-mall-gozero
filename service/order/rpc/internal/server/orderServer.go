@@ -8,6 +8,7 @@ import (
 	"newbee-mall-gozero/service/order/rpc/internal/logic/admin"
 	"newbee-mall-gozero/service/order/rpc/internal/logic/user"
 
+	"newbee-mall-gozero/service/order/rpc/internal/logic"
 	"newbee-mall-gozero/service/order/rpc/internal/svc"
 	"newbee-mall-gozero/service/order/rpc/order"
 )
@@ -76,4 +77,9 @@ func (s *OrderServer) GetOrderById(ctx context.Context, in *order.GetOrderByIdRe
 func (s *OrderServer) GetOrdersList(ctx context.Context, in *order.GetOrdersListRequest) (*order.GetOrdersListResponse, error) {
 	l := admin.NewGetOrdersListLogic(ctx, s.svcCtx)
 	return l.GetOrdersList(in)
+}
+
+func (s *OrderServer) DeferCloseOrder(ctx context.Context, in *order.DeferCloseRequest) (*order.EmptyResponse, error) {
+	l := logic.NewDeferCloseOrderLogic(ctx, s.svcCtx)
+	return l.DeferCloseOrder(in)
 }

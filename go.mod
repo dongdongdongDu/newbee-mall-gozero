@@ -3,6 +3,7 @@ module newbee-mall-gozero
 go 1.18
 
 require (
+	github.com/hibiken/asynq v0.23.0
 	github.com/jinzhu/copier v0.3.5
 	github.com/zeromicro/go-zero v1.3.5
 	google.golang.org/grpc v1.48.0
@@ -41,7 +42,9 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
+	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
+	github.com/spf13/cast v1.3.1 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.4 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.4 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.4 // indirect

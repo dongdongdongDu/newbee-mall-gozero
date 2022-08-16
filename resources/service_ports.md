@@ -11,5 +11,6 @@
 | useraddress   |      |                                                              | 9008 |                 |
 | shoppingcart  |      |                                                              | 9009 |                 |
 | order         |      |                                                              | 9010 | ShoppingCartRpc |
+| mqueu-job     |      |                                                              | 9011 | OrderRpc        |
 |               |      |                                                              |      |                 |
 

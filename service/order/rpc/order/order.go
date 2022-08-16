@@ -23,6 +23,7 @@ type (
 		CloseOrder(ctx context.Context, in *CheckOrderRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 		GetOrderById(ctx context.Context, in *GetOrderByIdRequest, opts ...grpc.CallOption) (*GetOrderByIdResponse, error)
 		GetOrdersList(ctx context.Context, in *GetOrdersListRequest, opts ...grpc.CallOption) (*GetOrdersListResponse, error)
+		DeferCloseOrder(ctx context.Context, in *DeferCloseRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	}
 
 	defaultOrder struct {
@@ -89,4 +90,9 @@ func (m *defaultOrder) GetOrderById(ctx context.Context, in *GetOrderByIdRequest
 func (m *defaultOrder) GetOrdersList(ctx context.Context, in *GetOrdersListRequest, opts ...grpc.CallOption) (*GetOrdersListResponse, error) {
 	client := NewOrderClient(m.cli.Conn())
 	return client.GetOrdersList(ctx, in, opts...)
+}
+
+func (m *defaultOrder) DeferCloseOrder(ctx context.Context, in *DeferCloseRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	client := NewOrderClient(m.cli.Conn())
+	return client.DeferCloseOrder(ctx, in, opts...)
 }

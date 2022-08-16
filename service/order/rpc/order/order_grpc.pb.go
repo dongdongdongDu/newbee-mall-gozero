@@ -33,6 +33,7 @@ type OrderClient interface {
 	CloseOrder(ctx context.Context, in *CheckOrderRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	GetOrderById(ctx context.Context, in *GetOrderByIdRequest, opts ...grpc.CallOption) (*GetOrderByIdResponse, error)
 	GetOrdersList(ctx context.Context, in *GetOrdersListRequest, opts ...grpc.CallOption) (*GetOrdersListResponse, error)
+	DeferCloseOrder(ctx context.Context, in *DeferCloseRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 }
 
 type orderClient struct {
@@ -142,6 +143,15 @@ func (c *orderClient) GetOrdersList(ctx context.Context, in *GetOrdersListReques
 	return out, nil
 }
 
+func (c *orderClient) DeferCloseOrder(ctx context.Context, in *DeferCloseRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
+	err := c.cc.Invoke(ctx, "/order.order/deferCloseOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServer is the server API for Order service.
 // All implementations must embed UnimplementedOrderServer
 // for forward compatibility
@@ -157,6 +167,7 @@ type OrderServer interface {
 	CloseOrder(context.Context, *CheckOrderRequest) (*EmptyResponse, error)
 	GetOrderById(context.Context, *GetOrderByIdRequest) (*GetOrderByIdResponse, error)
 	GetOrdersList(context.Context, *GetOrdersListRequest) (*GetOrdersListResponse, error)
+	DeferCloseOrder(context.Context, *DeferCloseRequest) (*EmptyResponse, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -196,6 +207,9 @@ func (UnimplementedOrderServer) GetOrderById(context.Context, *GetOrderByIdReque
 }
 func (UnimplementedOrderServer) GetOrdersList(context.Context, *GetOrdersListRequest) (*GetOrdersListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrdersList not implemented")
+}
+func (UnimplementedOrderServer) DeferCloseOrder(context.Context, *DeferCloseRequest) (*EmptyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeferCloseOrder not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 
@@ -408,6 +422,24 @@ func _Order_GetOrdersList_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_DeferCloseOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeferCloseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).DeferCloseOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/order.order/deferCloseOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).DeferCloseOrder(ctx, req.(*DeferCloseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Order_ServiceDesc is the grpc.ServiceDesc for Order service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -458,6 +490,10 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getOrdersList",
 			Handler:    _Order_GetOrdersList_Handler,
+		},
+		{
+			MethodName: "deferCloseOrder",
+			Handler:    _Order_DeferCloseOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
