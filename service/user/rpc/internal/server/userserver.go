@@ -42,7 +42,17 @@ func (s *UserServer) UpdateUserInfo(ctx context.Context, in *user.UpdateInfoRequ
 	return l.UpdateUserInfo(in)
 }
 
-func (s *UserServer) Logout(ctx context.Context, in *user.LogoutRequest) (*user.LogoutResponse, error) {
+func (s *UserServer) Logout(ctx context.Context, in *user.LogoutRequest) (*user.EmptyResponse, error) {
 	l := logic.NewLogoutLogic(ctx, s.svcCtx)
 	return l.Logout(in)
+}
+
+func (s *UserServer) GetUserList(ctx context.Context, in *user.GetUserListRequest) (*user.GetUserListResponse, error) {
+	l := logic.NewGetUserListLogic(ctx, s.svcCtx)
+	return l.GetUserList(in)
+}
+
+func (s *UserServer) LockUser(ctx context.Context, in *user.LockUserRequest) (*user.EmptyResponse, error) {
+	l := logic.NewLockUserLogic(ctx, s.svcCtx)
+	return l.LockUser(in)
 }

@@ -26,8 +26,6 @@ type AdminClient interface {
 	GetAdminProfile(ctx context.Context, in *GetAdminProfileRequest, opts ...grpc.CallOption) (*GetAdminProfileResponse, error)
 	UpdateAdminName(ctx context.Context, in *UpdateAdminNameRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
-	GetUserList(ctx context.Context, in *GetUserListRequest, opts ...grpc.CallOption) (*GetUserListResponse, error)
-	LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 	AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
 }
 
@@ -75,24 +73,6 @@ func (c *adminClient) UpdateAdminPwd(ctx context.Context, in *UpdateAdminPwdRequ
 	return out, nil
 }
 
-func (c *adminClient) GetUserList(ctx context.Context, in *GetUserListRequest, opts ...grpc.CallOption) (*GetUserListResponse, error) {
-	out := new(GetUserListResponse)
-	err := c.cc.Invoke(ctx, "/admin.admin/getUserList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *adminClient) LockUser(ctx context.Context, in *LockUserRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
-	out := new(EmptyResponse)
-	err := c.cc.Invoke(ctx, "/admin.admin/lockUser", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *adminClient) AdminLogout(ctx context.Context, in *AdminLogoutRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
 	out := new(EmptyResponse)
 	err := c.cc.Invoke(ctx, "/admin.admin/adminLogout", in, out, opts...)
@@ -110,8 +90,6 @@ type AdminServer interface {
 	GetAdminProfile(context.Context, *GetAdminProfileRequest) (*GetAdminProfileResponse, error)
 	UpdateAdminName(context.Context, *UpdateAdminNameRequest) (*EmptyResponse, error)
 	UpdateAdminPwd(context.Context, *UpdateAdminPwdRequest) (*EmptyResponse, error)
-	GetUserList(context.Context, *GetUserListRequest) (*GetUserListResponse, error)
-	LockUser(context.Context, *LockUserRequest) (*EmptyResponse, error)
 	AdminLogout(context.Context, *AdminLogoutRequest) (*EmptyResponse, error)
 	mustEmbedUnimplementedAdminServer()
 }
@@ -131,12 +109,6 @@ func (UnimplementedAdminServer) UpdateAdminName(context.Context, *UpdateAdminNam
 }
 func (UnimplementedAdminServer) UpdateAdminPwd(context.Context, *UpdateAdminPwdRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAdminPwd not implemented")
-}
-func (UnimplementedAdminServer) GetUserList(context.Context, *GetUserListRequest) (*GetUserListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
-}
-func (UnimplementedAdminServer) LockUser(context.Context, *LockUserRequest) (*EmptyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LockUser not implemented")
 }
 func (UnimplementedAdminServer) AdminLogout(context.Context, *AdminLogoutRequest) (*EmptyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminLogout not implemented")
@@ -226,42 +198,6 @@ func _Admin_UpdateAdminPwd_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Admin_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServer).GetUserList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/admin.admin/getUserList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServer).GetUserList(ctx, req.(*GetUserListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Admin_LockUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LockUserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServer).LockUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/admin.admin/lockUser",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServer).LockUser(ctx, req.(*LockUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Admin_AdminLogout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AdminLogoutRequest)
 	if err := dec(in); err != nil {
@@ -302,14 +238,6 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "updateAdminPwd",
 			Handler:    _Admin_UpdateAdminPwd_Handler,
-		},
-		{
-			MethodName: "getUserList",
-			Handler:    _Admin_GetUserList_Handler,
-		},
-		{
-			MethodName: "lockUser",
-			Handler:    _Admin_LockUser_Handler,
 		},
 		{
 			MethodName: "adminLogout",

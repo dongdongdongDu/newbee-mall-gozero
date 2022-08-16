@@ -57,7 +57,37 @@ message LogoutRequest {
   string token=1;
 }
 
-message LogoutResponse {
+
+// 查看用户列表
+message GetUserListRequest {
+  int64 pageNumber = 1; // 页码
+  int64 pageSize = 2;// 每页大小
+}
+
+// 用户
+message UserModel {
+  int64 userId = 1;
+  string nickName = 2;
+  string loginName = 3;
+  string passwordMd5 = 4;
+  string introduceSign = 5;
+  int64 isDeleted = 6;
+  int64 lockedFlag = 7;
+  int64 createTime = 8;
+}
+message GetUserListResponse {
+  repeated UserModel list = 1;
+  int64   totalCount = 2;
+  int64   totalPage = 3;
+  int64   currPage = 4;
+  int64   pageSize = 5;
+}
+// 用户禁用或解除
+message  LockUserRequest {
+  repeated int64 ids = 1;
+  int64 lockStatus = 2;
+}
+message EmptyResponse {
 }
 
 // service
@@ -66,5 +96,7 @@ service user {
   rpc register(RegisterRequest) returns(RegisterResponse);
   rpc getUserInfo(GetInfoRequest) returns(GetInfoResponse);
   rpc updateUserInfo(UpdateInfoRequest) returns(UpdateInfoResponse);
-  rpc logout(LogoutRequest) returns(LogoutResponse);
+  rpc logout(LogoutRequest) returns(EmptyResponse);
+  rpc getUserList(GetUserListRequest) returns(GetUserListResponse);
+  rpc lockUser(LockUserRequest) returns(EmptyResponse);
 }

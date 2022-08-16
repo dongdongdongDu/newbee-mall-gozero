@@ -15,4 +15,5 @@ type Config struct {
 	CarouselRpc      zrpc.RpcClientConf
 	IndexConfigRpc   zrpc.RpcClientConf
 	OrderRpc         zrpc.RpcClientConf
+	UserRpc          zrpc.RpcClientConf
 }

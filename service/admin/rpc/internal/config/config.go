@@ -14,4 +14,5 @@ type Config struct {
 	CacheRedis cache.CacheConf
 
 	AdminTokenRpc zrpc.RpcClientConf
+	UserRpc       zrpc.RpcClientConf
 }

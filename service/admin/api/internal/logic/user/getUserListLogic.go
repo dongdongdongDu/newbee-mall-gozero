@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
-	"newbee-mall-gozero/service/admin/rpc/admin"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"newbee-mall-gozero/service/admin/api/internal/svc"
 	"newbee-mall-gozero/service/admin/api/internal/types"
@@ -26,7 +26,7 @@ func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserListLogic) GetUserList(req *types.GetUserListRequest) (resp *types.Response, err error) {
-	res, err := l.svcCtx.AdminRpc.GetUserList(l.ctx, &admin.GetUserListRequest{
+	res, err := l.svcCtx.UserRpc.GetUserList(l.ctx, &user.GetUserListRequest{
 		PageNumber: req.PageNumber,
 		PageSize:   req.PageSize,
 	})

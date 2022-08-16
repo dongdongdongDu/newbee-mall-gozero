@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 	"newbee-mall-gozero/common/response"
-	"newbee-mall-gozero/service/admin/rpc/admin"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"newbee-mall-gozero/service/admin/api/internal/svc"
 	"newbee-mall-gozero/service/admin/api/internal/types"
@@ -26,7 +26,7 @@ func NewLockUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LockUser
 }
 
 func (l *LockUserLogic) LockUser(req *types.LockUserRequest) (resp *types.Response, err error) {
-	_, err = l.svcCtx.AdminRpc.LockUser(l.ctx, &admin.LockUserRequest{
+	_, err = l.svcCtx.UserRpc.LockUser(l.ctx, &user.LockUserRequest{
 		Ids:        req.Ids,
 		LockStatus: req.LockStatus,
 	})

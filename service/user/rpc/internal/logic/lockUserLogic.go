@@ -3,8 +3,8 @@ package logic
 import (
 	"context"
 	"errors"
-	"newbee-mall-gozero/service/admin/rpc/admin"
-	"newbee-mall-gozero/service/admin/rpc/internal/svc"
+	"newbee-mall-gozero/service/user/rpc/internal/svc"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -23,7 +23,7 @@ func NewLockUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LockUser
 	}
 }
 
-func (l *LockUserLogic) LockUser(in *admin.LockUserRequest) (*admin.EmptyResponse, error) {
+func (l *LockUserLogic) LockUser(in *user.LockUserRequest) (*user.EmptyResponse, error) {
 	if in.LockStatus != 0 && in.LockStatus != 1 {
 		logx.Error("非法操作")
 		return nil, errors.New("非法操作")
@@ -44,5 +44,5 @@ func (l *LockUserLogic) LockUser(in *admin.LockUserRequest) (*admin.EmptyRespons
 			return nil, errors.New("用户锁定更新失败" + err.Error())
 		}
 	}
-	return &admin.EmptyResponse{}, nil
+	return &user.EmptyResponse{}, nil
 }

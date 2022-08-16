@@ -42,16 +42,6 @@ func (s *AdminServer) UpdateAdminPwd(ctx context.Context, in *admin.UpdateAdminP
 	return l.UpdateAdminPwd(in)
 }
 
-func (s *AdminServer) GetUserList(ctx context.Context, in *admin.GetUserListRequest) (*admin.GetUserListResponse, error) {
-	l := logic.NewGetUserListLogic(ctx, s.svcCtx)
-	return l.GetUserList(in)
-}
-
-func (s *AdminServer) LockUser(ctx context.Context, in *admin.LockUserRequest) (*admin.EmptyResponse, error) {
-	l := logic.NewLockUserLogic(ctx, s.svcCtx)
-	return l.LockUser(in)
-}
-
 func (s *AdminServer) AdminLogout(ctx context.Context, in *admin.AdminLogoutRequest) (*admin.EmptyResponse, error) {
 	l := logic.NewAdminLogoutLogic(ctx, s.svcCtx)
 	return l.AdminLogout(in)

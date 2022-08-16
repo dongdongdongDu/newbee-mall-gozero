@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"math"
+	"newbee-mall-gozero/service/user/rpc/internal/svc"
+	"newbee-mall-gozero/service/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"newbee-mall-gozero/service/admin/rpc/admin"
-	"newbee-mall-gozero/service/admin/rpc/internal/svc"
 )
 
 type GetUserListLogic struct {
@@ -24,7 +24,7 @@ func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserListLogic) GetUserList(in *admin.GetUserListRequest) (*admin.GetUserListResponse, error) {
+func (l *GetUserListLogic) GetUserList(in *user.GetUserListRequest) (*user.GetUserListResponse, error) {
 	// 分页
 	limit := in.PageSize
 	offset := in.PageSize * (in.PageNumber - 1)
@@ -41,21 +41,21 @@ func (l *GetUserListLogic) GetUserList(in *admin.GetUserListRequest) (*admin.Get
 		return nil, errors.New("用户总数获取失败" + err.Error())
 	}
 
-	usersList := make([]*admin.UserModel, 0)
-	for _, user := range usersRes {
-		usersList = append(usersList, &admin.UserModel{
-			UserId:        user.UserId,
-			NickName:      user.NickName,
-			LoginName:     user.LoginName,
-			PasswordMd5:   user.PasswordMd5,
-			IntroduceSign: user.IntroduceSign,
-			IsDeleted:     user.IsDeleted,
-			LockedFlag:    user.LockedFlag,
-			CreateTime:    user.CreateTime.Unix(),
+	usersList := make([]*user.UserModel, 0)
+	for _, u := range usersRes {
+		usersList = append(usersList, &user.UserModel{
+			UserId:        u.UserId,
+			NickName:      u.NickName,
+			LoginName:     u.LoginName,
+			PasswordMd5:   u.PasswordMd5,
+			IntroduceSign: u.IntroduceSign,
+			IsDeleted:     u.IsDeleted,
+			LockedFlag:    u.LockedFlag,
+			CreateTime:    u.CreateTime.Unix(),
 		})
 	}
 
-	return &admin.GetUserListResponse{
+	return &user.GetUserListResponse{
 		List:       usersList,
 		TotalCount: totalCount,
 		TotalPage:  int64(math.Ceil(float64(totalCount) / float64(in.PageSize))),
